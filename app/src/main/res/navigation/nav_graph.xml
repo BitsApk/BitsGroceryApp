@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashScreenFragment">
+
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.SplashScreenFragment"
+        android:label="SplashScreenFragment"
+        tools:layout="@layout/fragment_splash_screen">
+        <action
+            android:id="@+id/action_splashScreenFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_chooseLocationFragment"
+            app:destination="@id/chooseLocationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_verifyOtpFragment"
+            app:destination="@id/verifyOtpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyOtpFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.VerifyOtpFragment"
+        android:label="VerifyOtpFragment"
+        tools:layout="@layout/fragment_verify_otp">
+        <action
+            android:id="@+id/action_verifyOtpFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseLocationFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.ChooseLocationFragment"
+        android:label="ChooseLocationFragment"
+        tools:layout="@layout/fragment_choose_location"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
+
+
+</navigation>
