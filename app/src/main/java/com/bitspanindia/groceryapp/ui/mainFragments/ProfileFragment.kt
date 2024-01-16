@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.ProfileSettingAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProfileBinding
@@ -22,6 +23,16 @@ class ProfileFragment : Fragment() {
         setSettingItem()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.clProfile.setOnClickListener {
+            val action = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun setSettingItem(){
@@ -55,7 +66,15 @@ class ProfileFragment : Fragment() {
             ),
         )
 
-        binding.rvItems.adapter = ProfileSettingAdapter(settingItemList)
+        binding.rvItems.adapter = ProfileSettingAdapter(settingItemList){pos->
+            when(pos){
+                2->{
+                    val action = ProfileFragmentDirections.actionProfileFragmentToAddressListFragment()
+                    findNavController().navigate(action)
+                }
+            }
+        }
+
 
     }
 
