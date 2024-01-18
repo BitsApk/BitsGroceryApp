@@ -7,7 +7,8 @@ import com.bitspanindia.groceryapp.databinding.ItemProfileSettingBinding
 import com.bitspanindia.groceryapp.model.ProfileSettingItemModel
 
 class ProfileSettingAdapter(
-    private val pSettingList: List<ProfileSettingItemModel>
+    private val pSettingList: List<ProfileSettingItemModel>,
+    private val callBack:(pos:Int)->Any
 ): RecyclerView.Adapter<ProfileSettingAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,6 +29,10 @@ class ProfileSettingAdapter(
 
             binding.tvTitle.text = item.title
             binding.ivItem.setImageResource(item.icon)
+
+            holder.itemView.setOnClickListener {
+                callBack(adapterPosition)
+            }
 
         }
     }
