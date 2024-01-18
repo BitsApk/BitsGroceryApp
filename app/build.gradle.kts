@@ -82,4 +82,10 @@ dependencies {
     val lottieVersion = "5.2.0"
     implementation ("com.airbnb.android:lottie:$lottieVersion")
 
+    //indicator
+    implementation ("com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2")
+
+    //photozoom
+    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
+
 }

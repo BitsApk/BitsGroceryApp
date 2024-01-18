@@ -39,6 +39,11 @@ private lateinit var mActivity:FragmentActivity
             findNavController().navigate(action)
         }
 
+        binding.tvProductDetails.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment()
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun showLocationDialog() {

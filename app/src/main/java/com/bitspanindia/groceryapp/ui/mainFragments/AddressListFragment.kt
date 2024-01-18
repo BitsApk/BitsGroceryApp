@@ -22,7 +22,6 @@ class AddressListFragment : Fragment() {
         binding = FragmentAddressListBinding.inflate(inflater, container, false)
 
 
-
         return binding.root
     }
 
