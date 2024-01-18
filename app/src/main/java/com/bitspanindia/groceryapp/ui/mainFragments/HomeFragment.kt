@@ -34,7 +34,7 @@ private lateinit var mActivity:FragmentActivity
 
 //        showLocationDialog()
 
-        binding.tvProfile.setOnClickListener {
+        binding.profImage.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
             findNavController().navigate(action)
         }

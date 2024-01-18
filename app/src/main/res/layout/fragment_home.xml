@@ -7,19 +7,75 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/layout_background"
+        >
+
+        <ImageView
+            android:id="@+id/markImg"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/locatoin_sec"
+            android:layout_marginStart="@dimen/space_16"
+            app:layout_constraintTop_toTopOf="@id/deliveryTxt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/locAddressTxt"
+            />
+
 
         <TextView
-            android:id="@+id/tvProfile"
+            android:id="@+id/deliveryTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hell Home Fragment"
+            android:text="Deliver in :"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/space_16"
+            android:fontFamily="@font/roboto_medium_500"
+            android:layout_marginStart="@dimen/space_8"
+            android:textSize="16sp"
+
+            app:layout_constraintStart_toEndOf="@id/markImg"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9 Min"
+            android:textColor="@color/green_500"
+            android:layout_marginTop="@dimen/space_16"
+            android:fontFamily="@font/roboto_medium_500"
+            android:layout_marginStart="@dimen/space_8"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/deliveryTxt"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/locAddressTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textColor="@color/grey_700"
+            android:textSize="12sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@id/profImage"
+            app:layout_constraintStart_toStartOf="@id/deliveryTxt"
+            app:layout_constraintTop_toBottomOf="@id/deliveryTxt" />
+
+
+        <ImageView
+            android:id="@+id/profImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/avataar_placeholder"
+            android:layout_marginEnd="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_16"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
