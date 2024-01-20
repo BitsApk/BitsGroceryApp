@@ -11,6 +11,7 @@ import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.slider.SliderAdapter
 import com.bitspanindia.groceryapp.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProductDetailsBinding
+import com.bitspanindia.groceryapp.datalist.CustomList
 import com.bitspanindia.groceryapp.model.SliderModel
 
 
@@ -41,21 +42,8 @@ class ProductDetailsFragment : Fragment() {
 
     private fun setViewpagerSlider() {
 
-        val data = listOf(
-            SliderModel(
-                image= R.drawable.lays1
-            ),
-            SliderModel(
-               image= R.drawable.lays2
-            ),
-            SliderModel(
-               image= R.drawable.lays3
-            ),
-            SliderModel(
-              image=  R.drawable.lays4
-            ),
-        ) // Replace this with your data
-        val adapter = SliderAdapter(data){ pos ->
+
+        val adapter = SliderAdapter(CustomList(requireContext()).dataListProduct){ pos ->
             val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToProductImagesFragment(pos)
             findNavController().navigate(action)
         }

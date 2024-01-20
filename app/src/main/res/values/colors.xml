@@ -9,6 +9,7 @@
 
 
     //red
+    <color name="red_50">#FBE9E7</color>
     <color name="red_200">#FFAB91</color>
     <color name="red_300">#FF8A65</color>
     <color name="red_400">#FF7043</color>

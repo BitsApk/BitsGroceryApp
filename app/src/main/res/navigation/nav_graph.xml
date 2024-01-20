@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_homeFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -108,6 +111,11 @@
             android:defaultValue="0" />
 
     </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
 
 
 </navigation>
