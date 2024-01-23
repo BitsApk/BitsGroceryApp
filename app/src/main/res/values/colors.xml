@@ -8,6 +8,20 @@
     <color name="green_700">#689F38</color>
 
 
+    //violet
+    <color name="violet_50">#F2E4F5</color>
+    <color name="violet_100">#DEBCE6</color>
+    <color name="violet_200">#C890D6</color>
+    <color name="violet_300">#B265C5</color>
+    <color name="violet_400">#A244B9</color>
+    <color name="violet_450">#9C3AB4</color>
+    <color name="violet_500">#9223AD</color>
+    <color name="violet_700">#711C9F</color>
+    <color name="violet_800">#601896</color>
+
+
+
+
     //red
     <color name="red_200">#FFAB91</color>
     <color name="red_300">#FF8A65</color>
@@ -16,14 +30,18 @@
     <color name="red_700">#E64A19</color>
 
     //grey
-    <color name="grey_900">#212121</color>
-    <color name="grey_700">#616161</color>
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_200">#EEEEEE</color>
+    <color name="grey_300">#E2E2E2</color>
+    <color name="grey_400">#CDCDCD</color>
+    <color name="grey_700">#616161</color>
+    <color name="grey_900">#212121</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+
+    <color name="text_black">#202020</color>
 
     <color name="layout_background">#F2F2F2</color>
 

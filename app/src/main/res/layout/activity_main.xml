@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_margin="5dp"
-            android:background="@drawable/partner_item_back"
+            android:background="@color/grey_700"
             app:itemIconSize="28dp"
             app:itemIconTint="@color/white"
             app:itemTextColor="@color/white"
