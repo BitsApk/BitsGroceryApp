@@ -115,11 +115,11 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/prodListGridHorLay"
                 android:layout_width="0dp"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/viewLineOne"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:padding="@dimen/space_16"
                 >
 
 
@@ -129,6 +129,8 @@
                     android:layout_height="wrap_content"
                     android:text="Selected For You"
                     android:maxWidth="250dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/space_8"
                     android:textColor="@color/text_black"
                     android:fontFamily="@font/roboto_medium_500"
                     android:textSize="14sp"
@@ -143,9 +145,9 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/selectedField"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    tools:itemCount="2"
-                    app:spanCount="2"
-                    tools:listitem="@layout/item_product"
+                    tools:itemCount="5"
+                    app:spanCount="3"
+                    tools:listitem="@layout/item_category_horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
 
@@ -166,7 +168,9 @@
                 android:background="@color/grey_300"
                 />
 
-
+            <include layout="@layout/item_banner"
+                android:id="@+id/banner"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,19 +2,27 @@ package com.bitspanindia.groceryapp.ui.mainFragments
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.constraintlayout.helper.widget.Carousel
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.bitspanindia.groceryapp.R
+import com.bitspanindia.groceryapp.adapter.BannerImageAdapter
 import com.bitspanindia.groceryapp.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.model.SliderModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+
 
 class HomeFragment : Fragment() {
 private lateinit var binding:FragmentHomeBinding
@@ -41,6 +49,15 @@ private lateinit var mActivity:FragmentActivity
             val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
             findNavController().navigate(action)
         }
+
+
+        val images = listOf(R.drawable.banner_1, R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_4,  R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_1)
+
+        binding.banner.bannerRecView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
+        binding.banner.bannerRecView.adapter = BannerImageAdapter(images)
+
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(binding.banner.bannerRecView)
 
 //        binding.tvProductDetails.setOnClickListener {
 //            val action = HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment()
