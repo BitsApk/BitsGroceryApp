@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.BannerImageAdapter
+import com.bitspanindia.groceryapp.adapter.HomeRecyclerAdapter
 import com.bitspanindia.groceryapp.adapter.ProductsAdapter
+import com.bitspanindia.groceryapp.data.DummyData
+import com.bitspanindia.groceryapp.data.model.HomeData
 import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
-import com.bitspanindia.groceryapp.model.SliderModel
+import com.bitspanindia.groceryapp.data.model.SliderModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -51,13 +54,13 @@ private lateinit var mActivity:FragmentActivity
         }
 
 
-        val images = listOf(R.drawable.banner_1, R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_4,  R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_1)
-
-        binding.banner.bannerRecView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
-        binding.banner.bannerRecView.adapter = BannerImageAdapter(images)
-
-        val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(binding.banner.bannerRecView)
+//        val images = listOf(R.drawable.banner_1, R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_4,  R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_1)
+//
+//        binding.banner.bannerRecView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
+//        binding.banner.bannerRecView.adapter = BannerImageAdapter(images)
+//
+//        val snapHelper = PagerSnapHelper()
+//        snapHelper.attachToRecyclerView(binding.banner.bannerRecView)
 
 //        binding.tvProductDetails.setOnClickListener {
 //            val action = HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment()
@@ -67,66 +70,17 @@ private lateinit var mActivity:FragmentActivity
     }
     private fun setProducts() {
 
-        val data = listOf(
-            SliderModel(
-                name = "Uncle Chips",
-                quantity = "2 Pieces",
-                offPrice = "₹0",
-                price = "₹40",
-                image= R.drawable.uncle_chips
-            ),
-            SliderModel(
-                name = "Bingo Tedhe Medhe",
-                quantity = "90 g",
-                offPrice = "₹60",
-                price = "₹42",
-                image= R.drawable.tedhe_medhe
-            ),
-            SliderModel(
-                name = "Kurkure",
-                quantity = "82 g",
-                offPrice = "₹60",
-                price = "₹54",
-                image= R.drawable.kukure
-            ),
-            SliderModel(
-                name = "Lay's American",
-                quantity = "50 g",
-                offPrice = "₹0",
-                price = "₹20",
-                image= R.drawable.lays1
-            ),
-            SliderModel(
-                name = "Lay's American",
-                quantity = "50 g",
-                offPrice = "₹0",
-                price = "₹20",
-                image= R.drawable.kaccha_mango_bite
-            ),
-            SliderModel(
-                name = "Lay's American",
-                quantity = "50 g",
-                offPrice = "₹0",
-                price = "₹20",
-                image= R.drawable.lays_american
-            ),
-            SliderModel(
-                name = "Lay's American",
-                quantity = "50 g",
-                offPrice = "₹0",
-                price = "₹20",
-                image= R.drawable.kaccha_mango_bite1
-            ),
-            SliderModel(
-                name = "Lay's  sdsd sds sd American",
-                quantity = "50 g",
-                offPrice = "₹0",
-                price = "₹20",
-                image= R.drawable.lays1
-            ),
-        ) // Replace this with your data
-        binding.selectedProdRecView.layoutManager = GridLayoutManager(mContext, 2, GridLayoutManager.HORIZONTAL, false)
-        binding.selectedProdRecView.adapter= ProductsAdapter(data)
+        binding.homeRecView.adapter = HomeRecyclerAdapter(listOf(
+            HomeData("twoRowProduct", "Recommended Products", DummyData.data),
+            HomeData("mainCategoryGrid", "Famous Category", DummyData.mainCategory),
+            HomeData("oneRowProduct", "How about Snacks", DummyData.data),
+            HomeData("bannerRecView", "Banner", DummyData.bannerData),
+            HomeData("oneRowProduct", "How about Snacks", DummyData.data),
+            HomeData("bannerRecView", "Banner", DummyData.bannerData),
+            HomeData("mainCategoryGrid", "Famous Category", DummyData.mainCategory),
+        ),
+            mContext)
+
     }
     private fun showLocationDialog() {
         val dialog = BottomSheetDialog(mContext)

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:paddingBottom="90dp"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -112,49 +113,18 @@
                 android:background="@color/grey_300"
                 />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/prodListGridHorLay"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/homeRecView"
                 android:layout_width="0dp"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/viewLineOne"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                >
+                app:layout_constraintTop_toBottomOf="@id/viewLineOne"
 
-
-                <TextView
-                    android:id="@+id/selectedField"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Selected For You"
-                    android:maxWidth="250dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:textColor="@color/text_black"
-                    android:fontFamily="@font/roboto_medium_500"
-                    android:textSize="14sp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/selectedProdRecView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/selectedField"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    tools:itemCount="5"
-                    app:spanCount="3"
-                    tools:listitem="@layout/item_category_horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-
-                    />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                />
 
 
             <View
@@ -168,9 +138,9 @@
                 android:background="@color/grey_300"
                 />
 
-            <include layout="@layout/item_banner"
-                android:id="@+id/banner"
-                />
+<!--            <include layout="@layout/item_banner"-->
+<!--                android:id="@+id/banner"-->
+<!--                />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

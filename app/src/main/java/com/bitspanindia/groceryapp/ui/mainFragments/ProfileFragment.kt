@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.ProfileSettingAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProfileBinding
-import com.bitspanindia.groceryapp.model.ProfileSettingItemModel
+import com.bitspanindia.groceryapp.data.model.ProfileSettingItemModel
 
 class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding

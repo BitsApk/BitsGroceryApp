@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.databinding.ItemProductBinding
-import com.bitspanindia.groceryapp.model.SliderModel
+import com.bitspanindia.groceryapp.data.model.SliderModel
 
-class ProductsAdapter(private val data: List<SliderModel>) :
+class ProductsAdapter(private val data: List<*>) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemProductBinding) :
@@ -28,7 +28,7 @@ class ProductsAdapter(private val data: List<SliderModel>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(data[position] as SliderModel)
     }
 
     override fun getItemCount(): Int {

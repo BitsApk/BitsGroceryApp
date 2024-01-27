@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.databinding.ItemProductImageSmallBinding
-import com.bitspanindia.groceryapp.model.SliderModel
+import com.bitspanindia.groceryapp.data.model.SliderModel
 
 class ProductSmallImageAdapter(
     private val data: List<SliderModel>,

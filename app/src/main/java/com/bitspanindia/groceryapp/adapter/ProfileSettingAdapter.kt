@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.databinding.ItemProfileSettingBinding
-import com.bitspanindia.groceryapp.model.ProfileSettingItemModel
+import com.bitspanindia.groceryapp.data.model.ProfileSettingItemModel
 
 class ProfileSettingAdapter(
     private val pSettingList: List<ProfileSettingItemModel>,
