@@ -3,9 +3,9 @@ package com.bitspanindia.groceryapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.data.model.SliderModel
 import com.bitspanindia.groceryapp.databinding.ItemCartProductBinding
 import com.bitspanindia.groceryapp.databinding.ItemProductBinding
-import com.bitspanindia.groceryapp.model.SliderModel
 
 class CartBeforeCheckoutAdapter(private val data: List<SliderModel>) :
     RecyclerView.Adapter<CartBeforeCheckoutAdapter.ViewHolder>() {

@@ -1,5 +1,6 @@
 package com.bitspanindia.groceryapp.ui.mainFragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,16 +10,21 @@ import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.ProfileSettingAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProfileBinding
-import com.bitspanindia.groceryapp.model.ProfileSettingItemModel
+import com.bitspanindia.groceryapp.data.model.ProfileSettingItemModel
+import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
+import com.bitspanindia.groceryapp.databinding.SuggestProductBottomSheetBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
+    private lateinit var mContext:Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View{
         binding = FragmentProfileBinding.inflate(inflater, container, false)
+        mContext = requireContext()
 
         setSettingItem()
 
@@ -72,10 +78,30 @@ class ProfileFragment : Fragment() {
                     val action = ProfileFragmentDirections.actionProfileFragmentToAddressListFragment()
                     findNavController().navigate(action)
                 }
+                4->{
+                    showSuggestProductBottomSheet()
+                }
             }
         }
 
 
+    }
+
+    private fun showSuggestProductBottomSheet() {
+        val dialog = BottomSheetDialog(mContext)
+        val bindingDialog = SuggestProductBottomSheetBinding.inflate(layoutInflater)
+        dialog.setCancelable(false)
+        dialog.setContentView(bindingDialog.root)
+
+        bindingDialog.btnSend.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        bindingDialog.ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
 }

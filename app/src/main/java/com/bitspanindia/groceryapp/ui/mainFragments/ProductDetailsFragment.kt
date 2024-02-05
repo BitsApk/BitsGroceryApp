@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
-import com.bitspanindia.groceryapp.slider.SliderAdapter
+import com.bitspanindia.groceryapp.adapter.slider.SliderAdapter
 import com.bitspanindia.groceryapp.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProductDetailsBinding
+import com.bitspanindia.groceryapp.data.model.SliderModel
 import com.bitspanindia.groceryapp.datalist.CustomList
-import com.bitspanindia.groceryapp.model.SliderModel
 
 
 class ProductDetailsFragment : Fragment() {
@@ -34,9 +34,7 @@ class ProductDetailsFragment : Fragment() {
         setViewpagerSlider()
         setProducts()
 
-
         binding.tvOfferPrice.paintFlags = binding.tvOfferPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-
 
     }
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item-->
+<!--        android:id="@+id/home"-->
+<!--        android:title="Home"-->
+<!--        android:icon="@drawable/home"/>   -->
+
+    <item
+        android:id="@+id/bnHOme"
+        android:title="Home"
+        android:icon="@drawable/icon_home"/>
+
+    <item android:title="Create Partner"
+        android:id="@+id/bnCreatePartner"
+        android:icon="@drawable/icon_home"/>
+
+    <item android:title="Balance Transfer"
+        android:id="@+id/bnBalance"
+        android:icon="@drawable/icon_home"/>
+
+    <item android:title="Account"
+        android:id="@+id/bnAccount"
+        android:icon="@drawable/icon_home"/>
+</menu>

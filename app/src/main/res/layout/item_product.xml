@@ -1,60 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/space_6"
+        android:padding="@dimen/space_8">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_8"
-            android:background="@drawable/white_rounded"
-            android:elevation="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProduct"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/white"
+            android:elevation="4dp"
+            app:srcCompat="@drawable/lays1"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/grey_400"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.BottomBothCorners"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <ImageView
-                android:id="@+id/ivProduct"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:src="@drawable/lays1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--        <ImageView-->
+<!--            android:id="@+id/ivProductx"-->
+<!--            android:layout_width="120dp"-->
+<!--            android:layout_height="120dp"-->
+<!--            android:background="@drawable/bg_product_border_corner_10"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:cropToPadding="false"-->
+<!--            android:layout_marginStart="@dimen/space_40"-->
+<!--            android:src="@drawable/kukure"-->
+<!--            app:layout_constraintStart_toEndOf="@id/ivProduct"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tvProductName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_8"
-            android:layout_marginTop="@dimen/space_12"
+            android:ellipsize="end"
             android:fontFamily="@font/poppins_medium"
-            android:text="Lay's"
+            android:maxLines="2"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="Lay's sdhfsd hsdf hsdfs "
             android:textColor="@color/black"
-            android:textSize="@dimen/text_14"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+            app:layout_constraintTop_toBottomOf="@+id/ivProduct" />
 
         <TextView
             android:id="@+id/tvQuantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:fontFamily="@font/poppins_regular"
+            android:maxLines="1"
             android:text="500 g"
+            android:includeFontPadding="false"
             android:textColor="@color/grey_700"
             android:textSize="@dimen/text_12"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvProductName"
-            app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
+            app:layout_constraintTop_toBottomOf="@+id/ivProduct" />
+
+        <TextView
+            android:id="@+id/offeredField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="र 108"
+            android:includeFontPadding="false"
+            android:textColor="@color/grey_700"
+            android:textSize="@dimen/text_12"
+            android:textStyle="normal"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/tvQuantity"
+            app:layout_constraintTop_toBottomOf="@id/ivProduct"/>
 
         <TextView
             android:id="@+id/tvPrice"
@@ -63,25 +93,74 @@
             android:fontFamily="@font/poppins_medium"
             android:text="र 108"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_14"
+            android:textSize="@dimen/text_12"
             app:layout_constraintStart_toStartOf="@+id/tvQuantity"
-            app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
+            app:layout_constraintTop_toBottomOf="@+id/offeredField" />
 
         <TextView
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/space_16"
-            android:background="@drawable/rouned_border"
+            android:background="@drawable/bg_border_violet_corner_10"
             android:fontFamily="@font/roboto_bold"
-            android:paddingHorizontal="@dimen/space_16"
-            android:paddingVertical="6dp"
+            android:paddingHorizontal="@dimen/space_12"
+            android:paddingVertical="4dp"
             android:text="Add"
-            android:textSize="@dimen/text_14"
-            android:textColor="@color/red_500"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/violet_500"
+            android:textSize="@dimen/text_12"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/tvPrice"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/adultCountLay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_4"
+            android:background="@drawable/bg_white_corner_10"
+            android:backgroundTint="@color/violet_450"
+            android:elevation="@dimen/space_4"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tvPrice"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvQuantity" />
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@id/tvPrice">
+
+            <ImageView
+                android:id="@+id/adultMinus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_4"
+                android:paddingHorizontal="@dimen/space_6"
+                android:paddingVertical="@dimen/space_4"
+                android:src="@drawable/icon_minus"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/adultCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium_600"
+                android:text="2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_14" />
+
+
+            <ImageView
+                android:id="@+id/adultAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_4"
+                android:paddingHorizontal="@dimen/space_6"
+                android:paddingVertical="@dimen/space_4"
+                android:src="@drawable/icon_add"
+                app:tint="@color/white" />
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,4 +1,4 @@
-package com.bitspanindia.groceryapp.model
+package com.bitspanindia.groceryapp.data.model
 
 data class ProfileSettingItemModel(
     val title: String,

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.databinding.ItemAddressesBinding
 import com.bitspanindia.groceryapp.databinding.ItemLocationBinding
-import com.bitspanindia.groceryapp.model.PlaceModel
+import com.bitspanindia.groceryapp.data.model.PlaceModel
 import com.bumptech.glide.Glide
 
 class AddressesAdapter(

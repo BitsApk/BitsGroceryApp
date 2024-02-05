@@ -1,10 +1,10 @@
-package com.bitspanindia.groceryapp.slider
+package com.bitspanindia.groceryapp.adapter.slider
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.databinding.ItemProductImageBinding
-import com.bitspanindia.groceryapp.model.SliderModel
+import com.bitspanindia.groceryapp.data.model.SliderModel
 class SliderAdapter(private val data: List<SliderModel>,
                     val callBack:(pos:Int)->Any
 ) :

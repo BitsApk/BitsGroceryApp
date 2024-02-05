@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.CartBeforeCheckoutAdapter
 import com.bitspanindia.groceryapp.adapter.CartProductAdapter
@@ -35,6 +36,11 @@ class CartFragment : Fragment() {
 
 //        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
         binding.tvDelCharge.paintFlags = binding.tvDelCharge.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+        binding.btnPay.setOnClickListener {
+            val action = CartFragmentDirections.actionCartFragmentToOrderSuccessFragment()
+            findNavController().navigate(action)
+        }
 
         setBeforeCheckoutList()
         setCartProductList()

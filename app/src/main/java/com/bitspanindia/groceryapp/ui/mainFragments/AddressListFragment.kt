@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.AddressesAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentAddressListBinding
-import com.bitspanindia.groceryapp.model.PlaceModel
+import com.bitspanindia.groceryapp.data.model.PlaceModel
 
 class AddressListFragment : Fragment() {
     private lateinit var binding:FragmentAddressListBinding

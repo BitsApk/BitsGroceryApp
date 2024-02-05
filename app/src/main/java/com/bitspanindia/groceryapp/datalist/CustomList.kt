@@ -2,7 +2,7 @@ package com.bitspanindia.groceryapp.datalist
 
 import android.content.Context
 import com.bitspanindia.groceryapp.R
-import com.bitspanindia.groceryapp.model.SliderModel
+import com.bitspanindia.groceryapp.data.model.SliderModel
 
 class CustomList(mContext:Context) {
 

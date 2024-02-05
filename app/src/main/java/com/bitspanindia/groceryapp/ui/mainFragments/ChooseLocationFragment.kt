@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.PlaceAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentChooseLocationBinding
-import com.bitspanindia.groceryapp.model.PlaceModel
+import com.bitspanindia.groceryapp.data.model.PlaceModel
 
 class ChooseLocationFragment : Fragment() {
     private lateinit var binding:FragmentChooseLocationBinding

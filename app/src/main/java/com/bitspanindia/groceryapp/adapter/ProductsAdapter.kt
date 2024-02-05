@@ -2,11 +2,14 @@ package com.bitspanindia.groceryapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.databinding.ItemProductBinding
-import com.bitspanindia.groceryapp.model.SliderModel
+import com.bitspanindia.groceryapp.data.model.SliderModel
+import com.bitspanindia.groceryapp.ui.mainFragments.HomeFragmentDirections
 
-class ProductsAdapter(private val data: List<SliderModel>) :
+class ProductsAdapter(private val data: List<*>) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemProductBinding) :
@@ -28,7 +31,7 @@ class ProductsAdapter(private val data: List<SliderModel>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(data[position] as SliderModel)
     }
 
     override fun getItemCount(): Int {
