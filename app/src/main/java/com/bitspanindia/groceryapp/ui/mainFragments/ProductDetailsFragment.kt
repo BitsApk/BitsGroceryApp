@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
-import com.bitspanindia.groceryapp.adapter.slider.SliderAdapter
-import com.bitspanindia.groceryapp.adapter.ProductsAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.slider.SliderAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProductDetailsBinding
 import com.bitspanindia.groceryapp.data.model.SliderModel
 
@@ -96,7 +96,7 @@ class ProductDetailsFragment : Fragment() {
                 image= R.drawable.lays_american
             ),
         ) // Replace this with your data
-        binding.rvProducts.adapter= ProductsAdapter(data)
+//        binding.rvProducts.adapter= ProductsAdapter(data)
     }
 
 }

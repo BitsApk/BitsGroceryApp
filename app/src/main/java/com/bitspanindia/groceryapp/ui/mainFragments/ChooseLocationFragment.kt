@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bitspanindia.groceryapp.R
-import com.bitspanindia.groceryapp.adapter.PlaceAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.PlaceAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentChooseLocationBinding
 import com.bitspanindia.groceryapp.data.model.PlaceModel
 

@@ -127,17 +127,6 @@
                 />
 
 
-            <View
-                android:id="@+id/viewLineSec"
-                android:layout_width="0dp"
-                android:layout_height="6dp"
-                android:layout_marginTop="@dimen/space_16"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rHomeSearch"
-                android:background="@color/grey_300"
-                />
-
 <!--            <include layout="@layout/item_banner"-->
 <!--                android:id="@+id/banner"-->
 <!--                />-->

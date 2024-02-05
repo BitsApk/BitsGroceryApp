@@ -1,20 +1,26 @@
-package com.bitspanindia.groceryapp.adapter
+package com.bitspanindia.groceryapp.presentation.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.data.model.BannerData
 import com.bitspanindia.groceryapp.databinding.ItemBannerImageBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class BannerImageAdapter(
-    private val bannerList: List<*>
+    private val bannerList: List<BannerData>,
+    private val context: Context
 ): RecyclerView.Adapter<BannerImageAdapter.ViewHolder>() {
 
 
     inner class ViewHolder(val binding: ItemBannerImageBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(banner: Int) {
-
-            binding.imageView.setImageResource(banner)
-
+        fun bind(banner: BannerData) {
+            Glide.with(context)
+                .load(banner.appbanner_image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.imageView)
         }
     }
 
@@ -27,7 +33,7 @@ class BannerImageAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = bannerList[position]
-        holder.bind(item as Int)
+        holder.bind(item)
 
     }
 

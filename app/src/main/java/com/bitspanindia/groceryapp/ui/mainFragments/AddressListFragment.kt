@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
-import com.bitspanindia.groceryapp.adapter.AddressesAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.AddressesAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentAddressListBinding
 import com.bitspanindia.groceryapp.data.model.PlaceModel
 
