@@ -84,6 +84,10 @@ dependencies {
     implementation ("com.google.dagger:hilt-android:2.50")
     kapt ("com.google.dagger:hilt-compiler:2.50")
 
+    //DatStore
+    implementation ("androidx.datastore:datastore-preferences-core:1.0.0")
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+    implementation ("androidx.datastore:datastore:1.0.0")
 
     
     val lottieVersion = "5.2.0"

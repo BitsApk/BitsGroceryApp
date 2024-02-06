@@ -114,7 +114,7 @@
 
 
         <LinearLayout
-            android:id="@+id/adultCountLay"
+            android:id="@+id/countLay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_4"
@@ -130,7 +130,7 @@
             app:layout_constraintStart_toEndOf="@id/tvPrice">
 
             <ImageView
-                android:id="@+id/adultMinus"
+                android:id="@+id/minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/space_4"
@@ -140,7 +140,7 @@
                 app:tint="@color/white" />
 
             <TextView
-                android:id="@+id/adultCount"
+                android:id="@+id/count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium_600"
@@ -150,7 +150,7 @@
 
 
             <ImageView
-                android:id="@+id/adultAdd"
+                android:id="@+id/add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_4"
