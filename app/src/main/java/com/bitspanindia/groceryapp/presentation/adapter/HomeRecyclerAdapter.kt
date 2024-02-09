@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.data.enums.ViewDesign
 import com.bitspanindia.groceryapp.data.model.BannerData
@@ -21,7 +22,9 @@ import com.google.gson.GsonBuilder
 
 class HomeRecyclerAdapter(
     private val sectionList: List<Viewtype>,
-    private val context: Context
+    private val context: Context,
+    private val countMap: MutableMap<String, Int>,
+    private val prodCallback: (prod: ProductData, action: CartAction) -> Any
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -48,7 +51,7 @@ class HomeRecyclerAdapter(
                     val data = homeData.getDataAs<ProductData>()
                     binding.selectedField.text = homeData.title
                     binding.selectedRecView.layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
-                    binding.selectedRecView.adapter = ProductsAdapter(data ?: listOf(), context)
+                    binding.selectedRecView.adapter = ProductsAdapter(data ?: listOf(), context, countMap, prodCallback)
 
                 }
                 else -> {}

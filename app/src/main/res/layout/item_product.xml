@@ -91,7 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="र 108"
+            android:text="र 00"
             android:textColor="@color/black"
             android:textSize="@dimen/text_12"
             app:layout_constraintStart_toStartOf="@+id/tvQuantity"
@@ -117,13 +117,13 @@
             android:id="@+id/countLay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_4"
             android:background="@drawable/bg_white_corner_10"
             android:backgroundTint="@color/violet_450"
             android:elevation="@dimen/space_4"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="gone"
+            android:layout_marginStart="@dimen/space_16"
             app:layout_constraintBottom_toBottomOf="@id/tvPrice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1"
@@ -134,8 +134,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/space_4"
-                android:paddingHorizontal="@dimen/space_6"
-                android:paddingVertical="@dimen/space_4"
+                android:paddingHorizontal="@dimen/space_4"
+                android:paddingVertical="@dimen/space_2"
                 android:src="@drawable/icon_minus"
                 app:tint="@color/white" />
 
@@ -144,9 +144,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium_600"
-                android:text="2"
+                android:text="0"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_12" />
 
 
             <ImageView
@@ -154,8 +154,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_4"
-                android:paddingHorizontal="@dimen/space_6"
-                android:paddingVertical="@dimen/space_4"
+                android:paddingHorizontal="@dimen/space_4"
+                android:paddingVertical="@dimen/space_2"
                 android:src="@drawable/icon_add"
                 app:tint="@color/white" />
 
