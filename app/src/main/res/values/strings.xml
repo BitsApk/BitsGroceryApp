@@ -12,6 +12,7 @@
     <string name="_10_minute_grocery_delivery">10 Minute Grocery Delivery</string>
     <string name="enter_your_email">Enter Your Email</string>
     <string name="product_desc">Lays India Magic Masala Potato Chips 157 gms Combo</string>
+    <string name="d_items">%d Items</string>
     <!--    <string name="terms_of_use_amp_privacy_policy">Terms of Use &amp; Privacy Policy</string>-->
 
 </resources>

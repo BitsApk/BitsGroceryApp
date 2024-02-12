@@ -51,7 +51,7 @@ class HomeRecyclerAdapter(
                     val data = homeData.getDataAs<ProductData>()
                     binding.selectedField.text = homeData.title
                     binding.selectedRecView.layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
-                    binding.selectedRecView.adapter = ProductsAdapter(data ?: listOf(), context, countMap, prodCallback)
+                    binding.selectedRecView.adapter = ProductsAdapter(data ?: mutableListOf(), context, countMap, 0, prodCallback)
 
                 }
                 else -> {}
@@ -62,12 +62,12 @@ class HomeRecyclerAdapter(
         }
     }
 
-    inline fun <reified T> Viewtype.getDataAs(): List<T>? {
+    inline fun <reified T> Viewtype.getDataAs(): MutableList<T>? {
         val gson = Gson()
         return when (viewtype) {
-            "category" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), CategoryData::class.java) as? T}
-            "Products" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), ProductData::class.java) as? T}
-            "Banner" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), BannerData::class.java) as? T}
+            "category" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), CategoryData::class.java) as? T}.toMutableList()
+            "Products" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), ProductData::class.java) as? T}.toMutableList()
+            "Banner" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), BannerData::class.java) as? T}.toMutableList()
             else -> null
         }
     }

@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.Viewtype
@@ -81,17 +82,22 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             cartVM.getSavedCart().let {
                 Log.d("Rishabh", "HF Cart Found before setted ${it.cartItemsMap.size} ${it.cartItemsMap}")
+                var total = 0;
                 for (i in it.cartItemsMap) {
                     var count = 0;
                     for (j in it.cartItemsMap[i.key] ?: listOf()) {
                         count += j.count
                     }
+                    total += count
                     cartVM.countMap[i.key] = count
                 }
-                Log.d("Rishabh", "HF Count Cart ${cartVM.countMap}")
                 getHomData()
+                if (total > 0) {
+                    AppUtils.showCart(mActivity, total)
+                }
                 cartVM.setCart(it)
-                Log.d("Rishabh", "HF Cart ${cartVM.getCart()}")
+
+
             }
         }
     }

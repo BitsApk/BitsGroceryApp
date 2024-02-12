@@ -20,6 +20,7 @@ class CartViewModel @Inject constructor(private val cartManager: CartManager) : 
 
 
     val countMap: MutableMap<String, Int> = mutableMapOf()  // Temporary create for counting to show
+    lateinit var cartProducts: MutableList<ProductData> // Temporary create for holding cart products
 
     suspend fun getSavedCart(): Cart {
         return cartManager.getSavedCartData()
