@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -45,10 +47,12 @@ class FaceUnlockFragment : Fragment() {
 
         binding.btn.setOnClickListener {
             val promptInfo = createPromptInfo()
+            biometricPrompt.authenticate(promptInfo)
             if (BiometricManager.from(mContext)
-                    .canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+                    .canAuthenticate(DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS) {
                 biometricPrompt.authenticate(promptInfo)
             } else {
+                Log.d("Rishabh", "Can't auth")
 //                loginWithPassword()
             }
         }
@@ -94,9 +98,9 @@ class FaceUnlockFragment : Fragment() {
             // Authenticate without requiring the user to press a "confirm"
             // button after satisfying the biometric check
             .setConfirmationRequired(false)
-            .setAllowedAuthenticators(BIOMETRIC_STRONG)
             .setNegativeButtonText(getString(R.string.prompt_info_use_app_password))
             .build()
+
         return promptInfo
     }
 

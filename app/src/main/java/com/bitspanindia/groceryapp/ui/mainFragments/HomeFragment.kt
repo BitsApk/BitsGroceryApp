@@ -15,6 +15,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.enums.CartAction
@@ -23,6 +26,7 @@ import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.HomeRecyclerAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -87,7 +91,21 @@ class HomeFragment : Fragment() {
 
     private fun bindCartTotal() {
         cartVM.cartTotalItem.observe(viewLifecycleOwner) {
-            binding.homeRecView.adapter?.notifyItemChanged(4)
+
+            if (cartVM.isCartVisible) {
+                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)
+                if (viewHolder is RecyclerView.ViewHolder) {
+                    val childRecyclerView = viewHolder.itemView.findViewById<RecyclerView>(R.id.selectedRecView)
+
+                    val adapter = childRecyclerView.adapter as? ProductsAdapter
+
+                    val layoutManager = childRecyclerView.layoutManager
+                    if (layoutManager is GridLayoutManager) {
+                        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+                        adapter?.notifyItemRangeChanged(firstVisiblePosition - 2, 8)
+                    }
+                }
+            }
 
         }
     }

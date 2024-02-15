@@ -113,11 +113,12 @@ class ProductsAdapter(
                         countMap.remove(product.id)
                         val pos = position
                         Log.d("Rishabh", "Adap pos: $pos $adapterPosition data size: ${data.size}")
-                        data.removeAt(position)
+                        data.removeAt(adapterPosition)
                         Log.d("Rishabh", "Adap pos: $pos $adapterPosition data size: ${data.size}")
 
-                        notifyItemRemoved(position)
+                        notifyItemRemoved(adapterPosition)
                     } else {
+                        Log.d("Rishabh", "Prod id $adapterPosition data size: ${data.size} prod id: ${product.id}")
                         countMap[product.id] = countMap[product.id]!! - 1
                         count.text = countMap[product.id].toString()
                     }

@@ -1,6 +1,7 @@
 package com.bitspanindia.groceryapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
@@ -19,10 +20,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding:ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
     private val cartVM: CartViewModel by viewModels()
+    private val modalBottomSheet by lazy {
+        CartBottomSheetFragment()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +34,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navController) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.navController) as NavHostFragment
         navController = navHostFragment.navController
 
         val navBuilder = NavOptions.Builder().setEnterAnim(android.R.anim.fade_in)
@@ -38,23 +43,18 @@ class MainActivity : AppCompatActivity() {
                 android.R.anim.fade_out
             ).build()
 
-//        val cartBottom = CartBottomSheetFragment()
-//        val mBottomSheetBehaviour = (CartBottomSheetFragment().dialog as BottomSheetDialog).behavior
-//        Log.d("Rishabh", "sheet behaviour: ${mBottomSheetBehaviour.state}")
-
         binding.arrowImg.setOnClickListener {
-
-            val modalBottomSheet = CartBottomSheetFragment()
+            cartArrowEnable(false)
             modalBottomSheet.show(supportFragmentManager, CartBottomSheetFragment.TAG)
-//                binding.progBar.visibility = View.VISIBLE
-//
-//                binding.progBar.visibility = View.GONE
-//                binding.modalBottomSheet.visibility = View.VISIBLE
+            cartVM.isCartVisible = true
         }
 
         bindCartTotal()
 
+    }
 
+    fun cartArrowEnable(enable: Boolean) {
+        binding.arrowImg.isEnabled = enable
     }
 
     private fun bindCartTotal() {
@@ -70,14 +70,15 @@ class MainActivity : AppCompatActivity() {
 
     fun cartVisibility(visible: Int) {
         if (visible == View.VISIBLE) {
-            val animation: Animation = AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_start)
+            val animation: Animation =
+                AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_start)
             binding.cartLay.startAnimation(animation)
             binding.cartLay.visibility = visible
-        }  else {
-            val animation: Animation = AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_end)
-            binding.cartLay.layoutAnimationListener = object : AnimationListener{
+        } else {
+            val animation: Animation =
+                AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_end)
+            animation.setAnimationListener(object : AnimationListener {
                 override fun onAnimationStart(p0: Animation?) {
-                    TODO("Not yet implemented")
                 }
 
                 override fun onAnimationEnd(p0: Animation?) {
@@ -86,9 +87,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onAnimationRepeat(p0: Animation?) {
-                    TODO("Not yet implemented")
                 }
-            }
+            })
             binding.cartLay.startAnimation(animation)
         }
 

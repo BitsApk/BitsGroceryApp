@@ -26,6 +26,9 @@ class CartViewModel @Inject constructor(private val cartManager: CartManager) : 
     val cartTotalItem: LiveData<Int>
         get() = _cartTotalItem
 
+
+    var isCartVisible: Boolean = false
+
     fun setCartTotal(total: Int) {
         _cartTotalItem.postValue(total)
     }

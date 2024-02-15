@@ -52,6 +52,11 @@ class HomeRecyclerAdapter(
                     binding.selectedField.text = homeData.title
                     binding.selectedRecView.layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
                     binding.selectedRecView.adapter = ProductsAdapter(data ?: mutableListOf(), context, countMap, 0, prodCallback)
+                    (binding.selectedRecView.adapter as ProductsAdapter).registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+                        override fun onChanged() {
+                            Log.d("Rishabh", "Product rec data changed")
+                        }
+                    })
                 }
                 else -> {}
 

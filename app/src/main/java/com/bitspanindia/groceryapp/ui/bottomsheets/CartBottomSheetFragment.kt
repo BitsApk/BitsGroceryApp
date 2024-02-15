@@ -7,9 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.AppUtils.toDp
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.ProductData
@@ -29,8 +32,9 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var mActivity: FragmentActivity
 
     private val cartVM: CartViewModel by activityViewModels()
+    private lateinit var mBehave: BottomSheetBehavior<FrameLayout>
 
-    override fun onCreateView(
+        override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
@@ -42,14 +46,10 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
         return (super.onCreateDialog(savedInstanceState) as BottomSheetDialog).apply {
-            val mBehave = this.behavior
+            mBehave = this.behavior
             mBehave.maxHeight = 600.toDp()
-//            mBehave.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-
-            Log.d("Rishabh", "Behaviour state ${mBehave.state}, peek height ${mBehave.peekHeight}, max height ${mBehave.maxHeight}," +
-                    "draggable ${mBehave.isDraggable}, fit to content ${mBehave.isFitToContents},collapsed ${mBehave.skipCollapsed}, hideable ${mBehave.isHideable}")
-
         }
     }
 
@@ -65,7 +65,6 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
             when (action) {
                 CartAction.Add -> {
                     cartVM.setCartTotal((cartTotalItem ?: 0) + 1)
-                    Log.d("Rishabh", "Cart action add clicked")
                     cartVM.addItemToCart(prod)
                 }
                 CartAction.Minus -> {
@@ -86,6 +85,12 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
             list.addAll(cart.cartItemsMap[item.key] ?: listOf())
         }
         return list
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        AppUtils.cartArrowEnable(mActivity, true)
+        cartVM.isCartVisible = false
     }
 
 }
