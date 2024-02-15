@@ -6,20 +6,45 @@
     <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="@dimen/space_6"
+        android:background="@drawable/white_rounded"
+        android:layout_margin="@dimen/space_8"
         android:padding="@dimen/space_8">
 
 
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/clProduct"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_margin="4dp"-->
+<!--            android:padding="@dimen/space_8"-->
+<!--            android:background="@drawable/white_rounded"-->
+<!--            android:elevation="2dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/ivProduct"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:cropToPadding="false"-->
+<!--                android:scaleType="fitCenter"-->
+<!--                android:src="@drawable/lays_american"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivProduct"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@color/white"
-            android:elevation="4dp"
-            app:srcCompat="@drawable/lays1"
+            app:srcCompat="@drawable/product_placeholder"
             app:strokeWidth="1dp"
             app:strokeColor="@color/grey_400"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.BottomBothCorners"
@@ -56,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivProduct" />
 
         <TextView
-            android:id="@+id/tvQuantity"
+            android:id="@+id/tvWeight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -114,7 +139,7 @@
 
 
         <LinearLayout
-            android:id="@+id/adultCountLay"
+            android:id="@+id/countLay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_4"
@@ -130,7 +155,7 @@
             app:layout_constraintStart_toEndOf="@id/tvPrice">
 
             <ImageView
-                android:id="@+id/adultMinus"
+                android:id="@+id/minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/space_4"
@@ -140,7 +165,7 @@
                 app:tint="@color/white" />
 
             <TextView
-                android:id="@+id/adultCount"
+                android:id="@+id/count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium_600"
@@ -150,7 +175,7 @@
 
 
             <ImageView
-                android:id="@+id/adultAdd"
+                android:id="@+id/add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_4"

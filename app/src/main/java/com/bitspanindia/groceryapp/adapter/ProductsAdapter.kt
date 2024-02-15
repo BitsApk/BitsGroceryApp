@@ -18,7 +18,7 @@ class ProductsAdapter(private val data: List<*>) :
         fun bind(data: SliderModel) {
             binding.ivProduct.setImageResource(data.image)
             binding.tvProductName.text = data.name
-            binding.tvQuantity.text = data.quantity
+            binding.tvWeight.text = data.quantity
             binding.tvPrice.text = data.price
             binding.executePendingBindings()
         }

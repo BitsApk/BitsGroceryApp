@@ -5,6 +5,8 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
+    <action android:id="@+id/action_global_searchProductFragment" app:destination="@id/searchProductFragment" />
+
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.SplashScreenFragment"
@@ -35,6 +37,9 @@
         <action
             android:id="@+id/action_homeFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_subCategoryFragment"
+            app:destination="@id/subCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -125,6 +130,28 @@
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.OrderSuccessFragment"
         android:label="OrderSuccessFragment"
         tools:layout="@layout/fragment_order_success"/>
+    <fragment
+        android:id="@+id/subCategoryFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.SubCategoryFragment"
+        android:label="SubCategoryFragment"
+        tools:layout="@layout/fragment_sub_category">
+
+        <argument
+            android:name="catId"
+            app:argType="string" />
+
+        <argument
+            android:name="catName"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchProductFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.SearchProductFragment"
+        android:label="SearchProductFragment"
+        tools:layout="@layout/fragment_search_product"/>
+
 
 
 </navigation>

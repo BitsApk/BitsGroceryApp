@@ -1,4 +1,4 @@
-package com.bitspanindia.groceryapp.adapter
+package com.bitspanindia.groceryapp.presentation.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList

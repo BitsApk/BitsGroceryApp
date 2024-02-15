@@ -17,6 +17,8 @@
     <string name="product_suggest_text">Looking for something specific? Please suggest the products.</string>
     <string name="save_address">Save Address</string>
     <string name="change">Change</string>
+    <string name="rupee">र %s</string>
+    <string name="two_str">%s %s</string>
     <!--    <string name="terms_of_use_amp_privacy_policy">Terms of Use &amp; Privacy Policy</string>-->
 
 </resources>

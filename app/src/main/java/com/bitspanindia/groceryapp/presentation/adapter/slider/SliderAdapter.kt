@@ -1,4 +1,4 @@
-package com.bitspanindia.groceryapp.adapter.slider
+package com.bitspanindia.groceryapp.presentation.adapter.slider
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
