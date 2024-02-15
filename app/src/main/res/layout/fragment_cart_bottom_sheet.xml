@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+
+        <LinearLayout
+            android:id="@+id/modalBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            style="@style/ModalBottomSheetDialog"
+            android:background="@drawable/bg_white_top_corners_5"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            >
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cartRecView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_product"
+                android:clipToPadding="false"
+                tools:itemCount="2"
+                />
+
+
+        </LinearLayout>
+
+
+
+</layout>

@@ -22,6 +22,7 @@ import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
 import com.bitspanindia.groceryapp.databinding.FragmentSearchProductBinding
 import com.bitspanindia.groceryapp.presentation.adapter.ProductPagingAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
+import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +35,7 @@ class SearchProductFragment : Fragment() {
     private lateinit var mActivity: FragmentActivity
     private lateinit var adapter: ProductPagingAdapter
     private val homeVM: HomeViewModel by activityViewModels()
+    private val cartVM: CartViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,7 +87,9 @@ class SearchProductFragment : Fragment() {
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()?.statusCode==200){
                             val data = it.body()?.searchProduct
-                            binding.rvProducts.adapter = ProductsAdapter(data?: listOf(),mContext,ElementType.Grid.type)
+                            binding.rvProducts.adapter = ProductsAdapter(data?: mutableListOf(),mContext, cartVM.countMap, 0) {prod, action ->
+
+                            }
                         }else{
 //                            findNavController().popBackStack()
                             Toast.makeText(mContext,"Something went wrong", Toast.LENGTH_SHORT).show()

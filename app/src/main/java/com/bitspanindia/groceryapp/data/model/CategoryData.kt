@@ -3,7 +3,7 @@ package com.bitspanindia.groceryapp.data.model
 import com.google.gson.annotations.SerializedName
 
 data class CategoryData(
-    @SerializedName("category") val category: List<Category>? = listOf(),
+    @SerializedName("category") val category: MutableList<Category>? = mutableListOf(),
     @SerializedName("id") val id: String? = "",
     @SerializedName("maincat_banner") val maincatBanner: String? = "",
     @SerializedName("maincat_image") val maincatImage: String? = "",

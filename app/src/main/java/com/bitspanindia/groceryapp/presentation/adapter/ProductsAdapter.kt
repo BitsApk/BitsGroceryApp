@@ -1,77 +1,159 @@
 package com.bitspanindia.groceryapp.presentation.adapter
 
 import android.content.Context
-import android.graphics.Paint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bitspanindia.groceryapp.R
-import com.bitspanindia.groceryapp.data.enums.ElementType
+import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.databinding.ItemProductBinding
+import com.bitspanindia.groceryapp.data.model.SliderModel
+import com.bitspanindia.groceryapp.databinding.ItemProductHorizontalBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 
 class ProductsAdapter(
-    private val data: List<ProductData>,
+    private val data: MutableList<ProductData>,
     private val context: Context,
-    private val designType:Int
+    private val countMap: MutableMap<String, Int>,
+    private val orientation: Int,    // 0 is for vertical, 1 is for horizontal
+    private val callback: (prod: ProductData, action: CartAction) -> Any
 ) :
-    RecyclerView.Adapter<ProductsAdapter.NormalProductViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class NormalProductViewHolder(private val binding: ItemProductBinding) :
+    inner class VerticalViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: ProductData) {
-            Log.d("Rishabh", "Inside product inside adapter")
+        fun bind(product: ProductData) {
 
-//            Glide.with(context)
-//                .load(data.productImage)
-////                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .placeholder(R.drawable.placeholder_user)
-//                .into(binding.ivProduct)
-//            Log.d("Rishabh", "Inside product inside after glide adapter")
 
-            Glide.with(context).load(data.productImage).placeholder(R.drawable.product_placeholder).into(binding.ivProduct)
+            Glide.with(context)
+                .load(product.image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.ivProduct)
+            binding.apply {
+                tvProductName.text = product.productName
+//                tvQuantity.text = product.stock
+                tvPrice.text = product.discountedPrice.toString()
 
-            binding.tvProductName.text = data.productName
-            binding.tvWeight.text = data.weight
-            binding.tvPrice.text = context.getString(R.string.rupee,data.discountedPrice.toString())
-            binding.offeredField.visibility = if (data.price.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
-            binding.offeredField.text = context.getString(R.string.rupee,data.price.toString())
-            binding.offeredField.paintFlags = binding.offeredField.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                if (countMap[product.id] == null) {
+                    handleAddBtnVisiblity(View.VISIBLE, View.GONE)
+                } else {
+                    count.text = countMap[product.id].toString()
+                    handleAddBtnVisiblity(View.GONE, View.VISIBLE)
+                }
 
-            if (designType==ElementType.Grid.type){
-                // Adjusting ImageView layout parameters
-                val layoutParams = binding.ivProduct.layoutParams
-                layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT // Adjust height as needed
-                binding.ivProduct.layoutParams = layoutParams
+
+                btnAdd.setOnClickListener {
+                    handleAddBtnVisiblity(View.GONE, View.VISIBLE)
+                    countMap[product.id] = 1
+                    count.text = countMap[product.id].toString()
+                    callback (product, CartAction.Add)
+                }
+
+                add.setOnClickListener {
+                    countMap[product.id] = countMap[product.id]!! + 1
+                    count.text = countMap[product.id].toString()
+                    callback (product, CartAction.Add)
+                }
+
+                minus.setOnClickListener {
+                    if(countMap[product.id] == 1) {
+                        countMap.remove(product.id)
+                        handleAddBtnVisiblity(View.VISIBLE, View.GONE)
+                    } else {
+                        countMap[product.id] = countMap[product.id]!! - 1
+                        count.text = countMap[product.id].toString()
+                    }
+                    callback (product, CartAction.Minus)
+                }
             }
 
+        }
+
+        private fun handleAddBtnVisiblity(add: Int, countLay: Int) {
+            binding.btnAdd.visibility = add
+            binding.countLay.visibility = countLay
         }
 
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):  NormalProductViewHolder {
+    inner class HorizontalViewHolder(private val binding: ItemProductHorizontalBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-       return  NormalProductViewHolder(ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        fun bind(product: ProductData, position: Int) {
 
+            Glide.with(context)
+                .load(product.image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.ivProduct)
+            binding.apply {
+                tvProductName.text = product.productName
+                tvQuantity.text = product.stock
+                tvPrice.text = product.discountedPrice.toString()
+
+                if (countMap[product.id] == null) {
+                    handleAddBtnVisiblity(View.VISIBLE, View.GONE)
+                } else {
+                    count.text = countMap[product.id].toString()
+                    handleAddBtnVisiblity(View.GONE, View.VISIBLE)
+                }
+
+                add.setOnClickListener {
+                    countMap[product.id] = countMap[product.id]!! + 1
+                    count.text = countMap[product.id].toString()
+                    callback (product, CartAction.Add)
+                }
+
+                minus.setOnClickListener {
+                    if(countMap[product.id] == 1) {
+                        countMap.remove(product.id)
+                        val pos = position
+                        Log.d("Rishabh", "Adap pos: $pos $adapterPosition data size: ${data.size}")
+                        data.removeAt(adapterPosition)
+                        Log.d("Rishabh", "Adap pos: $pos $adapterPosition data size: ${data.size}")
+
+                        notifyItemRemoved(adapterPosition)
+                    } else {
+                        Log.d("Rishabh", "Prod id $adapterPosition data size: ${data.size} prod id: ${product.id}")
+                        countMap[product.id] = countMap[product.id]!! - 1
+                        count.text = countMap[product.id].toString()
+                    }
+                    callback (product, CartAction.Minus)
+                }
+            }
+
+        }
+
+        private fun handleAddBtnVisiblity(add: Int, countLay: Int) {
+            binding.countLay.visibility = countLay
+        }
 
     }
 
-    override fun onBindViewHolder(holder: NormalProductViewHolder, position: Int) {
-        Log.d("Rishabh", "Inside product inside in on bind adapter")
 
-           holder.bind(data[position])
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        return when(orientation) {
+            1 -> { HorizontalViewHolder(ItemProductHorizontalBinding.inflate(LayoutInflater.from(parent.context), parent, false)) }
+            else -> VerticalViewHolder(ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (orientation) {
+            1 -> (holder as HorizontalViewHolder).bind(data[position], position)
+            else -> (holder as VerticalViewHolder).bind(data[position])
+        }
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
+
 
 }

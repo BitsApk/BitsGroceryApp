@@ -13,7 +13,7 @@ data class HomeDataX(
 
 
 data class Viewtype(
-    @SerializedName("data") val data: List<LinkedTreeMap<String, Any>> = listOf(),
+    @SerializedName("data") val data: MutableList<LinkedTreeMap<String, Any>> = mutableListOf(),
     @SerializedName("datatype") val datatype: String? = "",
     @SerializedName("title") val title: String? = "",
     @SerializedName("designtype") val designType: String? = "",

@@ -19,6 +19,10 @@
     <string name="change">Change</string>
     <string name="rupee">र %s</string>
     <string name="two_str">%s %s</string>
+    <string name="d_items">%d Items</string>
+    <string name="prompt_info_title">Login Account</string>
+    <string name="prompt_info_subtitle">Verify Your Indentity</string>
+    <string name="prompt_info_use_app_password">Cancel</string>
     <!--    <string name="terms_of_use_amp_privacy_policy">Terms of Use &amp; Privacy Policy</string>-->
 
 </resources>
