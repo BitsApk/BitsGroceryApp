@@ -99,6 +99,8 @@ dependencies {
     //photozoom
     implementation ("com.github.chrisbanes:PhotoView:2.3.0")
 
+    implementation("androidx.biometric:biometric:1.1.0")
+
 }
 
 kapt {

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
@@ -57,11 +58,16 @@ class HomeFragment : Fragment() {
 //        showLocationDialog()
 //        setProducts()
         binding.profImage.setOnClickListener {
-            cartVM.clearCart()
+//            cartVM.clearCart()
+            val action = HomeFragmentDirections.actionHomeFragmentToFaceUnlockFragment()
+            findNavController().navigate(action)
 //            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
 //            findNavController().navigate(action)
         }
         getSavedCart()
+
+
+        bindCartTotal()
 
 //        val images = listOf(R.drawable.banner_1, R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_4,  R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_1)
 //
@@ -76,6 +82,14 @@ class HomeFragment : Fragment() {
 //            findNavController().navigate(action)
 //        }
 
+    }
+
+
+    private fun bindCartTotal() {
+        cartVM.cartTotalItem.observe(viewLifecycleOwner) {
+            binding.homeRecView.adapter?.notifyItemChanged(4)
+
+        }
     }
 
     private fun getSavedCart() {
@@ -93,7 +107,7 @@ class HomeFragment : Fragment() {
                 }
                 getHomData()
                 if (total > 0) {
-                    AppUtils.showCart(mActivity, total)
+                    cartVM.setCartTotal(total)
                 }
                 cartVM.setCart(it)
 
@@ -129,12 +143,18 @@ class HomeFragment : Fragment() {
         )
         binding.homeRecView.addItemDecoration(itemDecorator)
         binding.homeRecView.adapter = HomeRecyclerAdapter(viewList ?: listOf(), mContext, cartVM.countMap) {prod, action ->
+
+            val cartTotalItem = cartVM.cartTotalItem.value
             when (action) {
                 CartAction.Add -> {
                     Log.d("Rishabh", "Cart action add clicked")
+                    cartVM.setCartTotal((cartTotalItem ?: 0) + 1)
                     cartVM.addItemToCart(prod)
                 }
-                CartAction.Minus -> cartVM.decreaseCountOfItem(prod)
+                CartAction.Minus -> {
+                    cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
+                    cartVM.decreaseCountOfItem(prod)
+                }
 
             }
         }

@@ -1,24 +1,19 @@
 package com.bitspanindia.groceryapp
 
 import android.os.Bundle
-import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.view.animation.Animation
+import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.bitspanindia.groceryapp.data.enums.CartAction
-import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.databinding.ActivityMainBinding
-import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.bitspanindia.groceryapp.ui.bottomsheets.CartBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -43,53 +38,60 @@ class MainActivity : AppCompatActivity() {
                 android.R.anim.fade_out
             ).build()
 
-
-
-        val mBottomSheetBehaviour = BottomSheetBehavior.from(binding.modalBottomSheet)
-        Log.d("Rishabh", "sheet behaviour: ${mBottomSheetBehaviour.state}")
+//        val cartBottom = CartBottomSheetFragment()
+//        val mBottomSheetBehaviour = (CartBottomSheetFragment().dialog as BottomSheetDialog).behavior
+//        Log.d("Rishabh", "sheet behaviour: ${mBottomSheetBehaviour.state}")
 
         binding.arrowImg.setOnClickListener {
 
-            if (mBottomSheetBehaviour.state != BottomSheetBehavior.STATE_EXPANDED) {
-                binding.progBar.visibility = View.VISIBLE
-                val cartData = getCartList()
-                Log.d("Rishabh", "Cart data: ${cartData}")
-                binding.cartRecView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                binding.cartRecView.adapter = ProductsAdapter(cartData, this, cartVM.countMap, 1) {prod, action ->
-                    when (action) {
-                        CartAction.Add -> {
-                            Log.d("Rishabh", "Cart action add clicked")
-                            cartVM.addItemToCart(prod)
-                        }
-                        CartAction.Minus -> cartVM.decreaseCountOfItem(prod)
-                    }
-                }
-                binding.progBar.visibility = View.GONE
-                binding.modalBottomSheet.visibility = View.VISIBLE
-                mBottomSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
-            } else {
-                mBottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED;
+            val modalBottomSheet = CartBottomSheetFragment()
+            modalBottomSheet.show(supportFragmentManager, CartBottomSheetFragment.TAG)
+//                binding.progBar.visibility = View.VISIBLE
+//
+//                binding.progBar.visibility = View.GONE
+//                binding.modalBottomSheet.visibility = View.VISIBLE
+        }
+
+        bindCartTotal()
+
+
+    }
+
+    private fun bindCartTotal() {
+        cartVM.cartTotalItem.observe(this) {
+            binding.countTxt.text = getString(R.string.d_items, it)
+            if (it == 0) {
+                cartVisibility(View.GONE)
+            } else if (!binding.cartLay.isVisible) {
+                cartVisibility(View.VISIBLE)
             }
         }
-
-
-
     }
 
-    fun getCartList(): MutableList<ProductData> {
-        val list = mutableListOf<ProductData>()
-        val cart = cartVM.getCart()
-        for (item in cart.cartItemsMap) {
-            list.addAll(cart.cartItemsMap[item.key] ?: listOf())
+    fun cartVisibility(visible: Int) {
+        if (visible == View.VISIBLE) {
+            val animation: Animation = AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_start)
+            binding.cartLay.startAnimation(animation)
+            binding.cartLay.visibility = visible
+        }  else {
+            val animation: Animation = AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_end)
+            binding.cartLay.layoutAnimationListener = object : AnimationListener{
+                override fun onAnimationStart(p0: Animation?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onAnimationEnd(p0: Animation?) {
+                    binding.cartLay.visibility = visible
+                    binding.cartLay.layoutAnimationListener = null
+                }
+
+                override fun onAnimationRepeat(p0: Animation?) {
+                    TODO("Not yet implemented")
+                }
+            }
+            binding.cartLay.startAnimation(animation)
         }
-        return list
-    }
-
-    fun showCart(totalCount: Int) {
-        binding.countTxt.text = getString(R.string.d_items, totalCount)
-        binding.cartLay.visibility = View.VISIBLE
-        val animation: Animation = AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom)
-        binding.cartLay.startAnimation(animation)
 
     }
+
 }

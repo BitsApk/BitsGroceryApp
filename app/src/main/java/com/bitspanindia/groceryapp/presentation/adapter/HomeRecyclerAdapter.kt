@@ -52,7 +52,6 @@ class HomeRecyclerAdapter(
                     binding.selectedField.text = homeData.title
                     binding.selectedRecView.layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
                     binding.selectedRecView.adapter = ProductsAdapter(data ?: mutableListOf(), context, countMap, 0, prodCallback)
-
                 }
                 else -> {}
 

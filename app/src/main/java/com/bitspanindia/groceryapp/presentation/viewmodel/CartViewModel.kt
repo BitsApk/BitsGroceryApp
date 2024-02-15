@@ -1,6 +1,7 @@
 package com.bitspanindia.groceryapp.presentation.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +21,14 @@ class CartViewModel @Inject constructor(private val cartManager: CartManager) : 
 
 
     val countMap: MutableMap<String, Int> = mutableMapOf()  // Temporary create for counting to show
-    lateinit var cartProducts: MutableList<ProductData> // Temporary create for holding cart products
+
+    var _cartTotalItem = MutableLiveData<Int>(0) // Temporary create for holding cart products
+    val cartTotalItem: LiveData<Int>
+        get() = _cartTotalItem
+
+    fun setCartTotal(total: Int) {
+        _cartTotalItem.postValue(total)
+    }
 
     suspend fun getSavedCart(): Cart {
         return cartManager.getSavedCartData()

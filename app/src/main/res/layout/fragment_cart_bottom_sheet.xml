@@ -7,27 +7,30 @@
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        >
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:id="@+id/modalBottomSheet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/item_product"
-                    tools:itemCount="4"
-                    />
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            style="@style/ModalBottomSheetDialog"
+            android:background="@drawable/bg_white_top_corners_5"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            >
 
 
-        </androidx.core.widget.NestedScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cartRecView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_product"
+                android:clipToPadding="false"
+                tools:itemCount="2"
+                />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        </LinearLayout>
+
+
 
 </layout>
