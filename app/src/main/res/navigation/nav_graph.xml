@@ -33,6 +33,9 @@
             android:id="@+id/action_homeFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
         <action
+            android:id="@+id/action_homeFragment_to_faceUnlockFragment"
+            app:destination="@id/faceUnlockFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
     </fragment>
@@ -125,6 +128,10 @@
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.OrderSuccessFragment"
         android:label="OrderSuccessFragment"
         tools:layout="@layout/fragment_order_success"/>
+    <fragment
+        android:id="@+id/faceUnlockFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.FaceUnlockFragment"
+        android:label="FaceUnlockFragment" />
 
 
 </navigation>

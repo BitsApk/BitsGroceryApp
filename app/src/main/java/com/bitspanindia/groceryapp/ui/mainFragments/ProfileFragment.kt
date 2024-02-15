@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
-import com.bitspanindia.groceryapp.adapter.ProfileSettingAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.ProfileSettingAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProfileBinding
 import com.bitspanindia.groceryapp.data.model.ProfileSettingItemModel
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding

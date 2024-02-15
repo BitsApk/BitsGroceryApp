@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id ("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -68,7 +69,10 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
     // Glide for image loading
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0") {
+        exclude("com.android.support")
+    }
+    kapt ("com.github.bumptech.glide:compiler:4.16.0")
 
     //loading shimmer
     implementation("com.facebook.shimmer:shimmer:0.5.0")
@@ -76,9 +80,15 @@ dependencies {
     // For phone num otp
     implementation ("com.github.aabhasr1:OtpView:v1.1.2-ktx")
 
-    // Hilt dependency
-    //    implementation ("com.google.dagger:hilt-android:2.45")
-    //    kapt "com.google.dagger:hilt-android-compiler:2.45"
+//     Hilt dependency
+    implementation ("com.google.dagger:hilt-android:2.50")
+    kapt ("com.google.dagger:hilt-compiler:2.50")
+
+    //DatStore
+    implementation ("androidx.datastore:datastore-preferences-core:1.0.0")
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+    implementation ("androidx.datastore:datastore:1.0.0")
+
 
     val lottieVersion = "5.2.0"
     implementation ("com.airbnb.android:lottie:$lottieVersion")
@@ -92,4 +102,10 @@ dependencies {
     //google map sdk
     implementation ("com.google.android.gms:play-services-maps:17.0.1")
     implementation ("com.google.android.gms:play-services-location:18.0.0")
+    implementation("androidx.biometric:biometric:1.1.0")
+
+}
+
+kapt {
+    correctErrorTypes = true
 }

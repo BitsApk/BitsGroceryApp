@@ -9,15 +9,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.bitspanindia.groceryapp.R
-import com.bitspanindia.groceryapp.adapter.ProductSmallImageAdapter
-import com.bitspanindia.groceryapp.adapter.slider.SliderAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.ProductSmallImageAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.slider.SliderAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProductImagesBinding
 import com.bitspanindia.groceryapp.data.model.SliderModel
 
 class ProductImagesFragment : Fragment() {
     private lateinit var binding:FragmentProductImagesBinding
     val args: ProductImagesFragmentArgs by navArgs()
-    private lateinit var adapter:ProductSmallImageAdapter
+    private lateinit var adapter: ProductSmallImageAdapter
     private var imagePos = 0
 
     val data = listOf(

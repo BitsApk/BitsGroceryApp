@@ -21,7 +21,6 @@
             android:elevation="4dp"
             app:srcCompat="@drawable/image_vegetable_cat"
             app:strokeWidth="1dp"
-            android:scaleType="centerCrop"
             app:strokeColor="@color/grey_400"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.BottomBothCorners"
             app:layout_constraintStart_toStartOf="parent"
