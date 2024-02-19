@@ -54,6 +54,12 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        binding.rHomeSearch.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionGlobalSearchProductFragment()
+            )
+        }
+
         getHomData()
 
 
