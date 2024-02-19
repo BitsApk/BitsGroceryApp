@@ -56,7 +56,7 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val cartData = getCartList()
+        val cartData = cartVM.getCartList()
         Log.d("Rishabh", "Cart data: ${cartData}")
         binding.cartRecView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         binding.cartRecView.adapter = ProductsAdapter(cartData, mContext, cartVM.countMap, 1) {prod, action ->
@@ -76,15 +76,6 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
 
 
 
-    }
-
-    fun getCartList(): MutableList<ProductData> {
-        val list = mutableListOf<ProductData>()
-        val cart = cartVM.getCart()
-        for (item in cart.cartItemsMap) {
-            list.addAll(cart.cartItemsMap[item.key] ?: listOf())
-        }
-        return list
     }
 
     override fun onDestroyView() {

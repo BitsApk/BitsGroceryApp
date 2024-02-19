@@ -79,16 +79,6 @@
                     android:paddingVertical="@dimen/space_8"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space_16"
-                        android:src="@drawable/icon_delivery"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/tvDelivery"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/white" />
 
                     <TextView
                         android:id="@+id/tvDelivery"
@@ -98,11 +88,14 @@
                         android:text="Delivery in 11 minutes"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_12"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                        android:textAlignment="center"
+                        android:drawableStart="@drawable/icon_delivery"
+                        android:drawablePadding="@dimen/space_16"
+                        android:drawableTint="@color/white"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
+                    />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

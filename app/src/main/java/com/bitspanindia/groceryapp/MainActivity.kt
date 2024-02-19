@@ -38,15 +38,19 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.navController) as NavHostFragment
         navController = navHostFragment.navController
 
-        val navBuilder = NavOptions.Builder().setEnterAnim(android.R.anim.fade_in)
-            .setExitAnim(android.R.anim.fade_out).setPopExitAnim(
-                android.R.anim.fade_out
-            ).build()
+
+        val navBuilder = NavOptions.Builder().setEnterAnim(R.anim.nav_enter_anim).setExitAnim(R.anim.nav_exit_anim).setPopEnterAnim(R.anim.nav_pop_enter_anim)
+            .setPopExitAnim(R.anim.nav_pop_exit_anim).build()
 
         binding.arrowImg.setOnClickListener {
             cartArrowEnable(false)
             modalBottomSheet.show(supportFragmentManager, CartBottomSheetFragment.TAG)
             cartVM.isCartVisible = true
+        }
+
+        binding.cartBtn.setOnClickListener {
+            navController.navigate(R.id.cartFragment, null , navBuilder)
+            binding.cartLay.visibility = View.GONE
         }
 
         bindCartTotal()

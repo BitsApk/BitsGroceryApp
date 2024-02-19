@@ -51,6 +51,14 @@ class CartViewModel @Inject constructor(private val cartManager: CartManager) : 
         }
     }
 
+    fun getCartList(): MutableList<ProductData> {
+        val list = mutableListOf<ProductData>()
+        val cart = getCart()
+        for (item in cart.cartItemsMap) {
+            list.addAll(cart.cartItemsMap[item.key] ?: listOf())
+        }
+        return list
+    }
     fun addItemToCart(product: ProductData) {
         viewModelScope.launch {
             cartManager.addItemToCart(product)
