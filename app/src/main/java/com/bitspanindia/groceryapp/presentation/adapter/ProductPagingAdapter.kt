@@ -32,15 +32,16 @@ class ProductPagingAdapter(
                 binding.offeredField.paintFlags = binding.offeredField.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 Glide.with(context).load(data.productImage).placeholder(R.drawable.product_placeholder).into(binding.ivProduct)
 
-//                if (designType == ElementType.Grid.type) {
-//                    val layoutParams = binding.ivProduct.layoutParams
-//                    layoutParams.width = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
-//                    layoutParams.height = dpToPx(100)
-//                    binding.ivProduct.layoutParams = layoutParams
-//                }
+                adjustItemWidth(binding)
 
             }
 
+        }
+
+        private fun adjustItemWidth(binding: ItemProductBinding) {
+            val layoutParams = binding.clItem.layoutParams
+            layoutParams.width =  if (designType == ElementType.Grid.type) ConstraintLayout.LayoutParams.MATCH_PARENT else dpToPx(100)
+            binding.clItem.layoutParams = layoutParams
         }
 
 

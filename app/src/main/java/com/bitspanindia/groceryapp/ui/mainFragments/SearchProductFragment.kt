@@ -52,8 +52,6 @@ class SearchProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        setProductsList()
-
         binding.etSearch.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -61,8 +59,10 @@ class SearchProductFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length!! >2){
-//                    getSearchProduct(p0.toString())
                     setProducts(p0.toString())
+                }else{
+                    binding.rvProducts.visibility = View.GONE
+                    binding.noProduct.clNoProduct.visibility = View.GONE
                 }
             }
 
@@ -99,11 +99,14 @@ class SearchProductFragment : Fragment() {
                         Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                     }
                 }
-            } catch (e: Exception) {
-//                findNavController().popBackStack()
-                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
-        }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
     }
 
     private fun setProducts(productName: String) {
@@ -112,12 +115,11 @@ class SearchProductFragment : Fragment() {
 
         adapter.addLoadStateListener {
             if (it.source.refresh is LoadState.NotLoading) {
-//                binding.noData.clNoDataFound.visibility = View.VISIBLE
-//                stopShimmer(binding.shimmer,binding.rvProducts)
+                binding.noProduct.clNoProduct.visibility = View.GONE
+                stopShimmer(binding.shimmer2,binding.rvProducts)
             } else if (it.source.refresh is LoadState.Error) {
-//                binding.noData.clNoDataFound.setBackgroundColor(mContext.getColor(R.color.white))
-//                binding.noData.clNoDataFound.visibility = View.VISIBLE
-//                stopShimmer(binding.shimmer,binding.rvProducts)
+                binding.noProduct.clNoProduct.visibility = View.VISIBLE
+                stopShimmer(binding.shimmer2,binding.rvProducts)
             }
         }
     }
@@ -136,7 +138,8 @@ class SearchProductFragment : Fragment() {
 
     private fun getProductList(productName:String) {
         val productDataReq = ProductDataReq()
-//        startShimmer(binding.shimmer,binding.rvProducts)
+        startShimmer(binding.shimmer2,binding.rvProducts)
+        binding.noProduct.clNoProduct.visibility = View.GONE
         binding.rvProducts.visibility = View.VISIBLE
 //        binding.noData.clNoDataFound.visibility = View.GONE
         productDataReq.userId = Constant.userId

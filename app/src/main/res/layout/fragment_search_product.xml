@@ -67,7 +67,135 @@
           android:layout_margin="@dimen/space_12"
           app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
           app:spanCount="2"
+          android:visibility="visible"
           tools:listitem="@layout/item_product" />
+
+      <com.facebook.shimmer.ShimmerFrameLayout
+          android:id="@+id/shimmer2"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:orientation="vertical"
+          android:visibility="gone"
+          android:layout_marginTop="@dimen/space_16"
+          android:layout_marginStart="@dimen/space_8"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/clHeader"
+          app:shimmer_auto_start="true"
+          app:shimmer_duration="800">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:fillViewport="true">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+              <include
+                  android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_weight="1"
+                  android:layout_marginHorizontal="@dimen/space_8"
+                  layout="@layout/shimmer_product"/>
+
+              <include
+                  android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_weight="1"
+                  android:layout_marginHorizontal="@dimen/space_8"
+                  layout="@layout/shimmer_product"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/space_10"
+                android:weightSum="2">
+
+              <include
+                  android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_weight="1"
+                  android:layout_marginHorizontal="@dimen/space_8"
+                  layout="@layout/shimmer_product"/>
+
+              <include
+                  android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_weight="1"
+                  android:layout_marginHorizontal="@dimen/space_8"
+                  layout="@layout/shimmer_product"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/space_10"
+                android:weightSum="2">
+
+              <include
+                  android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_weight="1"
+                  android:layout_marginHorizontal="@dimen/space_8"
+                  layout="@layout/shimmer_product"/>
+
+              <include
+                  android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_weight="1"
+                  android:layout_marginHorizontal="@dimen/space_8"
+                  layout="@layout/shimmer_product"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/space_10"
+                android:weightSum="2">
+
+              <include
+                  android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_weight="1"
+                  android:layout_marginHorizontal="@dimen/space_8"
+                  layout="@layout/shimmer_product"/>
+
+              <include
+                  android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_weight="1"
+                  android:layout_marginHorizontal="@dimen/space_8"
+                  layout="@layout/shimmer_product"/>
+
+            </LinearLayout>
+
+
+          </LinearLayout>
+
+        </ScrollView>
+
+      </com.facebook.shimmer.ShimmerFrameLayout>
+
+      <include
+          android:id="@+id/noProduct"
+          layout="@layout/layout_no_product_found" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

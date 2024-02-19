@@ -70,6 +70,13 @@ class HomeFragment : Fragment() {
         }
         getSavedCart()
 
+        binding.rHomeSearch.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionGlobalSearchProductFragment()
+            )
+        }
+
+        getHomData()
 
         bindCartTotal()
 

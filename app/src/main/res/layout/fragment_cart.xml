@@ -573,7 +573,6 @@
                 android:layout_height="24dp"
                 android:layout_margin="@dimen/space_10"
                 android:src="@drawable/icon_location"
-                app:layout_constraintBottom_toBottomOf="@+id/textview9"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textview8" />
 
