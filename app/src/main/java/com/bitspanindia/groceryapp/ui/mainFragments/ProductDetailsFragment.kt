@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.presentation.adapter.slider.SliderAdapter
-import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProductDetailsBinding
 import com.bitspanindia.groceryapp.data.model.SliderModel
 import com.bitspanindia.groceryapp.datalist.CustomList

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.data.enums.ViewDesign
 import com.bitspanindia.groceryapp.data.model.BannerData
@@ -23,7 +24,8 @@ import com.google.gson.GsonBuilder
 class HomeRecyclerAdapter(
     private val sectionList: List<Viewtype>,
     private val context: Context,
-    private val callBack:(catId:String,catName:String)->Any
+    private val countMap: MutableMap<String, Int>,
+    private val prodCallback: (prod: ProductData, action: CartAction) -> Any
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class TextRecViewHolder(val binding: ItemHomeTextRecviewLayoutBinding): RecyclerView.ViewHolder(binding.root) {
@@ -42,7 +44,7 @@ class HomeRecyclerAdapter(
                     binding.selectedField.text = homeData.title
                     binding.selectedRecView.layoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
                     binding.selectedRecView.adapter = MainCategoryImageAdapter(item?.get(0)?.category ?: listOf(), context,"homeCat"){catId,catName->
-                       callBack(catId,catName)
+//                       callBack(catId,catName)
                     }
                 }
 
@@ -50,8 +52,7 @@ class HomeRecyclerAdapter(
                     val data = homeData.getDataAs<ProductData>()
                     binding.selectedField.text = homeData.title
                     binding.selectedRecView.layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
-                    binding.selectedRecView.adapter = ProductsAdapter(data ?: listOf(), context,ElementType.Products.type)
-
+                    binding.selectedRecView.adapter = ProductsAdapter(data ?: mutableListOf(), context, countMap, 0, prodCallback)
                 }
                 else -> {}
 
@@ -61,12 +62,12 @@ class HomeRecyclerAdapter(
         }
     }
 
-    inline fun <reified T> Viewtype.getDataAs(): List<T>? {
+    inline fun <reified T> Viewtype.getDataAs(): MutableList<T>? {
         val gson = Gson()
         return when (viewtype) {
-            "category" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), CategoryData::class.java) as? T}
-            "Products" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), ProductData::class.java) as? T}
-            "Banner" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), BannerData::class.java) as? T}
+            "category" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), CategoryData::class.java) as? T}.toMutableList()
+            "Products" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), ProductData::class.java) as? T}.toMutableList()
+            "Banner" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), BannerData::class.java) as? T}.toMutableList()
             else -> null
         }
     }

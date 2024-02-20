@@ -99,6 +99,8 @@ dependencies {
     //photozoom
     implementation ("com.github.chrisbanes:PhotoView:2.3.0")
 
+    implementation("androidx.biometric:biometric:1.1.0")
+
     //google map sdk
     implementation ("com.google.android.gms:play-services-maps:17.0.1")
     implementation ("com.google.android.gms:play-services-location:18.0.0")
