@@ -58,6 +58,10 @@ class CartFragment : Fragment() {
                     cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
                     cartVM.decreaseCountOfItem(prod)
                 }
+                CartAction.ItemClick -> {
+                    val action = CartFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+                    findNavController().navigate(action)
+                }
             }
         }
 

@@ -29,10 +29,6 @@ class HomeRepository @Inject constructor(private val homeApiService: HomeApiServ
         return homeApiService.getSubCatList(commonDataReq)
     }
 
-    suspend fun searchProduct(commonDataReq: CommonDataReq): Response<SearchProductResponse> {
-        return homeApiService.searchProduct(commonDataReq)
-    }
-
     fun getSubCatProducts(productDataReq: ProductDataReq) : Flow<PagingData<ProductData>> {
         return Pager(config = PagingConfig(Constant.PAGE_SIZE, enablePlaceholders = false)) {
             ProductPagingSource(homeApiService, productDataReq,"subCatProduct")

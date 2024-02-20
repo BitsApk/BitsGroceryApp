@@ -25,7 +25,8 @@ class HomeRecyclerAdapter(
     private val sectionList: List<Viewtype>,
     private val context: Context,
     private val countMap: MutableMap<String, Int>,
-    private val prodCallback: (prod: ProductData, action: CartAction) -> Any
+    private val prodCallback: (prod: ProductData, action: CartAction) -> Any,
+    private val callBackCat: (catId:String,catName:String) -> Any
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class TextRecViewHolder(val binding: ItemHomeTextRecviewLayoutBinding): RecyclerView.ViewHolder(binding.root) {
@@ -44,7 +45,7 @@ class HomeRecyclerAdapter(
                     binding.selectedField.text = homeData.title
                     binding.selectedRecView.layoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
                     binding.selectedRecView.adapter = MainCategoryImageAdapter(item?.get(0)?.category ?: listOf(), context,"homeCat"){catId,catName->
-//                       callBack(catId,catName)
+                        callBackCat(catId,catName)
                     }
                 }
 

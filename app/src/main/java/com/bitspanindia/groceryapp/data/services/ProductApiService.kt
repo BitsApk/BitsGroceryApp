@@ -12,27 +12,13 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 
-interface HomeApiService {
+interface ProductApiService {
 
     @POST("homepage_dynamic")
     suspend fun getHomeData(
         @Body homeReq: HomeDataReq
     ): Response<HomeDataX>
 
-    @POST("subcategory_list")
-    suspend fun getSubCatList(
-        @Body commonDataReq: CommonDataReq
-    ): Response<SubCategoryData>
-
-    @POST("subcategory_productlist")
-    suspend fun getSubCategoryProducts(
-        @Body productDataReq: ProductDataReq
-    ): Response<SubCatProductsData>
-
-    @POST("search_product")
-    suspend fun getSearchProduct(
-        @Body productDataReq: ProductDataReq
-    ): Response<SearchProductResponse>
 
 
 }

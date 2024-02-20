@@ -172,7 +172,7 @@ class HomeFragment : Fragment() {
             )!!
         )
         binding.homeRecView.addItemDecoration(itemDecorator)
-        binding.homeRecView.adapter = HomeRecyclerAdapter(viewList ?: listOf(), mContext, cartVM.countMap) {prod, action ->
+        binding.homeRecView.adapter = HomeRecyclerAdapter(viewList ?: listOf(), mContext, cartVM.countMap, {prod, action ->
 
             val cartTotalItem = cartVM.cartTotalItem.value
             when (action) {
@@ -186,8 +186,16 @@ class HomeFragment : Fragment() {
                     cartVM.decreaseCountOfItem(prod)
                 }
 
+                CartAction.ItemClick -> {
+                    val action = HomeFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+                    findNavController().navigate(action)
+                }
+
             }
-        }
+        },{catId, catName ->
+            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment(catId,catName)
+            findNavController().navigate(action)
+        })
     }
 
     private fun setProducts() {

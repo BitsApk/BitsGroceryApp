@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.AppUtils.toDp
@@ -19,6 +20,7 @@ import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.databinding.FragmentCartBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
+import com.bitspanindia.groceryapp.ui.mainFragments.HomeFragmentDirections
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -70,6 +72,10 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
                 CartAction.Minus -> {
                     cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
                     cartVM.decreaseCountOfItem(prod)
+                }
+                CartAction.ItemClick -> {
+//                    val action = HomeFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+//                    findNavController().navigate(action)
                 }
             }
         }

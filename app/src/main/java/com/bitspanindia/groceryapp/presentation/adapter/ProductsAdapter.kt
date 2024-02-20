@@ -69,6 +69,10 @@ class ProductsAdapter(
                     }
                     callback (product, CartAction.Minus)
                 }
+
+                itemView.setOnClickListener {
+                    callback(product,CartAction.ItemClick)
+                }
             }
 
         }
