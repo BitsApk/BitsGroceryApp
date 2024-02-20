@@ -1,5 +1,6 @@
 package com.bitspanindia.groceryapp.data.pagingSource
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.bitspanindia.groceryapp.data.model.ProductData
@@ -13,9 +14,8 @@ class ProductPagingSource(
    private val type: String
 ) : PagingSource<Int, ProductData>() {
 
-    private val LIMIT = 10
     companion object {
-        var userId : String? = ""
+        var productCount : Int? = 0
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ProductData> {
@@ -36,6 +36,9 @@ class ProductPagingSource(
     private suspend fun setSubCatProduct(page: Int): LoadResult.Page<Int, ProductData> {
         val response =  homeApiService.getSubCategoryProducts(productDataReq)
         if (response.body()?.statusCode == 200) {
+            productCount = response.body()?.totalProductFound
+            Log.e("TAG", "setSubCatProduct: productfound ${productCount}")
+
             response.body()?.products.let {
                 return LoadResult.Page(
                     it ?: listOf(),

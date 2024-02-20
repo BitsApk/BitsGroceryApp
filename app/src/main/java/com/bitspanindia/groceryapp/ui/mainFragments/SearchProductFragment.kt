@@ -104,7 +104,6 @@ class SearchProductFragment : Fragment() {
         startShimmer(binding.shimmer2,binding.rvProducts)
         binding.noProduct.clNoProduct.visibility = View.GONE
         binding.rvProducts.visibility = View.VISIBLE
-//        binding.noData.clNoDataFound.visibility = View.GONE
         productDataReq.userId = Constant.userId
         productDataReq.pageno = 1
         productDataReq.productName = productName

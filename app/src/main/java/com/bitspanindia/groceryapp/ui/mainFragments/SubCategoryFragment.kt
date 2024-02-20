@@ -2,6 +2,7 @@ package com.bitspanindia.groceryapp.ui.mainFragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
+import com.bitspanindia.groceryapp.data.pagingSource.ProductPagingSource
 import com.bitspanindia.groceryapp.databinding.FragmentSubCategoryBinding
 import com.bitspanindia.groceryapp.presentation.adapter.MainCategoryImageAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductPagingAdapter
@@ -100,19 +102,24 @@ class SubCategoryFragment : Fragment() {
     }
 
     private fun setProducts() {
+        var productCount = 0
         setProductAdapter()
         getProductList()
 
         adapter.addLoadStateListener {
             if (it.source.refresh is LoadState.NotLoading) {
-//                binding.noData.clNoDataFound.visibility = View.VISIBLE
+                binding.noProduct.clNoProduct.visibility = View.GONE
                 stopShimmer(binding.shimmer,binding.rvProducts)
+                productCount = ProductPagingSource.productCount?:0
+                Log.e("TAG", "setProductsCount: $productCount" )
+                binding.tvProductsCount.text = getString(R.string.two_str,productCount.toString()," Items")
             } else if (it.source.refresh is LoadState.Error) {
-//                binding.noData.clNoDataFound.setBackgroundColor(mContext.getColor(R.color.white))
-//                binding.noData.clNoDataFound.visibility = View.VISIBLE
+                binding.noProduct.clNoProduct.visibility = View.VISIBLE
                 stopShimmer(binding.shimmer,binding.rvProducts)
             }
         }
+
+
     }
 
     private fun stopShimmer(shimmer: ShimmerFrameLayout, recyclerView: RecyclerView) {
@@ -131,7 +138,7 @@ class SubCategoryFragment : Fragment() {
         val productDataReq = ProductDataReq()
         startShimmer(binding.shimmer,binding.rvProducts)
         binding.rvProducts.visibility = View.VISIBLE
-//        binding.noData.clNoDataFound.visibility = View.GONE
+        binding.noProduct.clNoProduct.visibility = View.GONE
         productDataReq.userId = Constant.userId
         productDataReq.pageno = 1
         productDataReq.subcategoryId = subCatId
@@ -140,7 +147,6 @@ class SubCategoryFragment : Fragment() {
             homeVM.getSubCatProducts(
                 productDataReq
             ).collect {
-                binding.tvProductsCount.text = getString(R.string.two_str,adapter.itemCount.toString()," Items")
                 adapter.submitData(it)
             }
         }
