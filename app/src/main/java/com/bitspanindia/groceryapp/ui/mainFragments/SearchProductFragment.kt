@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
@@ -22,7 +21,7 @@ import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
 import com.bitspanindia.groceryapp.databinding.FragmentSearchProductBinding
 import com.bitspanindia.groceryapp.presentation.adapter.ProductPagingAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
-import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
+import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +34,7 @@ class SearchProductFragment : Fragment() {
     private lateinit var mActivity: FragmentActivity
     private lateinit var adapter: ProductPagingAdapter
     private val homeVM: HomeViewModel by activityViewModels()
-    private val cartVM: CartViewModel by activityViewModels()
+    private val cartVM: CartManageViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,13 +98,11 @@ class SearchProductFragment : Fragment() {
                         Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
+            } catch (e: Exception) {
 
             }
 
-        })
+        }
 
     }
 

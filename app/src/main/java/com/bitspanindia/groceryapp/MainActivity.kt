@@ -1,7 +1,6 @@
 package com.bitspanindia.groceryapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
@@ -13,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.bitspanindia.groceryapp.databinding.ActivityMainBinding
-import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
+import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.ui.bottomsheets.CartBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
-    private val cartVM: CartViewModel by viewModels()
+    private val cartVM: CartManageViewModel by viewModels()
     private val modalBottomSheet by lazy {
         CartBottomSheetFragment()
     }

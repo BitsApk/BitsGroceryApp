@@ -10,22 +10,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.CartProductAdapter
 import com.bitspanindia.groceryapp.data.enums.CartAction
+import com.bitspanindia.groceryapp.data.model.request.PaymentReq
 import com.bitspanindia.groceryapp.databinding.FragmentCartBinding
 import com.bitspanindia.groceryapp.datalist.CustomList
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
+import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
+import kotlinx.coroutines.launch
 
 class CartFragment : Fragment() {
     private lateinit var binding:FragmentCartBinding
     private lateinit var mContext:Context
     private lateinit var mActivity:FragmentActivity
 
-    private val cartVM: CartViewModel by activityViewModels()
+    private val cartManageVM: CartManageViewModel by activityViewModels()
+    private val cartVM: CartViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,32 +48,48 @@ class CartFragment : Fragment() {
 //        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
         binding.tvDelCharge.paintFlags = binding.tvDelCharge.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
-        val cartData = cartVM.getCartList()
+        val cartData = cartManageVM.getCartList()
         Log.d("Rishabh", "Cart data: ${cartData}")
         binding.rvCartItems.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-        binding.rvCartItems.adapter = ProductsAdapter(cartData, mContext, cartVM.countMap, 1) {prod, action ->
+        binding.rvCartItems.adapter = ProductsAdapter(cartData, mContext, cartManageVM.countMap, 1) {prod, action ->
 
-            val cartTotalItem = cartVM.cartTotalItem.value
+            val cartTotalItem = cartManageVM.cartTotalItem.value
             when (action) {
                 CartAction.Add -> {
-                    cartVM.setCartTotal((cartTotalItem ?: 0) + 1)
-                    cartVM.addItemToCart(prod)
+                    cartManageVM.setCartTotal((cartTotalItem ?: 0) + 1)
+                    cartManageVM.addItemToCart(prod)
                 }
                 CartAction.Minus -> {
-                    cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
-                    cartVM.decreaseCountOfItem(prod)
+                    cartManageVM.setCartTotal((cartTotalItem ?: 0) - 1)
+                    cartManageVM.decreaseCountOfItem(prod)
                 }
             }
         }
 
 
         binding.btnPay.setOnClickListener {
-            val action = CartFragmentDirections.actionCartFragmentToOrderSuccessFragment()
-            findNavController().navigate(action)
+
+            doPayment()
+
+//            val action = CartFragmentDirections.actionCartFragmentToOrderSuccessFragment()
+//            findNavController().navigate(action)
         }
 
         setInstructionData()
 
+    }
+
+    private fun doPayment() {
+        val paymentReq = PaymentReq (
+                userId = 2,
+                addedByWeb = "56testing.club",
+                paymenttype = "online", //online,cod
+                totalPayble = 500.0,
+                convCharge =  10.0
+        )
+        viewLifecycleOwner.lifecycleScope.launch {
+
+        }
     }
 
     private fun setCartProductList() {

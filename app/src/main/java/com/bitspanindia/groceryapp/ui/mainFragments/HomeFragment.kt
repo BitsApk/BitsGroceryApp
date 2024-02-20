@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
@@ -16,9 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.Viewtype
@@ -27,7 +24,7 @@ import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.HomeRecyclerAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
-import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
+import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +38,7 @@ class HomeFragment : Fragment() {
     private lateinit var mActivity: FragmentActivity
 
     private val homeVM: HomeViewModel by activityViewModels()
-    private val cartVM: CartViewModel by activityViewModels()
+    private val cartVM: CartManageViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -63,7 +60,8 @@ class HomeFragment : Fragment() {
 //        setProducts()
         binding.profImage.setOnClickListener {
 //            cartVM.clearCart()
-            val action = HomeFragmentDirections.actionHomeFragmentToFaceUnlockFragment()
+//            val action = HomeFragmentDirections.actionHomeFragmentToFaceUnlockFragment()
+            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment("11", "Fruits & Vegetables")
             findNavController().navigate(action)
 //            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
 //            findNavController().navigate(action)
