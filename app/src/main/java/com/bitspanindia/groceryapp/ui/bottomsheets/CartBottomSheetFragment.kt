@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -16,11 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.AppUtils.toDp
 import com.bitspanindia.groceryapp.data.enums.CartAction
-import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.databinding.FragmentCartBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
-import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
-import com.bitspanindia.groceryapp.ui.mainFragments.HomeFragmentDirections
+import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -33,7 +30,7 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
 
-    private val cartVM: CartViewModel by activityViewModels()
+    private val cartVM: CartManageViewModel by activityViewModels()
     private lateinit var mBehave: BottomSheetBehavior<FrameLayout>
 
         override fun onCreateView(

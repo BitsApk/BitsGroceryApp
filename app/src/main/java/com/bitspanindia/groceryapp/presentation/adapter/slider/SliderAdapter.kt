@@ -1,24 +1,29 @@
 package com.bitspanindia.groceryapp.presentation.adapter.slider
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.databinding.ItemProductImageBinding
-import com.bitspanindia.groceryapp.data.model.SliderModel
-class SliderAdapter(private val data: List<SliderModel>,
-                    val callBack:(pos:Int)->Any
+import com.bitspanindia.groceryapp.data.model.response.MultiImg
+import com.bumptech.glide.Glide
+
+class SliderAdapter(
+    private val mContext: Context,
+    private val data: List<MultiImg>,
+    val callBack:(pos:Int)->Any
 ) :
     RecyclerView.Adapter<SliderAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemProductImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: SliderModel) {
-            binding.ivSlider.setImageResource(data.image)
+        fun bind(data: MultiImg) {
+            Glide.with(mContext).load(data.image).into(binding.ivSlider)
             binding.executePendingBindings()
 
             binding.ivSlider.setOnClickListener {
-                callBack(adapterPosition)
+                callBack(absoluteAdapterPosition)
             }
 
         }

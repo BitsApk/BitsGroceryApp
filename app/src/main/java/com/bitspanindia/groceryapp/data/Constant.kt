@@ -8,7 +8,7 @@ object Constant {
 
     const val PAGE_SIZE = 10
 
-    const val userId = "1"
+    const val userId = "0"
 
 
 

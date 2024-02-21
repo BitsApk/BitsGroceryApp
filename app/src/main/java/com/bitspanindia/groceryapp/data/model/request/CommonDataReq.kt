@@ -13,4 +13,8 @@ data class CommonDataReq(
     @SerializedName("user_id")
     var userId: String? = "",
 
+    //for product-page api
+    @SerializedName("product_id")
+    var productId: String? = "",
+
     )

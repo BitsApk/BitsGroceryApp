@@ -1,10 +1,13 @@
 package com.bitspanindia.groceryapp.ui.mainFragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -13,27 +16,14 @@ import com.bitspanindia.groceryapp.presentation.adapter.ProductSmallImageAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.slider.SliderAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProductImagesBinding
 import com.bitspanindia.groceryapp.data.model.SliderModel
+import com.bitspanindia.groceryapp.presentation.viewmodel.ProductViewModel
 
 class ProductImagesFragment : Fragment() {
     private lateinit var binding:FragmentProductImagesBinding
     val args: ProductImagesFragmentArgs by navArgs()
     private lateinit var adapter: ProductSmallImageAdapter
+    private val pvm: ProductViewModel by activityViewModels()
     private var imagePos = 0
-
-    val data = listOf(
-        SliderModel(
-            image= R.drawable.lays1
-        ),
-        SliderModel(
-            image= R.drawable.lays2
-        ),
-        SliderModel(
-            image= R.drawable.lays3
-        ),
-        SliderModel(
-            image=  R.drawable.lays4
-        ),
-    ) // Replace this with your data
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,9 +40,8 @@ class ProductImagesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setViewpagerSlider()
-        binding.viewPager.currentItem = imagePos
 
-       adapter = ProductSmallImageAdapter(data,requireContext()){pos ->
+       adapter = ProductSmallImageAdapter(pvm.prodImageList,requireContext()){pos ->
             imagePos = pos
             if (pos>=0){
                 binding.viewPager.currentItem =imagePos
@@ -73,8 +62,11 @@ class ProductImagesFragment : Fragment() {
     }
 
     private fun setViewpagerSlider() {
-        val adapter = SliderAdapter(data){ pos -> }
+        val adapter = SliderAdapter(requireContext(),pvm.prodImageList){ pos -> }
         binding.viewPager.adapter = adapter
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.viewPager.setCurrentItem(imagePos, true)
+        }, 80)
     }
 
 }

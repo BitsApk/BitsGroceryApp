@@ -7,11 +7,7 @@
 
     <action android:id="@+id/action_global_searchProductFragment" app:destination="@id/searchProductFragment" />
 
-    <action android:id="@+id/action_global_productDetailsFragment" app:destination="@id/productDetailsFragment">
-
-        <argument android:name="proId" app:argType="string"/>
-
-    </action>
+    <action android:id="@+id/action_global_productDetailsFragment" app:destination="@id/productDetailsFragment"/>
 
 
     <fragment
@@ -110,6 +106,12 @@
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.ProductDetailsFragment"
         android:label="ProductDetailsFragment"
         tools:layout="@layout/fragment_product_details">
+
+
+        <argument
+            android:name="proId"
+            app:argType="string" />
+
         <action
             android:id="@+id/action_productDetailsFragment_to_productImagesFragment"
             app:destination="@id/productImagesFragment" />
