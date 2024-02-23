@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_16">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/iconOrder"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/white_rounded"
+            android:backgroundTint="@color/green_50"
+            android:padding="@dimen/space_10"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPayType"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvOrdId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_12"
+            android:background="@color/green_50"
+            app:layout_constraintEnd_toStartOf="@+id/tvPrice"
+            app:layout_constraintStart_toEndOf="@+id/iconOrder"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvOrdDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_4"
+            android:background="@color/green_50"
+            app:layout_constraintEnd_toEndOf="@+id/tvOrdId"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/iconOrder"
+            app:layout_constraintTop_toBottomOf="@+id/tvOrdId" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@color/green_50"
+            app:layout_constraintBottom_toBottomOf="@+id/tvOrdDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvOrdId" />
+
+        <TextView
+            android:id="@+id/tvPayType"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_10"
+            android:background="@color/green_50"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintStart_toStartOf="@+id/tvOrdDate"
+            app:layout_constraintTop_toBottomOf="@+id/tvOrdDate" />
+
+        <TextView
+            android:id="@+id/tvOrdStatus"
+            android:layout_width="70dp"
+            android:layout_height="20dp"
+            android:background="@color/green_50"
+            android:fontFamily="@font/roboto_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvPayType" />
+
+        <View
+            android:id="@+id/view11"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_10"
+            android:background="@color/grey_200"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvOrdStatus" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -32,7 +32,7 @@ class ProductPagingAdapter(
                 offeredField.visibility = if (data.price.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
                 offeredField.text = context.getString(R.string.rupee,data.price.toString())
                 offeredField.paintFlags = binding.offeredField.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                Glide.with(context).load(data.productImage).placeholder(R.drawable.product_placeholder).into(binding.ivProduct)
+                Glide.with(context).load(data.image).placeholder(R.drawable.product_placeholder).into(binding.ivProduct)
 
                 adjustItemWidth(designType,clItem)
 

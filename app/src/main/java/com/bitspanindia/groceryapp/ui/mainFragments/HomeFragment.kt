@@ -62,10 +62,10 @@ class HomeFragment : Fragment() {
         binding.profImage.setOnClickListener {
 //            cartVM.clearCart()
 //            val action = HomeFragmentDirections.actionHomeFragmentToFaceUnlockFragment()
-            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment("11", "Fruits & Vegetables")
-            findNavController().navigate(action)
-//            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
+//            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment("11", "Fruits & Vegetables")
 //            findNavController().navigate(action)
+            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
+            findNavController().navigate(action)
         }
         getSavedCart()
 

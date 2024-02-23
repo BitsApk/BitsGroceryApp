@@ -67,7 +67,7 @@
                 android:layout_marginTop="@dimen/space_40"
                 android:scaleType="centerCrop"
                 android:src="@drawable/placeholder_user"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:civ_border_color="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +80,7 @@
                 android:background="@drawable/bg_circle_view"
                 android:backgroundTint="@color/green_50"
                 android:padding="6dp"
+                android:visibility="gone"
                 android:layout_marginEnd="-8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivProfile"
                 app:layout_constraintEnd_toEndOf="@+id/ivProfile">
@@ -104,6 +105,7 @@
                 android:layout_marginTop="@dimen/space_30"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="Your Information"
+                android:visibility="gone"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_16"
                 app:layout_constraintStart_toStartOf="parent"
@@ -180,6 +182,47 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/tvGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_30"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Gender"
+                android:visibility="visible"
+                android:textColor="@color/grey_900"
+                android:textSize="@dimen/text_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvInfo" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginTop="-8dp"
+                app:layout_constraintStart_toStartOf="@+id/etUserName"
+                app:layout_constraintTop_toBottomOf="@+id/tvGender">
+
+                <RadioButton
+                    android:id="@+id/rbMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Male" />
+
+                <RadioButton
+                    android:id="@+id/rbFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:text="Female" />
+
+            </RadioGroup>
+
+
             <EditText
                 android:id="@+id/etUserName"
                 android:layout_width="match_parent"
@@ -197,7 +240,7 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/emailEdTxt" />
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
             <EditText
                 android:id="@+id/etPhoneNumber"
@@ -233,7 +276,6 @@
                 android:drawableTint="@color/grey_700"
                 android:hint="@string/enter_your_email"
                 android:inputType="textEmailAddress"
-                android:maxLength="10"
                 android:padding="@dimen/space_12"
                 android:textSize="@dimen/text_16"
                 android:visibility="visible"

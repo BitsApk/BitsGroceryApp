@@ -24,6 +24,7 @@
 
     //red
     <color name="red_50">#FBE9E7</color>
+    <color name="red_100">#FFCCBC</color>
     <color name="red_200">#FFAB91</color>
     <color name="red_300">#FF8A65</color>
     <color name="red_400">#FF7043</color>
@@ -37,6 +38,16 @@
     <color name="grey_400">#CDCDCD</color>
     <color name="grey_700">#616161</color>
     <color name="grey_900">#212121</color>
+
+    //yellow
+    <color name="yellow_100">#FFF9C4</color>
+
+    //blue
+    <color name="blue_100">#B3E5FC</color>
+
+    //orange
+    <color name="orange_100">#FFE0B2</color>
+
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

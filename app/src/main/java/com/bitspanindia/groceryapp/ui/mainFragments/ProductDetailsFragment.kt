@@ -29,7 +29,6 @@ import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
 @AndroidEntryPoint
 class ProductDetailsFragment : Fragment() {
     private lateinit var binding: FragmentProductDetailsBinding

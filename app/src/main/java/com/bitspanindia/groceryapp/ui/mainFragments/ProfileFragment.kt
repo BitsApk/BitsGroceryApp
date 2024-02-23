@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
+import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.presentation.adapter.ProfileSettingAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProfileBinding
@@ -18,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
     private lateinit var mContext:Context
+    private lateinit var mActivity: FragmentActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +28,9 @@ class ProfileFragment : Fragment() {
     ): View{
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         mContext = requireContext()
+        mActivity = requireActivity()
 
+        AppUtils.cartLayoutVisibility(mActivity, View.GONE)
         setSettingItem()
 
         return binding.root
@@ -74,6 +79,10 @@ class ProfileFragment : Fragment() {
 
         binding.rvItems.adapter = ProfileSettingAdapter(settingItemList){pos->
             when(pos){
+                1->{
+                    val action = ProfileFragmentDirections.actionProfileFragmentToOrderListFragment()
+                    findNavController().navigate(action)
+                }
                 2->{
                     val action = ProfileFragmentDirections.actionProfileFragmentToAddressListFragment()
                     findNavController().navigate(action)

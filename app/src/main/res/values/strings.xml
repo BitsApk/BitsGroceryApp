@@ -18,12 +18,22 @@
     <string name="save_address">Save Address</string>
     <string name="change">Change</string>
     <string name="rupee">र %s</string>
+    <string name="discount_price">-र %s</string>
+    <string name="one_str">%s</string>
     <string name="two_str">%s %s</string>
+    <string name="three_str">%s %s %s</string>
+    <string name="my_address">%s %s %s \n%s (%s)</string>
+    <string name="quantity_price">Qnt %s * र %s</string>
     <string name="product_not_found">Product Not Found</string>
     <string name="d_items">%d Items</string>
     <string name="prompt_info_title">Login Account</string>
     <string name="prompt_info_subtitle">Verify Your Indentity</string>
     <string name="prompt_info_use_app_password">Cancel</string>
+    <string name="my_addresses">My Addresses</string>
+    <string name="add_address">Add Address</string>
+    <string name="my_orders">My Orders</string>
+    <string name="pay_type">Pay Type : %s</string>
+    <string name="quantity">Qty : %s</string>
     <!--    <string name="terms_of_use_amp_privacy_policy">Terms of Use &amp; Privacy Policy</string>-->
 
 </resources>

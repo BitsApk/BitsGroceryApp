@@ -81,6 +81,9 @@
         <action
             android:id="@+id/action_profileFragment_to_addressListFragment"
             app:destination="@id/addressListFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_orderListFragment"
+            app:destination="@id/orderListFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -167,7 +170,25 @@
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.SearchProductFragment"
         android:label="SearchProductFragment"
         tools:layout="@layout/fragment_search_product"/>
+    <fragment
+        android:id="@+id/orderListFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.OrderListFragment"
+        android:label="OrderListFragment"
+        tools:layout="@layout/fragment_order_list">
+        <action
+            android:id="@+id/action_orderListFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.OrderDetailsFragment"
+        android:label="OrderDetailsFragment"
+        tools:layout="@layout/fragment_order_details">
 
+        <argument app:argType="string"
+            android:name="order_id"/>
+
+    </fragment>
 
 
 </navigation>

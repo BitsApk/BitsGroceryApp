@@ -12,36 +12,23 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/iconOrder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/white_rounded"
-            android:backgroundTint="@color/green_50"
+            android:backgroundTint="@color/grey_200"
             android:padding="@dimen/space_8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <ImageView
-                android:id="@+id/ivItem"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/icon_location_svg"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/green_700" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tvAddressType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="Home"
             android:layout_marginStart="@dimen/space_8"
-            android:textColor="@color/grey_900"
-            android:textSize="@dimen/text_14"
+            android:background="@color/grey_200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iconOrder"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,9 +39,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
             android:layout_marginEnd="@dimen/space_8"
-            android:text="Lodhi Sarai, Railway Station Sambhal"
-            android:textColor="@color/grey_700"
-            android:textSize="@dimen/text_12"
+            android:layout_marginTop="4dp"
+            android:background="@color/grey_200"
             app:layout_constraintEnd_toStartOf="@+id/ivEdit"
             app:layout_constraintStart_toStartOf="@+id/tvAddressType"
             app:layout_constraintTop_toBottomOf="@+id/tvAddressType" />
@@ -63,7 +49,7 @@
             android:id="@+id/ivDelete"
             android:layout_width="20sp"
             android:layout_height="20sp"
-            android:src="@drawable/icon_delete"
+            android:background="@color/grey_200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvCityDetails"
             app:tint="@color/green_700" />
