@@ -75,6 +75,15 @@ class HomeFragment : Fragment() {
             )
         }
 
+        binding.markImg.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToMapFragment()
+            )
+
+//            val action = HomeFragmentDirections.actionHomeFragmentToChooseLocationFragment()
+//            findNavController().navigate(action)
+        }
+
         getHomData()
 
         bindCartTotal()

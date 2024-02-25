@@ -35,5 +35,8 @@
     <string name="pay_type">Pay Type : %s</string>
     <string name="quantity">Qty : %s</string>
     <!--    <string name="terms_of_use_amp_privacy_policy">Terms of Use &amp; Privacy Policy</string>-->
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
+        AIzaSyADINJ4EnaRdWo_0qmILveqtrf16emt5zg
+    </string>
 
 </resources>
