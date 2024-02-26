@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.R
+import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.Viewtype
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
@@ -61,10 +62,10 @@ class HomeFragment : Fragment() {
         binding.profImage.setOnClickListener {
 //            cartVM.clearCart()
 //            val action = HomeFragmentDirections.actionHomeFragmentToFaceUnlockFragment()
-            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment("11", "Fruits & Vegetables")
-            findNavController().navigate(action)
-//            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
+//            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment("11", "Fruits & Vegetables")
 //            findNavController().navigate(action)
+            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
+            findNavController().navigate(action)
         }
         getSavedCart()
 
@@ -72,6 +73,15 @@ class HomeFragment : Fragment() {
             findNavController().navigate(
                 HomeFragmentDirections.actionGlobalSearchProductFragment()
             )
+        }
+
+        binding.markImg.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToMapFragment()
+            )
+
+//            val action = HomeFragmentDirections.actionHomeFragmentToChooseLocationFragment()
+//            findNavController().navigate(action)
         }
 
         getHomData()
@@ -145,7 +155,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getHomData() {
-        val homeDataReq = HomeDataReq("56testing.club")
+        val homeDataReq = HomeDataReq("56testing.club",Constant.userId)
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 homeVM.getHomeData(homeDataReq).let {
@@ -170,7 +180,7 @@ class HomeFragment : Fragment() {
             )!!
         )
         binding.homeRecView.addItemDecoration(itemDecorator)
-        binding.homeRecView.adapter = HomeRecyclerAdapter(viewList ?: listOf(), mContext, cartVM.countMap) {prod, action ->
+        binding.homeRecView.adapter = HomeRecyclerAdapter(viewList ?: listOf(), mContext, cartVM.countMap, {prod, action ->
 
             val cartTotalItem = cartVM.cartTotalItem.value
             when (action) {
@@ -184,8 +194,16 @@ class HomeFragment : Fragment() {
                     cartVM.decreaseCountOfItem(prod)
                 }
 
+                CartAction.ItemClick -> {
+                    val action = HomeFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+                    findNavController().navigate(action)
+                }
+
             }
-        }
+        },{catId, catName ->
+            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment(catId,catName)
+            findNavController().navigate(action)
+        })
     }
 
     private fun setProducts() {

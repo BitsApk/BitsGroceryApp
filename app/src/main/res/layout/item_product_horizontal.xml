@@ -11,8 +11,6 @@
         android:elevation="@dimen/space_6"
         android:padding="@dimen/space_8">
 
-
-
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivProduct"
             android:layout_width="100dp"

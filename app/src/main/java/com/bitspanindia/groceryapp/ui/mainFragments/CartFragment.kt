@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.CartProductAdapter
@@ -62,6 +63,10 @@ class CartFragment : Fragment() {
                 CartAction.Minus -> {
                     cartManageVM.setCartTotal((cartTotalItem ?: 0) - 1)
                     cartManageVM.decreaseCountOfItem(prod)
+                }
+                CartAction.ItemClick -> {
+                    val action = CartFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+                    findNavController().navigate(action)
                 }
             }
         }

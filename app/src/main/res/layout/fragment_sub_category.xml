@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:layout_marginTop="-3dp"
-                android:text="3 items"
+                android:text="0 items"
                 android:textColor="@color/grey_700"
                 android:textSize="@dimen/text_10"
                 app:layout_constraintStart_toStartOf="@+id/tvText"
@@ -235,6 +235,18 @@
             </ScrollView>
 
         </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <include
+            android:id="@+id/noProduct"
+            layout="@layout/layout_no_product_found"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:layout_marginStart="98dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clHeader" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

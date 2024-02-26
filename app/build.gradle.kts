@@ -102,8 +102,9 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
 
     //google map sdk
-    implementation ("com.google.android.gms:play-services-maps:17.0.1")
-    implementation ("com.google.android.gms:play-services-location:18.0.0")
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.android.gms:play-services-location:21.1.0")
+    implementation ("com.google.android.libraries.places:places:3.3.0")
 
     //paging library
     val pagingVersion = "3.2.1"

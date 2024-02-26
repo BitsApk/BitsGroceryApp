@@ -5,8 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.AppUtils.adjustItemWidth
+import com.bitspanindia.groceryapp.AppUtils.toDp
 import com.bitspanindia.groceryapp.data.enums.CartAction
+import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.databinding.ItemProductBinding
 import com.bitspanindia.groceryapp.data.model.SliderModel
@@ -33,9 +37,8 @@ class ProductsAdapter(
                 .load(product.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(binding.ivProduct)
-            binding.apply {
+                binding.apply {
                 tvProductName.text = product.productName
-//                tvQuantity.text = product.stock
                 tvPrice.text = product.discountedPrice.toString()
 
                 if (countMap[product.id] == null) {
@@ -69,7 +72,13 @@ class ProductsAdapter(
                     }
                     callback (product, CartAction.Minus)
                 }
+
+                itemView.setOnClickListener {
+                    callback(product,CartAction.ItemClick)
+                }
             }
+
+            adjustItemWidth(orientation,binding.clItem)
 
         }
 

@@ -7,5 +7,6 @@ data class SubCatProductsData (
     @SerializedName("message") val message: String? = "",
     @SerializedName("statusCode") val statusCode: Int? = 0,
     @SerializedName("nextpage") val nextPage: Int? = 0,
+    @SerializedName("total_product_found") val totalProductFound: Int? = 0,
     @SerializedName("product") val products: List<ProductData>? = listOf(),
     )

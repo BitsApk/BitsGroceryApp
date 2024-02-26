@@ -73,38 +73,38 @@ class SearchProductFragment : Fragment() {
 
     }
 
-    private fun getSearchProduct(searchValue: String) {
-//        startShimmer(binding.shimmer2,binding.rvProducts)
-        val commonDataReq = CommonDataReq()
-        commonDataReq.userId = Constant.userId
-        commonDataReq.productName = searchValue
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                homeVM.searchProduct(commonDataReq).let {
-//                    stopShimmer(binding.shimmer,binding.rvProducts)
-                    if (it.isSuccessful && it.body() != null) {
-                        if (it.body()?.statusCode==200){
-                            val data = it.body()?.searchProduct
-                            binding.rvProducts.adapter = ProductsAdapter(data?: mutableListOf(),mContext, cartVM.countMap, 0) {prod, action ->
-
-                            }
-                        }else{
-//                            findNavController().popBackStack()
-                            Toast.makeText(mContext,"Something went wrong", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-//                        findNavController().popBackStack()
-                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: Exception) {
-
-            }
-
-        }
-
-    }
+//    private fun getSearchProduct(searchValue: String) {
+////        startShimmer(binding.shimmer2,binding.rvProducts)
+//        val commonDataReq = CommonDataReq()
+//        commonDataReq.userId = Constant.userId
+//        commonDataReq.productName = searchValue
+//
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            try {
+//                homeVM.searchProduct(commonDataReq).let {
+////                    stopShimmer(binding.shimmer,binding.rvProducts)
+//                    if (it.isSuccessful && it.body() != null) {
+//                        if (it.body()?.statusCode==200){
+//                            val data = it.body()?.searchProduct
+//                            binding.rvProducts.adapter = ProductsAdapter(data?: mutableListOf(),mContext, cartVM.countMap, 0) {prod, action ->
+//
+//                            }
+//                        }else{
+////                            findNavController().popBackStack()
+//                            Toast.makeText(mContext,"Something went wrong", Toast.LENGTH_SHORT).show()
+//                        }
+//                    } else {
+////                        findNavController().popBackStack()
+//                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            } catch (e: Exception) {
+//
+//            }
+//
+//        }
+//
+//    }
 
     private fun setProducts(productName: String) {
         setProductAdapter()
@@ -138,7 +138,6 @@ class SearchProductFragment : Fragment() {
         startShimmer(binding.shimmer2,binding.rvProducts)
         binding.noProduct.clNoProduct.visibility = View.GONE
         binding.rvProducts.visibility = View.VISIBLE
-//        binding.noData.clNoDataFound.visibility = View.GONE
         productDataReq.userId = Constant.userId
         productDataReq.pageno = 1
         productDataReq.productName = productName

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.AppUtils.toDp
@@ -68,6 +69,10 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
                 CartAction.Minus -> {
                     cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
                     cartVM.decreaseCountOfItem(prod)
+                }
+                CartAction.ItemClick -> {
+//                    val action = HomeFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+//                    findNavController().navigate(action)
                 }
             }
         }

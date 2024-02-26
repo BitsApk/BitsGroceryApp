@@ -7,6 +7,9 @@
 
     <action android:id="@+id/action_global_searchProductFragment" app:destination="@id/searchProductFragment" />
 
+    <action android:id="@+id/action_global_productDetailsFragment" app:destination="@id/productDetailsFragment"/>
+
+
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.SplashScreenFragment"
@@ -43,6 +46,9 @@
         <action
             android:id="@+id/action_homeFragment_to_subCategoryFragment"
             app:destination="@id/subCategoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -104,6 +110,9 @@
         <action
             android:id="@+id/action_profileFragment_to_addressListFragment"
             app:destination="@id/addressListFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_orderListFragment"
+            app:destination="@id/orderListFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -129,6 +138,12 @@
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.ProductDetailsFragment"
         android:label="ProductDetailsFragment"
         tools:layout="@layout/fragment_product_details">
+
+
+        <argument
+            android:name="proId"
+            app:argType="string" />
+
         <action
             android:id="@+id/action_productDetailsFragment_to_productImagesFragment"
             app:destination="@id/productImagesFragment" />
@@ -202,6 +217,30 @@
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.signin.ForgotPassFragment"
         android:label="ForgotPassFragment"
         tools:layout="@layout/fragment_forgot_pass"/>
+    <fragment
+        android:id="@+id/orderListFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.OrderListFragment"
+        android:label="OrderListFragment"
+        tools:layout="@layout/fragment_order_list">
+        <action
+            android:id="@+id/action_orderListFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.OrderDetailsFragment"
+        android:label="OrderDetailsFragment"
+        tools:layout="@layout/fragment_order_details">
+
+        <argument app:argType="string"
+            android:name="order_id"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.bitspanindia.groceryapp.ui.map.MapFragment"
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_google_map_"/>
 
 
 </navigation>

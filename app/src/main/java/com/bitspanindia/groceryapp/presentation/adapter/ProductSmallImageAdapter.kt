@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.databinding.ItemProductImageSmallBinding
 import com.bitspanindia.groceryapp.data.model.SliderModel
+import com.bitspanindia.groceryapp.data.model.response.MultiImg
+import com.bumptech.glide.Glide
 
 class ProductSmallImageAdapter(
-    private val data: List<SliderModel>,
+    private val data: List<MultiImg>,
     private val context: Context,
     val callBack: (pos: Int) -> Any
 ) :
@@ -22,15 +24,15 @@ class ProductSmallImageAdapter(
     inner class ViewHolder(private val binding: ItemProductImageSmallBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: SliderModel) {
-            binding.ivSlider.setImageResource(data.image)
+        fun bind(data: MultiImg) {
+            Glide.with(context).load(data.image).into(binding.ivSlider)
             binding.executePendingBindings()
 
-            setSelectedItem(adapterPosition)
+            setSelectedItem(absoluteAdapterPosition)
 
             binding.ivSlider.setOnClickListener {
-                selectedItemPos = adapterPosition
-                callBack(adapterPosition)
+                selectedItemPos = absoluteAdapterPosition
+                callBack(absoluteAdapterPosition)
                 notifyDataSetChanged()
             }
 

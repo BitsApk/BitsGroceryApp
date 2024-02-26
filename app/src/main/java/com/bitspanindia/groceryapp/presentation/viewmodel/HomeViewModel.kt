@@ -28,10 +28,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         return homeRepository.getSubCatList(commonDataReq)
     }
 
-    suspend fun searchProduct(commonDataReq: CommonDataReq): Response<SearchProductResponse> {
-        return homeRepository.searchProduct(commonDataReq)
-    }
-
     fun getSubCatProducts(productDataReq: ProductDataReq): Flow<PagingData<ProductData>> {
         return homeRepository.getSubCatProducts(productDataReq).cachedIn(viewModelScope)
     }

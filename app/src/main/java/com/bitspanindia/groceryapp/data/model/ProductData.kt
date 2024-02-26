@@ -13,7 +13,6 @@ data class ProductData(
     @SerializedName("rating") val rating: String? = "",
     @SerializedName("stock") val stock: String? = "",
 
-    @SerializedName("product_image") val productImage: String? = "",
     @SerializedName("weight") val weight: String? = "",
     @SerializedName("sizeid") val sizeId: String? = "",
     @SerializedName("returnable") val returnable: String? = "",

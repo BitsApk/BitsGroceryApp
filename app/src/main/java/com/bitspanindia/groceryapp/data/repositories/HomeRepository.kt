@@ -6,7 +6,6 @@ import androidx.paging.PagingData
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.model.HomeDataX
 import com.bitspanindia.groceryapp.data.model.ProductData
-import com.bitspanindia.groceryapp.data.model.SearchProductResponse
 import com.bitspanindia.groceryapp.data.model.SubCategoryData
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
@@ -17,20 +16,13 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import javax.inject.Inject
 
-
 class HomeRepository @Inject constructor(private val homeApiService: HomeApiService) {
-
-
     suspend fun getHomeData(homeDataReq: HomeDataReq): Response<HomeDataX> {
         return homeApiService.getHomeData(homeDataReq)
     }
 
     suspend fun getSubCatList(commonDataReq: CommonDataReq): Response<SubCategoryData> {
         return homeApiService.getSubCatList(commonDataReq)
-    }
-
-    suspend fun searchProduct(commonDataReq: CommonDataReq): Response<SearchProductResponse> {
-        return homeApiService.searchProduct(commonDataReq)
     }
 
     fun getSubCatProducts(productDataReq: ProductDataReq) : Flow<PagingData<ProductData>> {

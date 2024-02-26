@@ -9,39 +9,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clHeader"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            android:scrollbars="none"
-            app:layout_constraintBottom_toTopOf="@+id/clCart"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/grey_100">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:elevation="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/ivBack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/space_16"
-                        android:src="@drawable/icon_back2"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/grey_900" />
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_16"
+                android:src="@drawable/icon_back2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/grey_900" />
 
                     <TextView
                         android:id="@+id/tvText"
@@ -56,33 +43,50 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/ivSearch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/space_16"
-                        android:src="@drawable/icon_search"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/grey_900" />
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_16"
+                android:src="@drawable/icon_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/grey_900" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/space_10"
-                        android:background="@color/grey_200"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvText" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/space_10"
+                android:background="@color/grey_200"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvText" />
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:visibility="visible"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@+id/clHeader">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/grey_100">
+
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:background="@color/white"
-                    app:layout_constraintTop_toBottomOf="@+id/clHeader" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
                     android:id="@+id/dotsIndicator"
@@ -99,6 +103,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:selectedDotColor="@color/green_500" />
+
+                <ImageView
+                    android:id="@+id/ivWishlist"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="@dimen/space_16"
+                    android:src="@drawable/unliked"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clPrices"
@@ -142,6 +155,7 @@
                         android:background="@drawable/white_rounded"
                         android:backgroundTint="@color/grey_100"
                         android:padding="@dimen/space_8"
+                        android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/view5">
 
@@ -168,6 +182,7 @@
                         android:text="Lay's"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_16"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toStartOf="@+id/imageView"
                         app:layout_constraintStart_toEndOf="@+id/iconOrder"
                         app:layout_constraintTop_toTopOf="@+id/iconOrder" />
@@ -182,6 +197,7 @@
                         android:text="Explore all products"
                         android:textColor="@color/green_500"
                         android:textSize="@dimen/text_12"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toStartOf="@+id/imageView"
                         app:layout_constraintStart_toEndOf="@+id/iconOrder"
                         app:layout_constraintTop_toBottomOf="@+id/tvProName" />
@@ -193,6 +209,7 @@
                         android:layout_marginEnd="@dimen/space_16"
                         android:rotation="-180"
                         android:src="@drawable/icon_back"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/tvExplore"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tvProName"
@@ -205,11 +222,12 @@
                         android:layout_marginHorizontal="@dimen/space_16"
                         android:layout_marginTop="@dimen/space_10"
                         android:background="@color/grey_200"
+                        android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvExplore" />
 
                     <TextView
-                        android:id="@+id/tvQuantity"
+                        android:id="@+id/tvWeight"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_16"
@@ -217,7 +235,7 @@
                         android:text="50 g"
                         android:textColor="@color/grey_700"
                         android:textSize="@dimen/text_14"
-                        app:layout_constraintStart_toStartOf="@+id/iconOrder"
+                        app:layout_constraintStart_toStartOf="@+id/tvProductName"
                         app:layout_constraintTop_toBottomOf="@+id/view6" />
 
                     <TextView
@@ -228,11 +246,11 @@
                         android:text="र20"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_16"
-                        app:layout_constraintStart_toStartOf="@+id/tvQuantity"
-                        app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
+                        app:layout_constraintStart_toStartOf="@+id/tvWeight"
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
 
                     <TextView
-                        android:id="@+id/tvOfferPrice"
+                        android:id="@+id/tvDisPrice"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_8"
@@ -242,7 +260,7 @@
                         android:textSize="@dimen/text_10"
                         app:layout_constraintBottom_toBottomOf="@+id/tvPrice"
                         app:layout_constraintStart_toEndOf="@+id/tvPrice"
-                        app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
 
                     <TextView
                         android:id="@+id/btnAdd"
@@ -254,25 +272,25 @@
                         android:fontFamily="@font/roboto_bold"
                         android:paddingHorizontal="@dimen/space_24"
                         android:paddingVertical="@dimen/space_8"
-                        android:visibility="visible"
                         android:text="Add"
                         android:textColor="@color/white"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvQuantity" />
+                        app:layout_constraintTop_toTopOf="@+id/tvWeight" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clAddDel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space_16"
+                        android:background="@drawable/rouned_border"
+                        android:backgroundTint="@color/red_500"
                         android:paddingHorizontal="@dimen/space_8"
                         android:paddingVertical="4dp"
                         android:visibility="gone"
-                        android:background="@drawable/rouned_border"
-                        android:backgroundTint="@color/red_500"
-                        android:layout_marginEnd="@dimen/space_16"
-                        tools:layout_editor_absoluteY="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvQuantity" >
+                        app:layout_constraintTop_toTopOf="@+id/tvWeight"
+                        tools:layout_editor_absoluteY="8dp">
 
                         <ImageView
                             android:id="@+id/ivMinus"
@@ -291,9 +309,9 @@
                             android:id="@+id/tvQuan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/space_8"
                             android:fontFamily="@font/roboto_medium"
                             android:text="1"
-                            android:layout_marginHorizontal="@dimen/space_8"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_14"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -317,10 +335,45 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <View
+                        android:id="@+id/view7"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="@dimen/space_16"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@color/grey_200"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+
+                    <TextView
+                        android:id="@+id/tvUnit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/space_16"
+                        android:layout_marginTop="@dimen/space_10"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="Select Unit"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view7" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUnit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvUnit"
+                        tools:listitem="@layout/item_unit" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
+                    android:id="@+id/clPDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
@@ -354,31 +407,39 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/tvProductInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:fontFamily="@font/roboto_regular"
-                    android:paddingHorizontal="@dimen/space_16"
-                    android:paddingBottom="@dimen/space_16"
-                    android:text="@string/product_desc"
-                    android:textColor="@color/grey_700"
-                    android:textSize="@dimen/text_10"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:id="@+id/clProductDetails"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="@color/white"
+                   android:paddingHorizontal="@dimen/space_8"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/clPDetails" >
+
+                   <WebView
+                       android:id="@+id/webView"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:paddingHorizontal="@dimen/space_16"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent" />
+
+               </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clMoreProducts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
+                    android:layout_marginBottom="100dp"
                     android:background="@color/white"
                     android:padding="@dimen/space_16"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvProductInfo">
+                    app:layout_constraintTop_toBottomOf="@+id/clProductDetails">
 
 
                     <TextView
@@ -388,7 +449,7 @@
                         android:fontFamily="@font/roboto_medium_500"
                         android:text="You might also like"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14"
+                        android:textSize="@dimen/text_16"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -396,6 +457,7 @@
                         android:id="@+id/rvProducts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_10"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:layout_constraintTop_toBottomOf="@+id/textView2"
                         app:spanCount="2"
@@ -409,19 +471,15 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clCart"
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:visibility="gone"
-            android:background="@color/green_200"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

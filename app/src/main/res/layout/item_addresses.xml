@@ -74,6 +74,7 @@
             android:layout_height="20sp"
             android:layout_marginEnd="@dimen/space_4"
             android:src="@drawable/icon_edit"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/ivDelete"
             app:layout_constraintTop_toTopOf="@+id/tvCityDetails"
             app:tint="@color/green_700" />

@@ -24,11 +24,6 @@ interface HomeApiService {
         @Body commonDataReq: CommonDataReq
     ): Response<SubCategoryData>
 
-    @POST("search_product")
-    suspend fun searchProduct(
-        @Body commonDataReq: CommonDataReq
-    ): Response<SearchProductResponse>
-
     @POST("subcategory_productlist")
     suspend fun getSubCategoryProducts(
         @Body productDataReq: ProductDataReq
