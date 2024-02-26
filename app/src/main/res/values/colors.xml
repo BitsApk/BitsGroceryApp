@@ -30,12 +30,16 @@
     <color name="red_500">#FF5722</color>
     <color name="red_700">#E64A19</color>
 
+
+    <color name="mark_negative">#DF4A37</color>
+
     //grey
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_200">#EEEEEE</color>
     <color name="grey_300">#E2E2E2</color>
     <color name="grey_400">#CDCDCD</color>
-    <color name="grey_700">#616161</color>
+    <color name="grey_600">#CDCDCD</color>
+    <color name="grey_700">#7F7F7F</color>
     <color name="grey_900">#212121</color>
 
     <color name="black">#FF000000</color>
@@ -45,5 +49,6 @@
     <color name="text_black">#202020</color>
 
     <color name="layout_background">#F2F2F2</color>
+    <color name="login_blue">#0A3159</color>
 
 </resources>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/splashScreenFragment">
 
     <action android:id="@+id/action_global_searchProductFragment" app:destination="@id/searchProductFragment" />
 
@@ -46,21 +46,47 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.bitspanindia.groceryapp.ui.mainFragments.LoginFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.signin.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_verifyOtpFragment"
-            app:destination="@id/verifyOtpFragment" />
+            app:destination="@id/verifyOtpFragment"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/verifyOtpFragment"
-        android:name="com.bitspanindia.groceryapp.ui.mainFragments.VerifyOtpFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.signin.VerifyOtpFragment"
         android:label="VerifyOtpFragment"
         tools:layout="@layout/fragment_verify_otp">
         <action
             android:id="@+id/action_verifyOtpFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_verifyOtpFragment_to_forgotPassFragment"
+            app:destination="@id/forgotPassFragment" />
+        <argument
+            android:name="fromLogin"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/chooseLocationFragment"
@@ -158,7 +184,24 @@
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.SearchProductFragment"
         android:label="SearchProductFragment"
         tools:layout="@layout/fragment_search_product"/>
-
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.signin.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_verifyOtpFragment"
+            app:destination="@id/verifyOtpFragment"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPassFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.signin.ForgotPassFragment"
+        android:label="ForgotPassFragment"
+        tools:layout="@layout/fragment_forgot_pass"/>
 
 
 </navigation>

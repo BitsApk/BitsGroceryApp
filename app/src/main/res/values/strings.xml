@@ -5,9 +5,11 @@
     <string name="terms_of_use_amp_privacy_policy"><font color="#EEEEEE">Terms of Use</font> &amp; <font color="#EEEEEE">Privacy Policy</font></string>
     <string name="enter_phone_number">Enter Phone Number</string>
     <string name="enter_user_name">Enter User Name</string>
+    <string name="enter_ur_name">Enter your Name</string>
     <string name="by_continue_you_agree_to_our">By continue, you agree to our</string>
-    <string name="groceries_delivered_in_10_minutes">Groceries\ndelivered in\n10 minutes</string>
+    <string name="groceries_delivered_in_10_minutes">Fastest groceries delivered</string>
     <string name="grocery">Grocery</string>
+    <string name="bitsGrocery">BitsGrocery</string>
     <string name="continue_">Continue</string>
     <string name="_10_minute_grocery_delivery">10 Minute Grocery Delivery</string>
     <string name="enter_your_email">Enter Your Email</string>
@@ -24,6 +26,18 @@
     <string name="prompt_info_title">Login Account</string>
     <string name="prompt_info_subtitle">Verify Your Indentity</string>
     <string name="prompt_info_use_app_password">Cancel</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in_with_mobile">Sign in with mobile</string>
+    <string name="new_user_register">--------- New user? Register now ---------</string>
+    <string name="your_first">Here\'s your first step with us</string>
+    <string name="enter_mobile_num">Enter mobile num</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="verify">Verify</string>
+    <string name="hello_welcome_back_to_your_account">Hello welcome back to your account.</string>
+    <string name="did_not_receive">Did not receive?\t</string>
+    <string name="resend">RESEND</string>
+    <string name="cd_back_arrow">Back arrow</string>
     <!--    <string name="terms_of_use_amp_privacy_policy">Terms of Use &amp; Privacy Policy</string>-->
 
 </resources>

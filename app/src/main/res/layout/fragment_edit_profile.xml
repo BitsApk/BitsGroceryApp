@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/space_16"
-                    android:fontFamily="@font/poppins_semibold"
+                    android:fontFamily="@font/roboto_medium_500"
                     android:text="Edit Profile"
                     android:textColor="@color/grey_900"
                     android:textSize="@dimen/text_16"
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/space_16"
                 android:layout_marginTop="@dimen/space_30"
-                android:fontFamily="@font/poppins_semibold"
+                android:fontFamily="@font/roboto_medium_500"
                 android:text="Your Information"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_16"
@@ -129,7 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_10"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/roboto_regular"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -152,7 +152,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/roboto_regular"
                     android:inputType="phone" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -175,13 +175,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/roboto_regular"
                     android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <EditText
-                android:id="@+id/etUserName"
+                android:id="@+id/signInEmailEdTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/space_16"
@@ -218,7 +218,7 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etUserName" />
+                app:layout_constraintTop_toBottomOf="@+id/signInEmailEdTxt" />
 
             <EditText
                 android:id="@+id/etEmail"

@@ -7,6 +7,7 @@
         <item name="colorPrimary">@color/green_500</item>
         <item name="colorPrimaryDark">@color/green_700</item>
         <item name="colorAccent">@color/green_200</item>
+        <item name="colorSecondary">@color/login_blue</item>
         <item name="android:windowIsTranslucent">true</item> <!--this is is use for disable android 12 default splash screen-->
 
     </style>

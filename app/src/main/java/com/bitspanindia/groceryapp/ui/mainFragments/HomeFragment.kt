@@ -103,7 +103,7 @@ class HomeFragment : Fragment() {
         cartVM.cartTotalItem.observe(viewLifecycleOwner) {
 
             if (cartVM.isCartVisible) {
-                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)
+                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)  // TODO
                 if (viewHolder is RecyclerView.ViewHolder) {
                     val childRecyclerView = viewHolder.itemView.findViewById<RecyclerView>(R.id.selectedRecView)
 

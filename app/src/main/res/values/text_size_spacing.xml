@@ -16,6 +16,7 @@
     <dimen name="text_40">40sp</dimen>
 
     // Margins and padding
+    <dimen name="space_0">0dp</dimen>
     <dimen name="space_2">2dp</dimen>
     <dimen name="space_4">4dp</dimen>
     <dimen name="space_6">6dp</dimen>

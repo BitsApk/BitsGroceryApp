@@ -40,7 +40,7 @@
             android:src="@drawable/icon_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white"
+            app:tint="@color/login_blue"
             android:layout_margin="@dimen/space_16"/>
 
 
@@ -50,10 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_30"
             android:layout_marginHorizontal="@dimen/space_16"
-            android:fontFamily="@font/poppins_bold"
-            android:text="OTP Verification"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_36"
+            android:fontFamily="@font/roboto_medium_600"
+            android:text="Verify Mobile Number"
+            android:textColor="@color/login_blue"
+            android:textSize="32sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBack" />
 
@@ -63,74 +64,143 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_16"
-            android:fontFamily="@font/poppins_medium"
-            android:text="@string/by_continue_you_agree_to_our"
+            android:fontFamily="@font/roboto_medium_500"
+            android:text="@string/hello_welcome_back_to_your_account"
             android:textColor="@color/white"
             android:textSize="@dimen/text_16"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+
+
+        <TextView
+            android:id="@+id/numCodeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:fontFamily="@font/roboto_medium_500"
+            android:text="+91"
+            android:textColor="@color/text_black"
+            android:layout_marginTop="@dimen/space_16"
+            android:textSize="@dimen/text_16"
+            android:drawableStart="@drawable/icon_indian_flag"
+            android:drawablePadding="@dimen/space_12"
+            app:layout_constraintTop_toTopOf="@+id/signUpMobileEdTxt"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUpMobileEdTxt"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/space_32"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_mobile_num"
+            app:boxStrokeWidth="@dimen/space_0"
+            app:counterEnabled="true"
+            android:layout_marginHorizontal="@dimen/space_16"
+            app:counterMaxLength="10"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/numCodeTxt"
+            app:layout_constraintTop_toBottomOf="@id/textView3">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_corner_10"
+                android:inputType="phone"
+                android:maxLength="10" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <in.aabhasjindal.otptextview.OtpTextView
             android:id="@+id/otpView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_30"
+            android:layout_marginTop="@dimen/space_16"
             android:textColor="@color/grey_900"
             app:otp_box_background="@drawable/white_rounded"
             app:height="45dp"
             app:bar_enabled="false"
             app:bar_height="2dp"
             app:length="6"
+            android:visibility="gone"
             app:otp_text_size="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView3"
+            app:layout_constraintTop_toBottomOf="@id/signUpMobileEdTxt"
             />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnContinue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_16"
             android:fontFamily="@font/roboto_bold"
-            android:text="Verify"
-            android:visibility="gone"
+            android:text="Send Otp"
             android:textAllCaps="false"
             android:textSize="@dimen/text_16"
+            android:enabled="false"
             android:background="@drawable/white_rounded"
-            android:backgroundTint="@color/red_500"
+            android:backgroundTint="@color/button_enable_colour"
             android:textColor="@color/white"
             android:layout_marginTop="@dimen/space_30"
             app:layout_constraintTop_toBottomOf="@+id/otpView"/>
 
-
         <TextView
-            android:id="@+id/tvTiming"
+            android:id="@+id/timerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_16"
-            android:layout_marginTop="@dimen/space_20"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Didn't get it?"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_16"
-            app:layout_constraintTop_toBottomOf="@+id/btnContinue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:text="00:00"
+            android:textColor="@color/login_blue"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/btnContinue"
+            app:layout_constraintStart_toStartOf="@+id/btnContinue"
+            app:layout_constraintTop_toBottomOf="@id/btnContinue" />
 
-        <TextView
-            android:id="@+id/tvResend"
+
+
+
+        <ProgressBar
+            android:id="@+id/progBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_16"
-            android:layout_marginTop="@dimen/space_4"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Resend"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_16"
-            app:layout_constraintTop_toBottomOf="@+id/tvTiming"
+            android:visibility="gone"
+            app:layout_constraintVertical_bias="0.35"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_40"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/timerTextView">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/did_not_receive" />
+
+            <TextView
+                android:id="@+id/resendVerificationCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_4"
+                android:enabled="true"
+                android:textColor="@color/button_enable_colour"
+                android:text="@string/resend"/>
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
