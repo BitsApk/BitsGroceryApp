@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class LoginMobReq(
     @SerializedName("phone")
-    val phone: Long? = 0
+    val phone: String? = ""
 )

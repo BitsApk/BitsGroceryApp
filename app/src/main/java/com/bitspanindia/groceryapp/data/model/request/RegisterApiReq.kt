@@ -10,5 +10,6 @@ data class RegisterApiReq(
     @SerializedName("fcm_token") val fcmToken: String? = "",
     @SerializedName("name") val name: String = "",
     @SerializedName("password") val password: String = "",
-    @SerializedName("phone") val phone: String = ""
+    @SerializedName("phone") val phone: String = "",
+    @SerializedName("otp") val otp: String? = null
 )

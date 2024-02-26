@@ -144,7 +144,6 @@
             android:text="Send Otp"
             android:textAllCaps="false"
             android:textSize="@dimen/text_16"
-            android:enabled="false"
             android:background="@drawable/white_rounded"
             android:backgroundTint="@color/button_enable_colour"
             android:textColor="@color/white"
@@ -158,6 +157,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="24dp"
             android:text="00:00"
+            android:visibility="gone"
             android:textColor="@color/login_blue"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/btnContinue"
@@ -180,10 +180,12 @@
 
 
         <LinearLayout
+            android:id="@+id/resendLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_40"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/timerTextView">
 

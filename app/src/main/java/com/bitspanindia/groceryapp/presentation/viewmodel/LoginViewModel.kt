@@ -34,6 +34,7 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
 
     lateinit var registerApiReq: RegisterApiReq
     lateinit var loginBody: LoginBody
+    val fcmToken: String = ""
 
     suspend fun doPassLogin(loginBody: LoginBody): Response<LoginPassResponse> {
         return loginRepository.doPassLogin(loginBody)
@@ -44,6 +45,10 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
     }
 
     suspend fun doRegistration(registerApiReq: RegisterApiReq): Response<RegisterApiResponse> {
+        return loginRepository.doRegistration(registerApiReq)
+    }
+
+    suspend fun doRegistrationOtp(registerApiReq: RegisterApiReq): Response<RegisterApiResponse> {
         return loginRepository.doRegistration(registerApiReq)
     }
 

@@ -30,6 +30,11 @@ interface LoginApiService {
         @Body registerApiReq: RegisterApiReq
     ): Response<RegisterApiResponse>
 
+    @POST("Register-otpverify")
+    suspend fun doRegistrationOtp(
+        @Body registerApiReq: RegisterApiReq
+    ): Response<RegisterApiResponse>
+
     @POST("OTPVerify")
     suspend fun doOtpVerify(
         @Body otpVerifyReq: OtpVerifyReq

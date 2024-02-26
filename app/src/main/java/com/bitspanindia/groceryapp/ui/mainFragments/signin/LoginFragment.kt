@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -26,6 +27,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var binding:FragmentLoginBinding
+    private lateinit var mContext: Context
     private val loginViewModel: LoginViewModel by activityViewModels()
 
     @Inject
@@ -36,6 +38,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+        mContext = requireContext()
         return binding.root
     }
 
@@ -80,14 +83,12 @@ class LoginFragment : Fragment() {
                         Constant.userId = it.body()!!.userId ?: ""
                         navigateToHomePage()
                     } else {
-
                         binding.signInLogBtn.isEnabled = true
                         binding.signInProgBar.visibility = View.GONE
-                        // TODO add error dialog
+                        Toast.makeText(mContext, it.body()!!.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }  catch (e: Exception) {
-
                 binding.signInLogBtn.isEnabled = true
                 binding.signInProgBar.visibility = View.GONE
                 // TODO add error dialog
@@ -115,7 +116,7 @@ class LoginFragment : Fragment() {
         email: String? = null,
         pass: String? = null
     ) {
-        binding.signInEmailEdTxt.editText?.error = email
+        binding.signInEmailEdTxt.error = email
         binding.signInPassEdTxt.error = pass
     }
     private fun getUserRequest(): LoginBody {
