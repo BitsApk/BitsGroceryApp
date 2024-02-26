@@ -69,26 +69,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-<!--                <fragment-->
-<!--                    android:id="@+id/mapFragment"-->
-<!--                    android:name="com.google.android.gms.maps.SupportMapFragment"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="200dp"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"/>-->
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.cardview.widget.CardView
                     android:id="@+id/clMap"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_margin="1dp"
-                    android:background="@drawable/white_rounded"
+                    android:background="@color/white"
+                    app:cardCornerRadius="16dp"
                     android:elevation="4dp"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <fragment
+                        android:id="@+id/map_fragment"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toTopOf="@+id/tvCity"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/tvAddress"
@@ -142,19 +144,19 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvFullAddress" />
 
                 <TextView
-                    android:id="@+id/tvHouseNo"
+                    android:id="@+id/tvAreaStreet"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="House No. &amp; Floor"
+                    android:text="Area &amp; Street"
                     android:textColor="@color/grey_700"
                     android:textSize="@dimen/text_12"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view4" />
 
                 <EditText
-                    android:id="@+id/etHouseNo"
+                    android:id="@+id/etAreaStreet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_4"
@@ -165,33 +167,7 @@
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvHouseNo" />
-
-                <TextView
-                    android:id="@+id/tvBuildingBlock"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_16"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Building &amp; Block No."
-                    android:textColor="@color/grey_700"
-                    android:textSize="@dimen/text_12"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etHouseNo" />
-
-                <EditText
-                    android:id="@+id/etBlockNo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_4"
-                    android:background="@drawable/white_rounded"
-                    android:backgroundTint="@color/grey_200"
-                    android:padding="@dimen/space_12"
-                    android:textSize="@dimen/text_16"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvBuildingBlock" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvAreaStreet" />
 
                 <TextView
                     android:id="@+id/tvLandmark"
@@ -200,10 +176,11 @@
                     android:layout_marginTop="@dimen/space_16"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Landmark"
+                    android:visibility="visible"
                     android:textColor="@color/grey_700"
                     android:textSize="@dimen/text_12"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etBlockNo" />
+                    app:layout_constraintTop_toBottomOf="@+id/etAreaStreet" />
 
                 <EditText
                     android:id="@+id/etLandMark"
@@ -219,6 +196,34 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvLandmark" />
 
+                <TextView
+                    android:id="@+id/tvPhoneNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_16"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Phone Number"
+                    android:visibility="visible"
+                    android:textColor="@color/grey_700"
+                    android:textSize="@dimen/text_12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etLandMark" />
+
+                <EditText
+                    android:id="@+id/etPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:background="@drawable/white_rounded"
+                    android:backgroundTint="@color/grey_200"
+                    android:maxLength="10"
+                    android:padding="@dimen/space_12"
+                    android:textSize="@dimen/text_16"
+                    android:visibility="visible"
+                    android:inputType="phone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPhoneNo" />
 
                 <TextView
                     android:id="@+id/tvAddressType"
@@ -230,7 +235,7 @@
                     android:textColor="@color/grey_700"
                     android:textSize="@dimen/text_12"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etLandMark" />
+                    app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -241,35 +246,44 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvAddressType">
 
                     <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGrpAddressType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:selectionRequired="true"
+                        app:singleLine="true"
+                        app:singleSelection="true"
                         android:layout_marginHorizontal="@dimen/space_8">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipHome"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/white_rounded"
+                            android:checked="true"
+                            android:background="@drawable/chip_background_selected"
+                            app:chipBackgroundColor="@color/white"
                             android:text="Home" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipWork"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/white_rounded"
+                            android:background="@drawable/chip_background_selected"
+                            app:chipBackgroundColor="@color/white"
                             android:text="Work" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipOther"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/white_rounded"
+                            android:background="@drawable/chip_background_selected"
+                            app:chipBackgroundColor="@color/white"
                             android:text="Other" />
 
                     </com.google.android.material.chip.ChipGroup>
 
 
                 </HorizontalScrollView>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,7 +2,9 @@ package com.bitspanindia.groceryapp
 
 import android.content.Context
 import android.content.res.Resources
+import android.location.Geocoder
 import android.opengl.Visibility
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -11,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.databinding.ItemProductBinding
 import com.facebook.shimmer.ShimmerFrameLayout
+import java.io.IOException
+import java.util.Locale
 import java.util.regex.Pattern
 
 object AppUtils {
@@ -63,5 +67,17 @@ object AppUtils {
         recyclerView.visibility = View.VISIBLE
     }
 
+    fun getAddressFromLocation(context: Context,latitude: Double, longitude: Double):android.location.Address {
+        val geocoder = Geocoder(context)
+        try {
+            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+            if (addresses?.isNotEmpty()==true) {
+              return addresses[0]
+            }
+        } catch (e: IOException) {
+            Log.e("Geocoder", "Error getting address: ${e.message}")
+        }
+        return android.location.Address(Locale(""))
+    }
 
 }

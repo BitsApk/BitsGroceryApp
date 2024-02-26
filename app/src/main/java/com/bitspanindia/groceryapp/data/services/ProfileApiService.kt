@@ -1,5 +1,6 @@
 package com.bitspanindia.groceryapp.data.services
 
+import com.bitspanindia.groceryapp.data.model.request.AddAddressReq
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
@@ -43,5 +44,9 @@ interface ProfileApiService {
         @Body commonDataReq: CommonDataReq
     ): Response<OrderDetailsResponse>
 
+    @POST("add-address")
+    suspend fun addAddress(
+        @Body addAddressReq: AddAddressReq
+    ): Response<CommonResponse>
 
 }

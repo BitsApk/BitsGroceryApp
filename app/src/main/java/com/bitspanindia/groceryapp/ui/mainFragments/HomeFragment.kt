@@ -77,7 +77,7 @@ class HomeFragment : Fragment() {
 
         binding.markImg.setOnClickListener {
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToMapFragment()
+                HomeFragmentDirections.actionHomeFragmentToMapFragment("home")
             )
 
 //            val action = HomeFragmentDirections.actionHomeFragmentToChooseLocationFragment()

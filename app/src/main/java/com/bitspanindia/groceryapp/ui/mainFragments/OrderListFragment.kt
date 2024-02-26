@@ -88,7 +88,7 @@ class OrderListFragment : Fragment() {
 
     private fun setOrderAdapter() {
         adapter = OrderListPagingAdapter(requireContext()){data->
-          findNavController().navigate(OrderListFragmentDirections.actionOrderListFragmentToOrderDetailsFragment(data.orderId?:""))
+          findNavController().navigate(OrderListFragmentDirections.actionOrderListFragmentToOrderDetailsFragment(data.orderId?:"",))
         }
         binding.rvOrders.adapter = adapter
     }

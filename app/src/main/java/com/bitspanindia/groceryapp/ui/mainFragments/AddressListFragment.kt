@@ -48,7 +48,9 @@ class AddressListFragment : Fragment() {
         getAddressList()
 
         binding.btnAddAddress.setOnClickListener {
-            val action = AddressListFragmentDirections.actionAddressListFragmentToAddAddressFragment()
+//            val action = AddressListFragmentDirections.actionAddressListFragmentToAddAddressFragment()
+//            findNavController().navigate(action)
+            val action = AddressListFragmentDirections.actionGlobalMapFragment("addAddress")
             findNavController().navigate(action)
         }
 
