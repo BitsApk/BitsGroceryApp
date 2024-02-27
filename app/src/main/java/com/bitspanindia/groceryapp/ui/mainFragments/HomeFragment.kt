@@ -18,12 +18,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
+import com.bitspanindia.groceryapp.data.DummyData
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.Viewtype
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.HomeRecyclerAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.HomeTopListAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
@@ -101,10 +103,8 @@ class HomeFragment : Fragment() {
 //            findNavController().navigate(action)
 //        }
 
-        binding.tvCartDetails.setOnClickListener {
-//            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment()
-//            findNavController().navigate(action)
-        }
+        binding.otherAppList.adapter = HomeTopListAdapter(mContext, DummyData.homeTopDataList)
+
 
     }
 
