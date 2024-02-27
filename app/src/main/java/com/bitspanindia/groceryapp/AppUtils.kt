@@ -31,6 +31,11 @@ object AppUtils {
         )
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches()
     }
+
+    fun isValidPinCode(pinCode: String): Boolean {
+        val pinCodePattern = Pattern.compile("^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$")
+        return pinCodePattern.matcher(pinCode).matches()
+    }
     fun cartArrowEnable(activity: FragmentActivity, enable: Boolean) {
         (activity as MainActivity).cartArrowEnable(enable)
     }

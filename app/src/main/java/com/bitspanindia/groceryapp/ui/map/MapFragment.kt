@@ -62,17 +62,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var latitude = 0.0
     private var longitude = 0.0
 
-    private val enableGpsLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // GPS is enabled, proceed with getting the current location
-                requestLocationUpdates()
-            } else {
-                // User canceled or dismissed the dialog, handle accordingly
-                // For example, you can show a message to the user
-            }
-        }
-
     override fun onStart() {
         super.onStart()
         // Check if GPS is enabled, if not, prompt the user to enable it
@@ -127,6 +116,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun requestLocationUpdates() {
         if (isLocationUpdatesStarted) return // Check if location updates are already started
         dialogHelper.showProgressDialog()
+        binding.tvFullAddress.visibility = View.GONE
+        binding.tvCity.visibility = View.GONE
 
         // Create location request
         locationRequest = LocationRequest.create().apply {
@@ -140,6 +131,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 locationResult ?: return
                 for (location in locationResult.locations) {
                     dialogHelper.hideProgressDialog()
+                    binding.tvFullAddress.visibility = View.VISIBLE
+                    binding.tvCity.visibility = View.VISIBLE
                     // Handle location updates here
                     updateCurrentLocationMarker(LatLng(location.latitude, location.longitude))
                     latitude = location.latitude
@@ -302,24 +295,4 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             currentLocationMarker?.position = target
         }
     }
-
-//    private fun getAddressFromLocation(latitude: Double, longitude: Double) {
-//        val geocoder = Geocoder(requireContext())
-//        try {
-//            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-//            if (addresses?.isNotEmpty()==true) {
-//                val address = addresses[0]
-//                val addressString = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
-//                binding.apply {
-//                    tvCity.text = address.locality
-//                    tvFullAddress.text = addressString
-//                }
-//                Log.d("Address", "Address: $addressString")
-//                // Now you can use the addressString as needed, such as displaying it in a TextView
-//            }
-//        } catch (e: IOException) {
-//            Log.e("Geocoder", "Error getting address: ${e.message}")
-//        }
-//    }
-
 }

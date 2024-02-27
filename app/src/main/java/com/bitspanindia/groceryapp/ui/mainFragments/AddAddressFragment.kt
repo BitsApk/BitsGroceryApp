@@ -55,8 +55,6 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
         dialogHelper = DialogHelper(mContext,mActivity)
 
         setLocationOnMap()
-        binding.chipGrpAddressType.check(R.id.chipHome)
-        binding.chipHome.isChecked = true
 
         return binding.root
     }
@@ -75,7 +73,9 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding.btnAddAddress.setOnClickListener {
-            addAddress()
+            if (validation()){
+                addAddress()
+            }
         }
     }
 
@@ -112,7 +112,7 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
             addressReq.longitude = args.longitude
             addressReq.landMark = etLandMark.text.toString()
             addressReq.phone = etPhoneNumber.text.toString()
-            addressReq.addressName = when (chipGrpAddressType.checkedChipId) {
+            addressReq.addressName = when (addTypeChipGroup.checkedChipId) {
                 R.id.chipHome -> "Home"
                 R.id.chipWork -> "Work"
                 else -> "Other"
@@ -140,6 +140,46 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
 
         }
 
+    }
+
+    private fun validation():Boolean{
+        binding.apply {
+            addressReq.userId = Constant.userId
+            addressReq.perAdd = etAreaStreet.text.toString()
+            addressReq.city = address.locality
+            addressReq.locality = address.locality
+            addressReq.country = address.countryName
+            addressReq.state = address.adminArea
+            addressReq.zipcode = address.postalCode
+            addressReq.latitude = args.latitude
+            addressReq.longitude = args.longitude
+            addressReq.landMark = etLandMark.text.toString()
+            addressReq.phone = etPhoneNumber.text.toString()
+            addressReq.addressName = when (addTypeChipGroup.checkedChipId) {
+                R.id.chipHome -> "Home"
+                R.id.chipWork -> "Work"
+                else -> "Other"
+            }
+
+            with(addressReq) {
+                if (perAdd.isNullOrEmpty()) {
+                    etAreaStreet.error ="Enter Area and Street"
+                    etAreaStreet.isFocusable = true
+                    return false
+                }else if (phone?.length !=10){
+                    etPhoneNumber.error ="Enter valid phone number"
+                    etPhoneNumber.isFocusable = true
+                    return false
+                }
+                else if (addressName.isNullOrEmpty()){
+                    showShortToast(mContext,"Select address type")
+                    return false
+                }
+            }
+
+        }
+
+        return true
     }
 
 }

@@ -238,6 +238,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber" />
 
                 <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="none"
@@ -246,44 +247,67 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvAddressType">
 
                     <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipGrpAddressType"
+                        android:id="@+id/addTypeChipGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
                         app:selectionRequired="true"
                         app:singleLine="true"
-                        app:singleSelection="true"
-                        android:layout_marginHorizontal="@dimen/space_8">
+                        app:singleSelection="true">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipHome"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            android:background="@drawable/chip_background_selected"
-                            app:chipBackgroundColor="@color/white"
-                            android:text="Home" />
+                            android:text="Home"
+                            android:textColor="@color/text_themed_colored_checked"
+                            android:textSize="@dimen/text_16"
+                            app:chipBackgroundColor="@color/chip_blue_checked_color"
+                            app:chipEndPadding="24dp"
+                            app:chipStartPadding="24dp"
+                            app:chipStrokeColor="@color/chip_stroke_blue_color"
+                            app:chipStrokeWidth="1dp"
+                            app:shapeAppearanceOverlay="@null" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipWork"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/chip_background_selected"
-                            app:chipBackgroundColor="@color/white"
-                            android:text="Work" />
+                            android:text="Work"
+                            android:textColor="@color/text_themed_colored_checked"
+                            android:textSize="@dimen/text_16"
+                            app:chipBackgroundColor="@color/chip_blue_checked_color"
+                            app:chipEndPadding="24dp"
+                            app:chipStartPadding="24dp"
+                            app:chipStrokeColor="@color/chip_stroke_blue_color"
+                            app:chipStrokeWidth="1dp"
+                            app:shapeAppearanceOverlay="@null" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipOther"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/chip_background_selected"
-                            app:chipBackgroundColor="@color/white"
-                            android:text="Other" />
+                            android:text="Other"
+                            android:textColor="@color/text_themed_colored_checked"
+                            android:textSize="@dimen/text_16"
+                            app:chipBackgroundColor="@color/chip_blue_checked_color"
+                            app:chipEndPadding="24dp"
+                            app:chipStartPadding="24dp"
+                            app:chipStrokeColor="@color/chip_stroke_blue_color"
+                            app:chipStrokeWidth="1dp"
+                            app:shapeAppearanceOverlay="@null" />
+
 
                     </com.google.android.material.chip.ChipGroup>
 
-
                 </HorizontalScrollView>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
