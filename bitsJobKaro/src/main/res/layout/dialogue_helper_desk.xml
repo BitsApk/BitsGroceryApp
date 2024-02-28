@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/space_16"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/bg_layout_white_border_grey_corner_10"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/bg_full_circle_white"
+        android:src="@drawable/icon_cross"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/helpDeskTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help_desk"
+        android:textAlignment="center"
+        android:textSize="@dimen/text_18"
+        android:fontFamily="@font/roboto_medium_600"
+        android:textColor="@color/text_heading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/close"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/contactNumField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contact_number"
+        android:textColor="@color/text_light"
+        android:textSize="@dimen/text_16"
+        android:fontFamily="@font/roboto_regular_400"
+        android:layout_marginTop="@dimen/space_8"
+        app:layout_constraintTop_toBottomOf="@id/helpDeskTxt"
+        app:layout_constraintStart_toStartOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/contactNumTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help_num_value"
+        android:textColor="@color/blue_500"
+        android:textSize="@dimen/text_16"
+        android:fontFamily="@font/roboto_regular_400"
+        android:layout_marginTop="@dimen/space_8"
+        app:layout_constraintTop_toBottomOf="@id/helpDeskTxt"
+        app:layout_constraintStart_toEndOf="@id/contactNumField"
+        />
+
+    <TextView
+        android:id="@+id/emailField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email_id_colon"
+        android:textColor="@color/text_light"
+        android:textSize="@dimen/text_16"
+        android:fontFamily="@font/roboto_regular_400"
+        app:layout_constraintStart_toStartOf="@id/contactNumField"
+        app:layout_constraintTop_toBottomOf="@id/contactNumField"
+        android:layout_marginTop="@dimen/space_8"/>
+
+    <TextView
+        android:id="@+id/emailTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help_email_value"
+        android:textColor="@color/blue_500"
+        android:textSize="@dimen/text_16"
+        android:maxWidth="240dp"
+        android:fontFamily="@font/roboto_regular_400"
+        app:layout_constraintStart_toEndOf="@id/emailField"
+        app:layout_constraintTop_toTopOf="@id/emailField"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

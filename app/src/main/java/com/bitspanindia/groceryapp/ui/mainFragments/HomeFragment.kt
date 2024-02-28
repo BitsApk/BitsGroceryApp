@@ -1,6 +1,7 @@
 package com.bitspanindia.groceryapp.ui.mainFragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspan.bitsjobkaro.JobMainActivity
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.DummyData
@@ -104,6 +106,14 @@ class HomeFragment : Fragment() {
 //        }
 
         binding.otherAppList.adapter = HomeTopListAdapter(mContext, DummyData.homeTopDataList)
+
+
+        binding.otherAppList.setOnItemClickListener(){adapterView, view, position, id ->
+
+            Toast.makeText(mContext, "Click on item at $position its item id $id", Toast.LENGTH_LONG).show()
+            val intent = Intent(mActivity, JobMainActivity::class.java)
+            startActivity(intent)
+        }
 
 
     }

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.subFragment.empEditProfile.EditEmpProffDetailFragment">
+
+
+            <ImageView
+                android:id="@+id/editTopImg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cd_edit_top_image"
+                android:src="@drawable/image_edit_profile_comp_info_top"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="centerCrop"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="50dp"
+                android:padding="@dimen/space_16"
+                app:layout_constraintTop_toTopOf="@id/editTopImg"
+                android:background="@drawable/bg_edit_comp_info">
+
+                <TextView
+                    android:id="@+id/eEditTitleTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/edit_professional_detail"
+                    android:textSize="@dimen/text_20"
+                    android:textColor="@color/text_heading"
+                    android:fontFamily="@font/roboto_medium_500"/>
+
+                <TextView
+                    android:id="@+id/eEditCurrYesNoTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/eEditTitleTxt"
+                    android:text="@string/currently_working"
+                    android:textSize="@dimen/text_16"
+                    android:layout_marginTop="@dimen/text_16"
+                    android:textColor="@color/blue_500"
+                    app:layout_constraintEnd_toStartOf="@id/eEditYesBtn"
+                    android:fontFamily="@font/roboto_medium_500"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/eEditYesBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:text="@string/yes"
+                    android:textSize="@dimen/text_12"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:background="@drawable/bg_button_login"
+                    app:layout_constraintEnd_toStartOf="@id/eEditNoBtn"
+                    app:layout_constraintTop_toTopOf="@id/eEditNoBtn"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/eEditNoBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:text="@string/no"
+                    android:textSize="@dimen/text_12"
+                    android:background="@drawable/bg_corner_solid_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/eEditCurrYesNoTxt"
+                    app:layout_constraintBottom_toBottomOf="@id/eEditCurrYesNoTxt"
+                    />
+
+                <TextView
+                    android:id="@+id/eEditCompField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_16"
+                    android:textSize="@dimen/text_16"
+                    android:text="@string/current_company_nameh"
+                    android:textStyle="italic"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="@id/eEditTitleTxt"
+                    app:layout_constraintTop_toBottomOf="@id/eEditCurrYesNoTxt"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/eEditCompEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/light_grey"
+                    app:errorEnabled="true"
+                    android:hint="@string/enter_company_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/eEditCompField">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textCapWords" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/eEditCompDesigField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    android:text="@string/your_designation"
+                    android:visibility="visible"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="@id/eEditCompEdTxt"
+                    app:layout_constraintTop_toBottomOf="@id/eEditCompEdTxt" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/eEditComDesigEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/light_grey"
+                    app:errorEnabled="true"
+                    android:hint="@string/enter_your_designation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/eEditCompDesigField"
+                    app:layout_constraintTop_toBottomOf="@id/eEditCompDesigField">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/eEditFromField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    android:text="@string/from_dateh"
+                    android:visibility="visible"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="@id/eEditCompEdTxt"
+                    app:layout_constraintTop_toBottomOf="@id/eEditComDesigEdTxt" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/eEditFromEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/light_grey"
+                    app:errorEnabled="true"
+                    android:hint="@string/select"
+                    app:layout_constraintHorizontal_weight="4"
+                    app:layout_constraintEnd_toStartOf="@id/eEditToEdTxt"
+                    app:layout_constraintStart_toStartOf="@id/eEditFromField"
+                    app:layout_constraintTop_toBottomOf="@id/eEditFromField">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/eEditToField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    android:textColor="@color/text_heading"
+                    android:text="@string/to_dateh"
+                    app:layout_constraintStart_toStartOf="@id/eEditToEdTxt"
+                    app:layout_constraintBottom_toTopOf="@id/eEditToEdTxt"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/eEditToEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/light_grey"
+                    app:errorEnabled="true"
+                    app:layout_constraintHorizontal_weight="4"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:hint="@string/select"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/eEditFromEdTxt"
+                    app:layout_constraintTop_toTopOf="@id/eEditFromEdTxt">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/eEditNoticeField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:text="@string/notice_periodh"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/eEditToEdTxt"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/eEditNoticeEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/light_grey"
+                    app:errorEnabled="true"
+                    app:layout_constraintTop_toBottomOf="@id/eEditNoticeField"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/select"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/eEditAddPrevCompBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_previous"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/text_16"
+                    android:textAlignment="center"
+                    android:paddingVertical="@dimen/space_8"
+                    android:paddingEnd="@dimen/space_16"
+                    android:paddingStart="@dimen/space_8"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_regular_400"
+                    android:background="@drawable/bg_corner_solid_grey"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/eEditUpdateBtn"
+                    app:drawableStartCompat="@drawable/icon_add" />
+
+                <Button
+                    android:id="@+id/eEditUpdateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update"
+                    android:paddingHorizontal="30dp"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:background="@drawable/button_round_corner"
+                    app:layout_constraintTop_toBottomOf="@id/eEditNoticeEdTxt"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/eEditPrevRecView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_emp_company_list"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_marginTop="@dimen/space_10"
+                    tools:itemCount="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/eEditUpdateBtn"/>
+
+                <ProgressBar
+                    android:id="@+id/progBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/space_8"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

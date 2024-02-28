@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.mainFragments.employee.EmployeePageFragment">
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/space_8"
+            app:layout_constraintBottom_toTopOf="@id/recChatBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/empParentLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@color/layout_backgrounds">
+
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/empLayoutFirst"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/space_4"
+                    android:background="@color/white"
+                    android:padding="@dimen/space_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/empBackArrImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_back"
+                        android:contentDescription="@string/description"
+                        android:padding="4dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/blue_500" />
+
+                    <View
+                        android:id="@+id/empViewLineTop"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/space_4"
+                        android:background="@color/view_lines_bottom"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/empBackArrImg" />
+
+                    <ImageView
+                        android:id="@+id/empStarImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_star"
+                        android:layout_marginEnd="@dimen/space_16"
+                        android:contentDescription="@string/cd_icon_star"
+                        app:layout_constraintBottom_toBottomOf="@id/empBackArrImg"
+                        app:layout_constraintEnd_toStartOf="@id/empMenuImg"
+                        app:layout_constraintTop_toTopOf="@id/empBackArrImg" />
+
+                    <ImageView
+                        android:id="@+id/empMenuImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_menu_dots"
+                        android:visibility="gone"
+                        android:contentDescription="@string/cd_icon_star"
+                        app:layout_constraintBottom_toBottomOf="@id/empBackArrImg"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/empBackArrImg"
+                         />
+
+
+                    <TextView
+                        android:id="@+id/empNameTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="@string/na"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_24"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/empViewLineTop"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/homeProfImg"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginEnd="@dimen/space_16"
+                        android:contentDescription="@string/app_name"
+                        android:paddingBottom="@dimen/space_10"
+                        android:src="@drawable/avataar_placeholder"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="@dimen/space_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/empNameTxt" />
+
+                    <TextView
+                        android:id="@+id/empJobRoleTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/na"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/empNameTxt"
+                        app:layout_constraintTop_toBottomOf="@id/empNameTxt" />
+
+                    <View
+                        android:id="@+id/empCircViewFirst"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_view_full_circle_themed"
+                        app:layout_constraintBottom_toBottomOf="@+id/empJobRoleTxt"
+                        app:layout_constraintStart_toEndOf="@+id/empJobRoleTxt"
+                        app:layout_constraintTop_toTopOf="@+id/empJobRoleTxt" />
+
+                    <TextView
+                        android:id="@+id/empExpSubTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/na"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toStartOf="@id/homeProfImg"
+                        app:layout_constraintStart_toEndOf="@+id/empCircViewFirst"
+                        app:layout_constraintTop_toTopOf="@+id/empJobRoleTxt" />
+
+                    <TextView
+                        android:id="@+id/empAboutField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="@string/about_candidate"
+                        android:layout_marginTop="@dimen/space_12"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_16"
+                        app:layout_constraintStart_toStartOf="@id/empJobRoleTxt"
+                        app:layout_constraintTop_toBottomOf="@id/empJobRoleTxt" />
+
+
+                    <TextView
+                        android:id="@+id/empHighQualTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:drawablePadding="@dimen/space_8"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:drawableStartCompat="@drawable/icon_job_type"
+                        app:layout_constraintStart_toStartOf="@id/empJobRoleTxt"
+                        app:layout_constraintTop_toBottomOf="@id/empAboutField" />
+
+                    <View
+                        android:id="@+id/empCircViewThird"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_view_full_circle_themed"
+                        app:layout_constraintBottom_toBottomOf="@+id/empHighQualTxt"
+                        app:layout_constraintStart_toEndOf="@+id/empHighQualTxt"
+                        app:layout_constraintTop_toTopOf="@+id/empHighQualTxt" />
+
+                    <TextView
+                        android:id="@+id/empGenderTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toEndOf="@id/empCircViewThird"
+                        app:layout_constraintTop_toTopOf="@id/empHighQualTxt" />
+
+                    <View
+                        android:id="@+id/empCircViewFifth"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_view_full_circle_themed"
+                        app:layout_constraintBottom_toBottomOf="@id/empEngTxt"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/empEngTxt" />
+
+                    <TextView
+                        android:id="@+id/empAgeTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:text="@string/na"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toEndOf="@id/empCircViewFifth"
+                        app:layout_constraintTop_toBottomOf="@id/empHighQualTxt" />
+
+
+                    <TextView
+                        android:id="@+id/empEngTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:text="@string/na"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toEndOf="@id/empCircViewFifth"
+                        app:layout_constraintTop_toBottomOf="@id/empAgeTxt" />
+
+                    <View
+                        android:id="@+id/recCircViewSixth"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_view_full_circle_themed"
+                        app:layout_constraintBottom_toBottomOf="@id/empDescTxt"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/empDescTxt" />
+
+
+                    <TextView
+                        android:id="@+id/empDescTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:text="@string/na"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/empEngTxt"
+                        app:layout_constraintTop_toBottomOf="@id/empEngTxt" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/empLayoutSec"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/space_4"
+                    android:layout_marginTop="@dimen/space_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:padding="@dimen/space_16"
+                    android:background="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/empLayoutFirst">
+
+
+                    <TextView
+                        android:id="@+id/empSkillField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="@string/skill"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_16"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/empChipGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="@dimen/space_4"
+                        app:layout_constraintTop_toBottomOf="@id/empSkillField"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/empLayoutThird"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/space_4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="@dimen/space_16"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/space_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/empLayoutSec">
+
+                    <TextView
+                        android:id="@+id/empJobPreferField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="@string/job_preferences"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_16"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/empJobTitleTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/na"
+                        android:textSize="@dimen/text_18"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:textColor="@color/dark_black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/empJobPreferField"/>
+
+                    <TextView
+                        android:id="@+id/empAppAnnSalTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/na"
+                        android:textSize="@dimen/text_16"
+                        android:textColor="@color/blue_500"
+                        app:layout_constraintTop_toTopOf="@id/empJobTitleTxt"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/empJobTitleTxt"/>
+
+                    <TextView
+                        android:id="@+id/empJobExpTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/na"
+                        android:layout_marginTop="4dp"
+                        android:textSize="@dimen/text_14"
+                        android:textColor="@color/dark_black"
+                        android:fontFamily="@font/roboto_regular_400"
+                        app:layout_constraintStart_toStartOf="@id/empJobTitleTxt"
+                        app:layout_constraintTop_toBottomOf="@id/empJobTitleTxt" />
+
+                    <View
+                        android:id="@+id/empJobCircViewFirst"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:background="@drawable/bg_view_full_circle_themed"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toEndOf="@+id/empJobExpTxt"
+                        app:layout_constraintTop_toTopOf="@+id/empJobExpTxt"
+                        app:layout_constraintBottom_toBottomOf="@+id/empJobExpTxt" />
+
+                    <TextView
+                        android:id="@+id/jobExpSubTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/na"
+                        android:layout_marginStart="8dp"
+                        android:textSize="@dimen/text_14"
+                        android:textColor="@color/dark_black"
+                        android:fontFamily="@font/roboto_regular_400"
+                        app:layout_constraintTop_toTopOf="@+id/empJobExpTxt"
+                        app:layout_constraintStart_toEndOf="@+id/empJobCircViewFirst" />
+
+
+
+                    <TextView
+                        android:id="@+id/empJobTypeTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/na"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:drawablePadding="@dimen/space_8"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:textSize="@dimen/text_14"
+                        android:textColor="@color/dark_black"
+                        android:fontFamily="@font/roboto_regular_400"
+                        app:layout_constraintTop_toBottomOf="@id/jobExpSubTxt"
+                        app:layout_constraintStart_toStartOf="@id/empJobExpTxt"
+                        app:drawableStartCompat="@drawable/icon_job_type" />
+
+                    <View
+                        android:id="@+id/jobLineViewThird"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_view_full_circle_themed"
+                        app:layout_constraintStart_toEndOf="@+id/empJobTypeTxt"
+                        app:layout_constraintTop_toTopOf="@+id/empJobTypeTxt"
+                        app:layout_constraintBottom_toBottomOf="@+id/empJobTypeTxt" />
+
+                    <TextView
+                        android:id="@+id/empJobTimeTypeTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/na"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:textSize="@dimen/text_14"
+                        android:textColor="@color/dark_black"
+                        android:fontFamily="@font/roboto_regular_400"
+                        app:layout_constraintTop_toBottomOf="@id/jobExpSubTxt"
+                        app:layout_constraintStart_toEndOf="@id/jobLineViewThird"/>
+
+
+                    <TextView
+                        android:id="@+id/empJobCityTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/na"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:textSize="@dimen/text_14"
+                        android:drawablePadding="@dimen/space_8"
+                        android:textColor="@color/dark_black"
+                        android:fontFamily="@font/roboto"
+                        app:layout_constraintTop_toBottomOf="@id/empJobTypeTxt"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:drawableStartCompat="@drawable/icon_person" />
+
+                    <View
+                        android:id="@+id/jobLineViewFourth"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_view_full_circle"
+                        android:backgroundTint="@color/sub_views"
+                        app:layout_constraintStart_toEndOf="@+id/empJobCityTxt"
+                        app:layout_constraintTop_toTopOf="@+id/empJobCityTxt"
+                        app:layout_constraintBottom_toBottomOf="@+id/empJobCityTxt" />
+
+                    <TextView
+                        android:id="@+id/empJobStateTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/na"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:textSize="@dimen/text_14"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:textColor="@color/dark_black"
+                        android:fontFamily="@font/roboto"
+                        app:layout_constraintTop_toBottomOf="@id/empJobTypeTxt"
+                        app:layout_constraintStart_toEndOf="@id/jobLineViewFourth"/>
+
+
+                    <TextView
+                        android:id="@+id/empJobDescTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/na"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:textSize="@dimen/text_14"
+                        android:textColor="#5E5F5F"
+                        android:fontFamily="@font/roboto_regular_400"
+                        app:layout_constraintTop_toBottomOf="@id/empJobCityTxt"
+                        app:layout_constraintStart_toStartOf="@id/empJobTypeTxt"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/empLayourFourth"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="@dimen/space_16"
+                    android:background="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/empLayoutThird"
+                    android:layout_marginTop="@dimen/space_10">
+
+                    <TextView
+                        android:id="@+id/empExpField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="@string/experiences"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_16"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/empCompExpLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingBottom="@dimen/space_16"
+                        app:layout_constraintTop_toBottomOf="@id/empExpField"
+                        android:layout_marginTop="@dimen/space_16">
+
+                        <TextView
+                            android:id="@+id/empCurrField"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/current_company"
+                            android:textSize="@dimen/text_16"
+                            android:textColor="@color/text_heading"
+                            android:fontFamily="@font/roboto"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <include layout="@layout/item_emp_company_list"
+                            android:id="@+id/currComItem"/>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <TextView
+                        android:id="@+id/empCurrPrevTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/previous_companies"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_16"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:fontFamily="@font/roboto"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/empCompExpLayout" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/empPrevComRecView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        tools:itemCount="4"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/empCurrPrevTxt"
+                        tools:listitem="@layout/item_emp_company_list"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="800">
+
+            <include layout="@layout/shimmer_emp_page" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <Button
+            android:id="@+id/recChatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_16"
+            android:background="@drawable/button_round_corner"
+            android:paddingHorizontal="40dp"
+            android:text="@string/chat_space"
+            android:textAllCaps="false"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/recApplyBtn"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/recApplyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_round_corner"
+            android:paddingHorizontal="40dp"
+            android:text="@string/apply_space"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/recChatBtn"
+            app:layout_constraintTop_toTopOf="@id/recChatBtn" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

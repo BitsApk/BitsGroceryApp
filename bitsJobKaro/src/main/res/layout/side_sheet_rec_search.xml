@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:id="@+id/rSearchSideSheetLayout"
+        android:layout_width="256dp"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layout_behavior="com.google.android.material.sidesheet.SideSheetBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sheetMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/searchSheetTopImg"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_post_save_sheet"
+                />
+            <TextView
+                android:id="@+id/searchSheetHeadTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_20"
+                android:layout_marginHorizontal="@dimen/space_16"
+                android:layout_marginBottom="@dimen/space_16"
+                app:layout_constraintBottom_toBottomOf="@id/searchSheetTopImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/advance_filters" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="@dimen/space_16"
+                app:layout_constraintTop_toBottomOf="@id/searchSheetTopImg">
+
+                <TextView
+                    android:id="@+id/filterSkillField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/skills"
+                    android:textSize="@dimen/text_16"
+                    android:fontFamily="@font/roboto_medium_500"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/filterSkillEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:hint="@string/enter_skills"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filterSkillField"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/filterChipGroup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filterSkillEdTxt"/>
+
+
+                <TextView
+                    android:id="@+id/filterQualField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/qualification"
+                    android:textSize="@dimen/text_16"
+                    android:fontFamily="@font/roboto_medium_500"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="@color/text_heading"
+                    android:layout_marginTop="@dimen/space_8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filterChipGroup"
+                    app:drawableEndCompat="@drawable/icon_down_arrow" />
+
+                <RadioGroup
+                    android:id="@+id/filterQualRadioG"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filterQualField"/>
+
+
+                <TextView
+                    android:id="@+id/filterAgeField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/candidate_age"
+                    android:textSize="@dimen/text_16"
+                    android:fontFamily="@font/roboto_medium_500"
+                    android:layout_marginTop="@dimen/space_8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filterQualRadioG"
+                    app:drawableEndCompat="@drawable/icon_down_arrow" />
+
+                <RadioGroup
+                    android:id="@+id/filterAgeRadioG"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filterAgeField"/>
+
+                <TextView
+                    android:id="@+id/filterEngField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/english_level"
+                    android:textSize="@dimen/text_16"
+                    android:fontFamily="@font/roboto_medium_500"
+                    android:layout_marginTop="@dimen/space_8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filterAgeRadioG"
+                    app:drawableEndCompat="@drawable/icon_down_arrow" />
+
+                <RadioGroup
+                    android:id="@+id/filterEngRadioG"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filterEngField"/>
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+    </ScrollView>
+</layout>

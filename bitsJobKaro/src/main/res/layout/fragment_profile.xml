@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".ui.mainFragments.employee.ProfileFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/layout_backgrounds"
+                android:visibility="visible"
+                android:paddingBottom="@dimen/space_80"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="0dp"
+                    android:layout_height="240dp"
+                    android:contentDescription="@string/cd_wave_image"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/wave__49_"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/rProfMyAccTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:layout_marginTop="@dimen/space_16"
+                    android:elevation="6dp"
+                    android:fontFamily="@font/roboto_medium_600"
+                    android:text="@string/my_account"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rProfFirstLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_16"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_profile_layout_white_corner"
+                    android:elevation="@dimen/space_4"
+                    android:padding="@dimen/space_8"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rProfMyAccTxt">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/rProfMainImg"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/avataar_placeholder"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/rProfNameTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_16"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="@string/na"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_18"
+                        app:layout_constraintEnd_toStartOf="@id/rProfBasicEditImg"
+                        app:layout_constraintStart_toEndOf="@id/rProfMainImg"
+                        app:layout_constraintTop_toTopOf="@id/rProfMainImg" />
+
+                    <ImageView
+                        android:id="@+id/rProfBasicEditImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_10"
+                        android:src="@drawable/icon_edit_profile"
+                        app:layout_constraintBottom_toBottomOf="@id/rProfNameTxt"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/rProfNameTxt" />
+
+                    <View
+                        android:id="@+id/jobLineViewFourth"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:background="@drawable/bg_view_full_circle"
+                        android:backgroundTint="@color/sub_views"
+                        app:layout_constraintBottom_toBottomOf="@id/eProfEmpDesTxt"
+                        app:layout_constraintStart_toStartOf="@id/rProfNameTxt"
+                        app:layout_constraintTop_toTopOf="@id/eProfEmpDesTxt" />
+
+                    <TextView
+                        android:id="@+id/eProfEmpDesTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:maxLines="3"
+                        android:text="@string/na"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toEndOf="@id/jobLineViewFourth"
+                        app:layout_constraintTop_toBottomOf="@id/rProfNameTxt" />
+
+                    <TextView
+                        android:id="@+id/rProfApproveTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@drawable/grad_rec_prof_not_verify"
+                        android:elevation="@dimen/space_4"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:maxLines="1"
+                        android:visibility="gone"
+                        android:paddingHorizontal="@dimen/space_10"
+                        android:paddingVertical="@dimen/space_4"
+                        android:text="Profile completion: 50%"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/jobLineViewFourth"
+                        app:layout_constraintTop_toBottomOf="@id/eProfEmpDesTxt" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/eProfAppliedLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_16"
+                    android:layout_marginTop="@dimen/space_12"
+                    android:background="@drawable/bg_profile_layout_white_corner"
+                    android:elevation="@dimen/space_4"
+                    android:padding="@dimen/space_10"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toStartOf="@id/eProfSaveLayout"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rProfFirstLayout">
+
+                    <ImageView
+                        android:id="@+id/eProfAppImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/grad_rec_prof_job"
+                        android:contentDescription="@string/cd_icon_saved"
+                        android:padding="@dimen/space_8"
+                        android:src="@drawable/icon_profile_applied"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/eProfAppCountTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_profile_layout_white_corner"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/count_0"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintBottom_toTopOf="@id/eProfAppTxt"
+                        app:layout_constraintEnd_toEndOf="@id/eProfAppTxt"
+                        app:layout_constraintStart_toStartOf="@id/eProfAppTxt"
+                        app:layout_constraintTop_toTopOf="@id/eProfAppImg" />
+
+                    <TextView
+                        android:id="@+id/eProfAppTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:background="@drawable/bg_profile_layout_white_corner"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/applied"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintBottom_toBottomOf="@id/eProfAppImg"
+                        app:layout_constraintStart_toEndOf="@id/eProfAppImg"
+                        app:layout_constraintTop_toBottomOf="@id/eProfAppCountTxt" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/eProfSaveLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_16"
+                    android:background="@drawable/bg_profile_layout_white_corner"
+                    android:elevation="@dimen/space_4"
+                    android:padding="@dimen/space_10"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/eProfAppliedLayout"
+                    app:layout_constraintTop_toTopOf="@id/eProfAppliedLayout">
+
+                    <ImageView
+                        android:id="@+id/eProfSaveImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/gradient_user_match_card"
+                        android:contentDescription="@string/cd_icon_job"
+                        android:padding="11dp"
+                        android:src="@drawable/icon_profile_chat"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvChatCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_profile_layout_white_corner"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/count_0"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintBottom_toTopOf="@id/tvChats"
+                        app:layout_constraintEnd_toEndOf="@id/tvChats"
+                        app:layout_constraintStart_toStartOf="@id/tvChats"
+                        app:layout_constraintTop_toTopOf="@id/eProfSaveImg" />
+
+                    <TextView
+                        android:id="@+id/tvChats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:background="@drawable/bg_profile_layout_white_corner"
+                        android:fontFamily="@font/roboto"
+                        android:text="Chats"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintBottom_toBottomOf="@id/eProfSaveImg"
+                        app:layout_constraintStart_toEndOf="@id/eProfSaveImg"
+                        app:layout_constraintTop_toBottomOf="@id/tvChatCount" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/eProfBasicLay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_16"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:background="@drawable/grad_rec_proff_card"
+                    android:elevation="@dimen/space_4"
+                    android:padding="@dimen/space_16"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView9">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.42" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/basic_details"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_16"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="@dimen/space_8"
+                        android:contentDescription="@string/cd_icon_saved"
+                        android:src="@drawable/icon_com_detail"
+                        app:layout_constraintBottom_toBottomOf="@id/textView4"
+                        app:layout_constraintEnd_toStartOf="@id/textView4"
+                        app:layout_constraintTop_toTopOf="@id/textView4" />
+
+
+                    <ImageView
+                        android:id="@+id/profBasicEditImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_10"
+                        android:src="@drawable/icon_edit_profile"
+                        app:layout_constraintBottom_toBottomOf="@id/textView4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/textView4" />
+
+
+                    <TextView
+                        android:id="@+id/eProfContactField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/contact_num"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+                    <TextView
+                        android:id="@+id/eProfContactTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline2"
+                        app:layout_constraintTop_toTopOf="@id/eProfContactField" />
+
+
+                    <TextView
+                        android:id="@+id/eProfEmailField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/email_id"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/eProfContactField"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfContactTxt" />
+
+                    <TextView
+                        android:id="@+id/eProfEmailTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline2"
+                        app:layout_constraintTop_toTopOf="@id/eProfEmailField" />
+
+                    <TextView
+                        android:id="@+id/eProfGenderField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/gender"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/eProfContactField"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfEmailTxt" />
+
+                    <TextView
+                        android:id="@+id/eProfGenderTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline2"
+                        app:layout_constraintTop_toTopOf="@id/eProfGenderField" />
+
+                    <TextView
+                        android:id="@+id/eProfDobField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/dob"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/eProfContactField"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfGenderTxt" />
+
+                    <TextView
+                        android:id="@+id/eProfDobTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline2"
+                        app:layout_constraintTop_toTopOf="@id/eProfDobField" />
+
+                    <TextView
+                        android:id="@+id/eProfQualField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/qualification"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/eProfContactField"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfDobTxt" />
+
+                    <TextView
+                        android:id="@+id/eProfQualTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline2"
+                        app:layout_constraintTop_toTopOf="@id/eProfQualField" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/eProfProffLay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_16"
+                    android:layout_marginTop="@dimen/space_12"
+                    android:background="@drawable/grad_rec_proff_card"
+                    android:elevation="@dimen/space_4"
+                    android:padding="@dimen/space_16"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/eProfBasicLay">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.42" />
+
+
+                    <TextView
+                        android:id="@+id/profileProfeTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/space_4"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Professional Details"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_16"
+                        app:drawableStartCompat="@drawable/icon_profile_professional"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/profProffEditImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_10"
+                        android:src="@drawable/icon_edit_profile"
+                        app:layout_constraintBottom_toBottomOf="@id/profileProfeTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/profileProfeTitle" />
+
+
+                    <TextView
+                        android:id="@+id/eProfPrevComField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:fontFamily="@font/roboto"
+                        android:text="Last Company"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/profileProfeTitle" />
+
+                    <TextView
+                        android:id="@+id/eProfPrevComTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline3"
+                        app:layout_constraintTop_toTopOf="@id/eProfPrevComField" />
+
+
+                    <TextView
+                        android:id="@+id/eProfDesigField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Designation"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/eProfPrevComField"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfPrevComTxt" />
+
+                    <TextView
+                        android:id="@+id/eProfDesigTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline3"
+                        app:layout_constraintTop_toTopOf="@id/eProfDesigField" />
+
+                    <TextView
+                        android:id="@+id/eProfFromDateField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="From Date"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/eProfPrevComField"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfDesigField" />
+
+                    <TextView
+                        android:id="@+id/eProfFromDateTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline3"
+                        app:layout_constraintTop_toTopOf="@id/eProfFromDateField" />
+
+                    <TextView
+                        android:id="@+id/eProToDateField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="To Date"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/eProfPrevComField"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfFromDateTxt" />
+
+                    <TextView
+                        android:id="@+id/eProfToDateTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline3"
+                        app:layout_constraintTop_toTopOf="@id/eProToDateField" />
+
+                    <TextView
+                        android:id="@+id/eProfNoticeField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Notice period"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintStart_toStartOf="@id/eProfPrevComField"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfToDateTxt" />
+
+                    <TextView
+                        android:id="@+id/eProfNoticeTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/na"
+                        android:textColor="@color/blue_200"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline3"
+                        app:layout_constraintTop_toTopOf="@id/eProfNoticeField" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/profLastLay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_12"
+                    android:layout_marginBottom="@dimen/space_60"
+                    android:background="@drawable/bg_profile_layout_white_corner"
+                    android:padding="@dimen/space_8"
+                    android:visibility="visible"
+                    android:elevation="@dimen/space_4"
+                    android:layout_marginHorizontal="@dimen/space_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/eProfProffLay">
+
+
+
+                    <TextView
+                        android:id="@+id/profileCareerPref"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:drawablePadding="@dimen/space_14"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:paddingVertical="@dimen/space_12"
+                        android:gravity="start|center"
+                        android:text="@string/career_preferences"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_14"
+                        app:drawableStartCompat="@drawable/icon_profile_manage_job"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+
+                    <View
+                        android:id="@+id/eProfViewLineFirst"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bottom_line"
+                        app:layout_constraintTop_toBottomOf="@+id/profileCareerPref" />
+
+
+                    <TextView
+                        android:id="@+id/eProfChangePassTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:drawablePadding="@dimen/space_14"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:paddingVertical="@dimen/space_12"
+                        android:text="@string/change_password"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_14"
+                        app:drawableStartCompat="@drawable/icon_change_pass"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/eProfViewLineFirst"/>
+
+
+
+                    <View
+                        android:id="@+id/profViewLineFifth"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bottom_line"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfChangePassTxt" />
+
+                    <TextView
+                        android:id="@+id/eProfDownResTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:drawablePadding="@dimen/space_14"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:paddingVertical="@dimen/space_12"
+                        android:text="Download resume"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_14"
+                        app:drawableStartCompat="@drawable/icon_download_doc"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/profViewLineFifth"/>
+
+                    <View
+                        android:id="@+id/profViewLineSixth"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bottom_line"
+                        app:layout_constraintTop_toBottomOf="@+id/eProfDownResTxt" />
+
+                    <TextView
+                        android:id="@+id/profHelpDeskTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:drawablePadding="@dimen/space_14"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:paddingVertical="@dimen/space_12"
+                        android:text="@string/help_desk"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_14"
+                        app:drawableStartCompat="@drawable/icon_help_desk"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/profViewLineSixth"/>
+
+                    <View
+                        android:id="@+id/profViewLineThird"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bottom_line"
+                        app:layout_constraintTop_toBottomOf="@+id/profHelpDeskTxt" />
+
+                    <TextView
+                        android:id="@+id/profRateUsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="14dp"
+                        android:drawablePadding="@dimen/space_14"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:paddingVertical="@dimen/space_12"
+                        android:text="@string/rate_us"
+                        android:textColor="@color/text_heading"
+                        android:textSize="@dimen/text_14"
+                        app:drawableStartCompat="@drawable/icon_star"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/profViewLineThird" />
+
+
+                    <View
+                        android:id="@+id/profViewLineFourth"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bottom_line"
+                        app:layout_constraintTop_toBottomOf="@+id/profRateUsText" />
+
+
+                    <TextView
+                        android:id="@+id/profLogoutText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:drawablePadding="@dimen/space_14"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:paddingVertical="@dimen/space_12"
+                        android:text="@string/logout"
+                        android:textColor="@color/blue_500"
+                        android:textSize="@dimen/text_14"
+                        app:drawableStartCompat="@drawable/icon_logout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/profViewLineFourth" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/profileShimmer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                    <include layout="@layout/shimmer_profile"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</layout>

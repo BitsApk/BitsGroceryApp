@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/space_16"
+            tools:context=".ui.subFragment.postJob.PostJobFirstFragment">
+
+            <TextView
+                android:id="@+id/postEmpDetailField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:text="@string/employee_prefer"
+                android:textColor="@color/text_heading"
+                android:textSize="@dimen/text_16"
+                android:fontFamily="@font/roboto_regular"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/postExpReqField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:text="@string/exp_required"
+                android:textColor="@color/text_heading"
+                android:textSize="@dimen/text_16"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postEmpDetailField"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/postExpReqTxt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:errorEnabled="true"
+                app:layout_constraintHorizontal_weight="4"
+                app:layout_constraintTop_toBottomOf="@id/postExpReqField"
+                app:layout_constraintEnd_toStartOf="@id/postQualReqEdTxt"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/postQualReqField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:textSize="@dimen/text_16"
+                android:text="@string/qualification"
+                android:textColor="@color/text_heading"
+                android:textStyle="italic"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="@id/postQualReqEdTxt"
+                app:layout_constraintBottom_toTopOf="@id/postQualReqEdTxt" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/postQualReqEdTxt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:errorEnabled="true"
+                app:layout_constraintHorizontal_weight="4"
+                android:layout_marginStart="@dimen/space_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/postExpReqTxt"
+                app:layout_constraintTop_toTopOf="@id/postExpReqTxt">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/postCommSkillField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:textSize="@dimen/text_16"
+                android:text="English Level"
+                android:textColor="@color/text_heading"
+                android:textStyle="italic"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postQualReqEdTxt" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/postCommSkillEdTxt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:errorEnabled="true"
+                app:layout_constraintHorizontal_weight="4"
+                app:layout_constraintEnd_toStartOf="@id/postMinSalEdTxt"
+                app:layout_constraintStart_toStartOf="@id/postCommSkillField"
+                app:layout_constraintTop_toBottomOf="@id/postCommSkillField">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select"
+                    android:inputType="none"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/postMinSalField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:textSize="@dimen/text_16"
+                android:text="Min Sal"
+                android:textColor="@color/text_heading"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@id/postMinSalEdTxt"
+                app:layout_constraintBottom_toTopOf="@id/postMinSalEdTxt"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/postMinSalEdTxt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:errorEnabled="true"
+                app:layout_constraintHorizontal_weight="3"
+                android:layout_marginStart="@dimen/space_16"
+                app:layout_constraintEnd_toStartOf="@id/postMaxSalEdTxt"
+                app:layout_constraintStart_toEndOf="@id/postCommSkillEdTxt"
+                app:layout_constraintTop_toTopOf="@id/postCommSkillEdTxt">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/postMaxSalField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:textSize="@dimen/text_16"
+                android:text="Max Sal"
+                android:textColor="@color/text_heading"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@id/postMaxSalEdTxt"
+                app:layout_constraintBottom_toTopOf="@id/postMaxSalEdTxt"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/postMaxSalEdTxt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:errorEnabled="true"
+                app:layout_constraintHorizontal_weight="3"
+                android:layout_marginStart="@dimen/space_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/postMinSalEdTxt"
+                app:layout_constraintTop_toTopOf="@id/postMinSalEdTxt">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/postWorkDaysField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:textSize="@dimen/text_16"
+                android:text="Working Days"
+                android:textColor="@color/text_heading"
+                android:textStyle="bold"
+                android:fontFamily="@font/roboto_regular"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postCommSkillEdTxt"/>
+
+
+            <TextView
+                android:id="@+id/postWorkFromField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:textSize="@dimen/text_16"
+                android:text="From"
+                android:textColor="@color/text_heading"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@id/postWorkDaysField"
+                app:layout_constraintTop_toBottomOf="@id/postWorkDaysField"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/postWorkFromEdTxt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:errorEnabled="true"
+                app:layout_constraintHorizontal_weight="3"
+                app:layout_constraintEnd_toStartOf="@id/postWorkToEdTxt"
+                app:layout_constraintStart_toStartOf="@id/postWorkFromField"
+                app:layout_constraintTop_toBottomOf="@id/postWorkFromField">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/postWorkToField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:textSize="@dimen/text_16"
+                android:text="To"
+                android:textColor="@color/text_heading"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@id/postWorkToEdTxt"
+                app:layout_constraintBottom_toTopOf="@id/postWorkToEdTxt"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/postWorkToEdTxt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:errorEnabled="true"
+                app:layout_constraintHorizontal_weight="3"
+                android:layout_marginStart="@dimen/space_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/postWorkFromEdTxt"
+                app:layout_constraintTop_toTopOf="@id/postWorkFromEdTxt">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>
