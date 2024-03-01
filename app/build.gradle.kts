@@ -4,6 +4,7 @@ plugins {
     id ("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -110,6 +111,12 @@ dependencies {
     val pagingVersion = "3.2.1"
 
     implementation ("androidx.paging:paging-runtime-ktx:$pagingVersion")
+
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-firestore-ktx")
+
 }
 
 kapt {

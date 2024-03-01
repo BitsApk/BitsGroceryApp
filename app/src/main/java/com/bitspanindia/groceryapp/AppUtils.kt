@@ -19,6 +19,14 @@ import java.util.regex.Pattern
 
 object AppUtils {
 
+    fun cartArrowEnable(activity: FragmentActivity, enable: Boolean) {
+        (activity as MainActivity).cartArrowEnable(enable)
+    }
+
+    fun Int.toDp(): Int {
+        return (this * Resources.getSystem().displayMetrics.density).toInt()
+    }
+
     fun isValidEmail(email: String): Boolean {
         val EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9+._%\\-]{1,256}" +
@@ -36,12 +44,12 @@ object AppUtils {
         val pinCodePattern = Pattern.compile("^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$")
         return pinCodePattern.matcher(pinCode).matches()
     }
-    fun cartArrowEnable(activity: FragmentActivity, enable: Boolean) {
-        (activity as MainActivity).cartArrowEnable(enable)
-    }
 
-    fun Int.toDp(): Int {
-        return (this * Resources.getSystem().displayMetrics.density).toInt()
+    fun isValidNum(mobile: String): Boolean {
+        val PHONE_NUMBER = Pattern.compile(
+            "[0-9]{10}"
+        )
+        return PHONE_NUMBER.matcher(mobile).matches()
     }
 
     fun adjustItemWidth(designType:Int,item:ConstraintLayout) {

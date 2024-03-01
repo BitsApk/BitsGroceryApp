@@ -3,24 +3,12 @@ package com.bitspanindia.groceryapp.data
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.model.MainCategoryData
 import com.bitspanindia.groceryapp.data.model.SliderModel
+import com.bitspanindia.groceryapp.data.model.custom.HomeTopData
 
 object DummyData {
 
         val data = listOf(
-            SliderModel(
-                name = "Uncle Chips",
-                quantity = "2 Pieces",
-                offPrice = "₹0",
-                price = "₹40",
-                image= R.drawable.uncle_chips
-            ),
-            SliderModel(
-                name = "Bingo Tedhe Medhe",
-                quantity = "90 g",
-                offPrice = "₹60",
-                price = "₹42",
-                image= R.drawable.tedhe_medhe
-            ),
+
             SliderModel(
                 name = "Kurkure",
                 quantity = "82 g",
@@ -40,21 +28,7 @@ object DummyData {
                 quantity = "50 g",
                 offPrice = "₹0",
                 price = "₹20",
-                image= R.drawable.kaccha_mango_bite
-            ),
-            SliderModel(
-                name = "Lay's American",
-                quantity = "50 g",
-                offPrice = "₹0",
-                price = "₹20",
                 image= R.drawable.lays_american
-            ),
-            SliderModel(
-                name = "Lay's American",
-                quantity = "50 g",
-                offPrice = "₹0",
-                price = "₹20",
-                image= R.drawable.kaccha_mango_bite1
             ),
             SliderModel(
                 name = "Lay's  sdsd sds sd American",
@@ -76,28 +50,20 @@ object DummyData {
                 quantity = "50 g",
                 offPrice = "₹0",
                 price = "₹20",
-                image= R.drawable.kaccha_mango_bite
-            ),
-            SliderModel(
-                name = "Lay's American",
-                quantity = "50 g",
-                offPrice = "₹0",
-                price = "₹20",
                 image= R.drawable.lays_american
-            ),
-            SliderModel(
-                name = "Lay's American",
-                quantity = "50 g",
-                offPrice = "₹0",
-                price = "₹20",
-                image= R.drawable.kaccha_mango_bite1
-            ),
+            )
         ) // Replace this with your data
 
         val bannerData = listOf(R.drawable.banner_1, R.drawable.banner_2,
             R.drawable.banner_3, R.drawable.banner_4,  R.drawable.banner_2,
             R.drawable.banner_3, R.drawable.banner_1)
 
+        val homeTopDataList = listOf(
+            HomeTopData(R.drawable.img_job_karo, "Nitro"),
+            HomeTopData(R.drawable.img_job_karo, "Nitr00o"),
+            HomeTopData(R.drawable.img_job_karo, "Nitro00"),
+
+        )
 
         val mainCategory = listOf<MainCategoryData>(
             MainCategoryData(R.drawable.image_vegetable_cat, "Fruit & Vegetable"),

@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:elevation="4dp"
+            android:elevation="6dp"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -25,18 +26,17 @@
                 android:id="@+id/ivBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_16"
                 android:src="@drawable/icon_back2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvText"
+                app:layout_constraintBottom_toBottomOf="@id/tvDelivery"
                 app:tint="@color/grey_900" />
 
             <TextView
                 android:id="@+id/tvText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_16"
-                android:fontFamily="@font/poppins_semibold"
+                android:fontFamily="@font/roboto_medium_500"
                 android:text="My Cart"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_16"
@@ -44,14 +44,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/view7"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/space_10"
-                android:background="@color/grey_200"
+
+            <TextView
+                android:id="@+id/tvDelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium_500"
+                android:text="Delivery in 11 minutes"
+                android:textColor="@color/green_500"
+                android:textSize="@dimen/text_12"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/tvText"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvText" />
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -61,9 +67,7 @@
             android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/clPay"
-            app:layout_constraintTop_toBottomOf="@+id/clHeader"
-            app:layout_constraintVertical_bias="1.0"
-            tools:layout_editor_absoluteX="-77dp">
+            app:layout_constraintTop_toBottomOf="@+id/clHeader">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -71,73 +75,129 @@
                 android:background="@color/grey_100">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clDeliveryTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/green_500"
-                    android:paddingHorizontal="@dimen/space_32"
-                    android:paddingVertical="@dimen/space_8"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:id="@+id/exceptionLay"
+                    android:layout_width="0dp"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:elevation="6dp"
+                    android:visibility="visible"
+                    android:background="@drawable/bg_white_top_corners_5"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    >
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintTop_toBottomOf="@id/messTxt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/wave_5"
+                        />
 
                     <TextView
-                        android:id="@+id/tvDelivery"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/messTxt"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
-                        android:text="Delivery in 11 minutes"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_12"
+                        android:fontFamily="@font/roboto_medium_600"
+                        android:text="3 items in your cart are not in stock"
+                        android:textColor="@color/mark_negative"
+                        android:textSize="@dimen/text_16"
+                        android:textStyle="italic"
                         android:textAlignment="center"
-                        android:drawableStart="@drawable/icon_delivery"
-                        android:drawablePadding="@dimen/space_16"
-                        android:drawableTint="@color/white"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:backgroundTint="@color/red_50"
+                        android:background="@drawable/bg_white_top_corners_5"
+                        android:paddingHorizontal="@dimen/space_16"
+                        android:paddingVertical="@dimen/space_8"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                    />
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/defectRecView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/messTxt"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_cart_product" />
+
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/tvOfferText"
+
+                <LinearLayout
+                    android:id="@+id/saveAmtLay"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/space_8"
-                    android:background="@drawable/top_rouned_corner"
-                    android:backgroundTint="@color/green_50"
-                    android:fontFamily="@font/poppins_medium"
-                    android:paddingHorizontal="@dimen/space_32"
-                    android:paddingVertical="@dimen/space_8"
-                    android:singleLine="true"
-                    android:text="Save Rs 31! Get Free Delivery on orders over Rs 55."
-                    android:textColor="@color/green_700"
-                    android:textSize="@dimen/text_10"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="50dp"
+                    android:elevation="6dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clDeliveryTime" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/exceptionLay"
+                    android:background="@drawable/img_bg_save_rupees"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:elevation="6dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/space_24"
+                        android:src="@drawable/icon_piggy_bank"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvOfferText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:elevation="6dp"
+                        android:textStyle="italic"
+                        android:text="Save Rs 31! Free Delivery"
+                        android:textColor="@color/white"
+                        android:layout_marginEnd="@dimen/space_32"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/text_14"
+                        />
+
+
+                </LinearLayout>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvCartItems"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_16"
-                    android:paddingBottom="@dimen/space_8"
+                    android:layout_marginTop="12dp"
                     android:background="@color/white"
-                    android:elevation="1dp"
+                    android:elevation="6dp"
+                    android:paddingBottom="@dimen/space_8"
                     android:visibility="visible"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvOfferText"
+                    app:layout_constraintTop_toBottomOf="@+id/saveAmtLay"
                     tools:itemCount="2"
                     tools:listitem="@layout/item_horizontal_product" />
+
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clMoreProducts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_16"
+                    android:layout_marginTop="@dimen/space_8"
                     android:elevation="1dp"
                     android:background="@color/white"
                     android:padding="@dimen/space_8"
@@ -150,7 +210,7 @@
                         android:id="@+id/tvDeliveryText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/roboto_medium_600"
                         android:text="Before you checkout"
                         android:textColor="@color/grey_900"
                         android:textSize="@dimen/text_16"
@@ -173,13 +233,13 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clCoupon"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_16"
+                    android:layout_marginTop="@dimen/space_8"
                     android:background="@color/white"
-                    android:elevation="1dp"
+                    android:elevation="6dp"
                     android:paddingHorizontal="@dimen/space_16"
-                    android:paddingVertical="@dimen/space_8"
+                    android:paddingVertical="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clMoreProducts">
@@ -188,24 +248,36 @@
                         android:id="@+id/ivCoupon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_coupon"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:src="@drawable/icon_discount"
+                        app:layout_constraintBottom_toBottomOf="@id/subCouponTxtView"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/green_500" />
+                        app:layout_constraintTop_toTopOf="@id/tvCouponTitle" />
 
                     <TextView
                         android:id="@+id/tvCouponTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_16"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="Use Coupons"
-                        android:textColor="@color/grey_900"
-                        android:textSize="@dimen/text_16"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="Apply Coupons"
+                        android:textColor="@color/green_700"
+                        android:textSize="@dimen/text_14"
                         app:layout_constraintStart_toEndOf="@+id/ivCoupon"
                         app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/subCouponTxtView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_16"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="Check our Discount and Coupons"
+                        android:textColor="#7CA4B2"
+                        android:textSize="@dimen/text_12"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ivCoupon"
+                        app:layout_constraintTop_toBottomOf="@id/tvCouponTitle" />
 
                     <ImageView
                         android:id="@+id/tvCouponDetails"
@@ -224,10 +296,10 @@
                     android:id="@+id/clTaxPrices"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_16"
+                    android:layout_marginTop="@dimen/space_8"
                     android:background="@color/white"
-                    android:elevation="1dp"
-                    android:paddingTop="@dimen/space_16"
+                    android:elevation="6dp"
+                    android:padding="@dimen/space_16"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -238,11 +310,10 @@
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/space_16"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/roboto_medium_600"
                         android:text="Bill Details"
-                        android:textColor="@color/grey_900"
-                        android:textSize="@dimen/text_16"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_14"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -250,14 +321,13 @@
                         android:id="@+id/itemTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_10"
+                        android:layout_marginTop="@dimen/space_16"
                         android:drawablePadding="@dimen/space_8"
-                        android:fontFamily="@font/poppins_regular"
-                        android:text="Item total"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Cart total"
                         android:textColor="@color/grey_700"
                         android:textSize="@dimen/text_14"
-                        app:drawableStartCompat="@drawable/item_price"
-                        app:drawableTint="@color/grey_700"
+                        app:drawableStartCompat="@drawable/icon_cart_sum"
                         app:layout_constraintStart_toStartOf="@+id/textView2"
                         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -265,10 +335,9 @@
                         android:id="@+id/tvItemPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space_16"
-                        android:fontFamily="@font/poppins_regular"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="Rs 381"
-                        android:textColor="@color/grey_700"
+                        android:textColor="@color/text_black"
                         android:textSize="@dimen/text_14"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/itemTotal" />
@@ -277,91 +346,126 @@
                         android:id="@+id/itemDeliveryCharge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_8"
+                        android:layout_marginTop="@dimen/space_6"
                         android:drawablePadding="@dimen/space_8"
-                        android:fontFamily="@font/poppins_regular"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="Delivery charge"
                         android:textColor="@color/grey_700"
                         android:textSize="@dimen/text_14"
-                        app:drawableStartCompat="@drawable/item_scooter"
+                        app:drawableStartCompat="@drawable/icon_cart_delivery"
                         app:drawableTint="@color/grey_700"
                         app:layout_constraintStart_toStartOf="@+id/itemTotal"
-                        app:layout_constraintTop_toBottomOf="@+id/itemTotal" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvItemPrice" />
 
                     <TextView
                         android:id="@+id/tvDelCharge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_4"
                         android:layout_marginEnd="@dimen/space_8"
-                        android:fontFamily="@font/poppins_regular"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="Rs 15"
-                        android:textColor="@color/grey_700"
+                        android:textColor="@color/text_black"
                         android:textSize="@dimen/text_14"
                         app:layout_constraintEnd_toStartOf="@+id/tvFree"
-                        app:layout_constraintTop_toBottomOf="@+id/tvItemPrice" />
+                        app:layout_constraintTop_toTopOf="@id/itemDeliveryCharge" />
 
                     <TextView
                         android:id="@+id/tvFree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_4"
-                        android:fontFamily="@font/poppins_regular"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="FREE"
                         android:textColor="@color/green_500"
                         android:textSize="@dimen/text_14"
                         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
-                        app:layout_constraintTop_toBottomOf="@+id/tvItemPrice" />
+                        app:layout_constraintTop_toTopOf="@id/itemDeliveryCharge" />
+
+                    <View
+                        android:id="@+id/dashLine"
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:background="@drawable/bg_dashed_line"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvFree"
+                        />
+
 
                     <TextView
                         android:id="@+id/tipDeliveryPartner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_8"
+                        android:layout_marginTop="@dimen/space_16"
                         android:drawablePadding="@dimen/space_8"
-                        android:fontFamily="@font/poppins_regular"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="Tip for delivery partner"
                         android:textColor="@color/grey_700"
                         android:textSize="@dimen/text_14"
-                        app:drawableStartCompat="@drawable/icon_user"
-                        app:drawableTint="@color/grey_700"
+                        app:drawableStartCompat="@drawable/icon_delivery_tip"
                         app:layout_constraintStart_toStartOf="@+id/itemTotal"
-                        app:layout_constraintTop_toBottomOf="@+id/tvFree" />
+                        app:layout_constraintTop_toBottomOf="@+id/dashLine" />
 
                     <TextView
                         android:id="@+id/tvTipDeliveryPartner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_regular"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="Rs 20"
-                        android:textColor="@color/grey_700"
+                        android:textColor="@color/text_black"
                         android:textSize="@dimen/text_14"
                         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
-                        app:layout_constraintTop_toBottomOf="@+id/tvFree" />
+                        app:layout_constraintTop_toTopOf="@id/tipDeliveryPartner" />
+
+
+                    <TextView
+                        android:id="@+id/platformFeeField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_6"
+                        android:drawablePadding="@dimen/space_8"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Platform service fee"
+                        android:textColor="@color/grey_700"
+                        android:textSize="@dimen/text_14"
+                        app:drawableStartCompat="@drawable/icon_namaste"
+                        app:layout_constraintStart_toStartOf="@+id/itemTotal"
+                        app:layout_constraintTop_toBottomOf="@+id/tipDeliveryPartner" />
+
+                    <TextView
+                        android:id="@+id/platformFeeTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Rs 20"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
+                        app:layout_constraintTop_toTopOf="@id/platformFeeField" />
+
 
                     <TextView
                         android:id="@+id/grandTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_16"
-                        android:fontFamily="@font/poppins_semibold"
+                        android:fontFamily="@font/roboto_medium_500"
                         android:text="Grand Total"
                         android:textColor="@color/grey_900"
                         android:textSize="@dimen/text_16"
                         app:layout_constraintStart_toStartOf="@+id/itemDeliveryCharge"
-                        app:layout_constraintTop_toBottomOf="@+id/tipDeliveryPartner" />
+                        app:layout_constraintTop_toBottomOf="@+id/platformFeeField" />
 
                     <TextView
                         android:id="@+id/tvGrandTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_16"
-                        android:fontFamily="@font/poppins_semibold"
+                        android:fontFamily="@font/roboto_medium_500"
                         android:text="Rs 351"
                         android:textColor="@color/grey_900"
                         android:textSize="@dimen/text_16"
                         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
-                        app:layout_constraintTop_toBottomOf="@+id/tipDeliveryPartner" />
+                        app:layout_constraintTop_toTopOf="@+id/grandTotal" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clSavings"
@@ -378,7 +482,7 @@
                             android:id="@+id/totalSaving"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
+                            android:fontFamily="@font/roboto_medium_500"
                             android:text="Your total savings"
                             android:textColor="@color/red_500"
                             android:textSize="@dimen/text_14"
@@ -390,7 +494,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-4dp"
-                            android:fontFamily="@font/poppins_regular"
+                            android:fontFamily="@font/roboto_regular"
                             android:text="Includes Rs 15 savings through free delivery"
                             android:textColor="@color/red_500"
                             android:textSize="@dimen/text_10"
@@ -404,7 +508,7 @@
                             android:id="@+id/tvSavingAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
+                            android:fontFamily="@font/roboto_medium_500"
                             android:text="Rs 44"
                             android:textColor="@color/red_500"
                             android:textSize="@dimen/text_16"
@@ -434,7 +538,7 @@
                         android:id="@+id/textView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/roboto_medium_600"
                         android:text="Delivery instructions"
                         android:textColor="@color/grey_900"
                         android:textSize="@dimen/text_16"
@@ -497,7 +601,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_8"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/roboto_medium_600"
                         android:text="Delivery Partner Tip"
                         android:textColor="@color/grey_900"
                         android:textSize="@dimen/text_16"
@@ -582,7 +686,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_10"
                 android:layout_marginTop="@dimen/space_10"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Delivering to"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_12"
@@ -596,7 +700,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_10"
                 android:layout_marginTop="-4dp"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Sambhal, Uttar Pradesh"
                 android:textColor="@color/grey_700"
                 android:textSize="@dimen/text_10"
@@ -608,7 +712,7 @@
                 android:id="@+id/tvChangeAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Change"
                 android:layout_margin="@dimen/space_10"
                 android:textColor="@color/green_500"
@@ -630,7 +734,7 @@
                 android:id="@+id/textview10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/roboto_regular"
                 android:layout_marginTop="@dimen/space_10"
                 android:text="To Pay"
                 android:textColor="@color/grey_700"
@@ -642,7 +746,7 @@
                 android:id="@+id/tvTotalPayAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_semibold"
+                android:fontFamily="@font/roboto_medium_500"
                 android:text="Rs 107"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_14"
@@ -697,7 +801,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/space_16"
                 android:layout_marginTop="-15dp"
-                android:fontFamily="@font/poppins_medium"
+                android:fontFamily="@font/roboto_medium_500"
                 android:text="Cart is empty"
                 android:textColor="@color/green_500"
                 android:textSize="@dimen/text_20"

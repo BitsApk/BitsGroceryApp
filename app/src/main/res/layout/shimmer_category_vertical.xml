@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_8"
                 android:ellipsize="end"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/roboto_regular"
                 android:includeFontPadding="false"
                 android:maxLines="2"
                 android:text="Vegetables and grocery"

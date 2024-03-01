@@ -5,6 +5,7 @@ import com.bitspanindia.groceryapp.data.services.CartApiService
 import com.bitspanindia.groceryapp.data.services.HomeApiService
 import com.bitspanindia.groceryapp.data.services.ProductApiService
 import com.bitspanindia.groceryapp.data.services.ProfileApiService
+import com.bitspanindia.groceryapp.data.services.LoginApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,6 +63,10 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideCartApiService(retrofit: Retrofit): CartApiService = retrofit.create(CartApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLoginApiService(retrofit: Retrofit): LoginApiService = retrofit.create(LoginApiService::class.java)
 
     @Provides
     @Singleton

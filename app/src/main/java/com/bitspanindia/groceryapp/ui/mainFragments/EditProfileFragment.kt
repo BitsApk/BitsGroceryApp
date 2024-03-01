@@ -12,10 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.AppUtils.isValidEmail
 import com.bitspanindia.groceryapp.AppUtils.showShortToast
 import com.bitspanindia.groceryapp.R
+import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.UpdateProfileReq
 import com.bitspanindia.groceryapp.databinding.FragmentEditProfileBinding
@@ -28,6 +31,7 @@ class EditProfileFragment : Fragment() {
     private lateinit var binding: FragmentEditProfileBinding
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
+    private lateinit var dialogHelper: DialogHelper
     private val pvm: ProfileViewModel by activityViewModels()
     private var req = UpdateProfileReq()
     override fun onCreateView(
@@ -38,12 +42,12 @@ class EditProfileFragment : Fragment() {
 
         mContext = requireContext()
         mActivity = requireActivity()
+        dialogHelper = DialogHelper(mContext, mActivity)
 
         AppUtils.cartLayoutVisibility(mActivity, View.GONE)
 
 
-        requireActivity().window.statusBarColor =
-            ContextCompat.getColor(requireContext(), R.color.white)
+        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
         return binding.root
     }
 
@@ -73,18 +77,20 @@ class EditProfileFragment : Fragment() {
                                 it.body()?.message ?: "Profile Update Successfully"
                             )
                         } else {
-                            Toast.makeText(
-                                mContext,
-                                it.body()?.message ?: "Something went wrong",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            dialogHelper.showErrorMsgDialog(
+                                it.body()?.message?:"Something went wrong"
+                            ) {}
                         }
                     } else {
-                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                        dialogHelper.showErrorMsgDialog(
+                            "Something went wrong"
+                        ) {}
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                dialogHelper.showErrorMsgDialog(
+                    "Something went wrong"
+                ) {}
             }
 
         }
@@ -92,7 +98,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun getProfileDetails() {
-        val getProfileReq = HomeDataReq(userId = "1")
+        val getProfileReq = HomeDataReq(userId = Constant.userId)
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
@@ -109,18 +115,20 @@ class EditProfileFragment : Fragment() {
                                 if (data?.gender == "Female") binding.rbFemale.isChecked = true
                             }
                         } else {
-                            Toast.makeText(
-                                mContext,
-                                it.body()?.message ?: "Something went wrong",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            dialogHelper.showErrorMsgDialog(
+                                it.body()?.message?:"Something went wrong"
+                            ) {findNavController().popBackStack()}
                         }
                     } else {
-                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                        dialogHelper.showErrorMsgDialog(
+                            "Something went wrong"
+                        ) {findNavController().popBackStack()}
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                dialogHelper.showErrorMsgDialog(
+                    "Something went wrong"
+                ) {findNavController().popBackStack()}
             }
 
         }
@@ -140,7 +148,7 @@ class EditProfileFragment : Fragment() {
 
         binding.apply {
 
-            req.userId = "1"
+            req.userId = Constant.userId
             req.gender = selectedRadio.text.toString()
             req.name = etUserName.text.toString()
             req.phone = etPhoneNumber.text.toString()

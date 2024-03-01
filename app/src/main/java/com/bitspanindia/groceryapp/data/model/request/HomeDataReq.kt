@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName
 
 data class HomeDataReq(
     @SerializedName("domain")
-    val domain: String? = "" ,
+    val domain: String? = "",
+
     @SerializedName("user_id")
     val userId: String? = ""
 )

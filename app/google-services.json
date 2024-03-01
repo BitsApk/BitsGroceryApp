@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "857244758227",
+    "project_id": "grocery-a4d87",
+    "storage_bucket": "grocery-a4d87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857244758227:android:723896d77e393691d66426",
+        "android_client_info": {
+          "package_name": "com.bitspanindia.groceryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm6Mn-nQ3mv7uY4bZ0ABNGaNLTDUJH_Go"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

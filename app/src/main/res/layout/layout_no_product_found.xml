@@ -24,7 +24,7 @@
             android:id="@+id/tvNotFound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/roboto_medium_500"
             android:includeFontPadding="false"
             android:maxLines="2"
             android:text="@string/product_not_found"

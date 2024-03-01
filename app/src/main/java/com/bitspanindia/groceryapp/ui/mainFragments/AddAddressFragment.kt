@@ -3,11 +3,10 @@ package com.bitspanindia.groceryapp.ui.mainFragments
 import android.content.Context
 import android.location.Address
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,9 +18,7 @@ import com.bitspanindia.groceryapp.AppUtils.showShortToast
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.model.request.AddAddressReq
-import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.databinding.FragmentAddAddressBinding
-import com.bitspanindia.groceryapp.presentation.adapter.OrderItemAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.ProfileViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -36,23 +33,23 @@ import kotlinx.coroutines.launch
 class AddAddressFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentAddAddressBinding
     private lateinit var mMap: GoogleMap
-    private val args:AddAddressFragmentArgs by navArgs()
+    private val args: AddAddressFragmentArgs by navArgs()
     private lateinit var dialogHelper: DialogHelper
-    private lateinit var mContext:Context
-    private lateinit var mActivity:FragmentActivity
+    private lateinit var mContext: Context
+    private lateinit var mActivity: FragmentActivity
     private val pvm: ProfileViewModel by activityViewModels()
     private val addressReq = AddAddressReq()
-    private lateinit var address : Address
+    private lateinit var address: Address
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
-        binding =  FragmentAddAddressBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentAddAddressBinding.inflate(inflater, container, false)
         mContext = requireContext()
         mActivity = requireActivity()
 
-        dialogHelper = DialogHelper(mContext,mActivity)
+        dialogHelper = DialogHelper(mContext, mActivity)
 
         setLocationOnMap()
 
@@ -60,7 +57,8 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setLocationOnMap() {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
@@ -73,7 +71,7 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding.btnAddAddress.setOnClickListener {
-            if (validation()){
+            if (validation()) {
                 addAddress()
             }
         }
@@ -83,10 +81,15 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
 
-        updateCurrentLocationMarker(LatLng(args.latitude.toDouble(),args.longitude.toDouble()))
+        updateCurrentLocationMarker(LatLng(args.latitude.toDouble(), args.longitude.toDouble()))
 
-        address = AppUtils.getAddressFromLocation(requireContext(),args.latitude.toDouble(),args.longitude.toDouble())
-        val fullAddress = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
+        address = AppUtils.getAddressFromLocation(
+            requireContext(),
+            args.latitude.toDouble(),
+            args.longitude.toDouble()
+        )
+        val fullAddress =
+            "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
         binding.tvAddress.text = address.locality
         binding.tvFullAddress.text = fullAddress
 
@@ -125,24 +128,30 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
                     dialogHelper.hideProgressDialog()
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()?.statusCode == 200) {
-                            showShortToast(mContext,"Address add successfully")
+                            showShortToast(mContext, "Address add successfully")
                             findNavController().popBackStack()
                         } else {
-                            Toast.makeText(mContext, it.body()?.message ?: "Something went wrong", Toast.LENGTH_SHORT).show()
+                            dialogHelper.showErrorMsgDialog(
+                                it.body()?.message ?: "Something went wrong"
+                            ) {}
                         }
                     } else {
-                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                        dialogHelper.showErrorMsgDialog(
+                            "Something went wrong"
+                        ) {}
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                dialogHelper.showErrorMsgDialog(
+                    "Something went wrong"
+                ) {}
             }
 
         }
 
     }
 
-    private fun validation():Boolean{
+    private fun validation(): Boolean {
         binding.apply {
             addressReq.userId = Constant.userId
             addressReq.perAdd = etAreaStreet.text.toString()
@@ -163,16 +172,15 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
 
             with(addressReq) {
                 if (perAdd.isNullOrEmpty()) {
-                    etAreaStreet.error ="Enter Area and Street"
+                    etAreaStreet.error = "Enter Area and Street"
                     etAreaStreet.isFocusable = true
                     return false
-                }else if (phone?.length !=10){
-                    etPhoneNumber.error ="Enter valid phone number"
+                } else if (phone?.length != 10) {
+                    etPhoneNumber.error = "Enter valid phone number"
                     etPhoneNumber.isFocusable = true
                     return false
-                }
-                else if (addressName.isNullOrEmpty()){
-                    showShortToast(mContext,"Select address type")
+                } else if (addressName.isNullOrEmpty()) {
+                    showShortToast(mContext, "Select address type")
                     return false
                 }
             }

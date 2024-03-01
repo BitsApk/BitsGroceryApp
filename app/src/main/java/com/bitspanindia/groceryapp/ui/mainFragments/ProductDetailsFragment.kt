@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.enums.CartAction
@@ -34,6 +35,7 @@ class ProductDetailsFragment : Fragment() {
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
+    private lateinit var dialogHelper:DialogHelper
     private val pvm: ProductViewModel by activityViewModels()
     private val args: ProductDetailsFragmentArgs by navArgs()
     private val cartVM: CartManageViewModel by activityViewModels()
@@ -46,6 +48,7 @@ class ProductDetailsFragment : Fragment() {
 
         mContext = requireContext()
         mActivity = requireActivity()
+        dialogHelper = DialogHelper(mContext,mActivity)
 
         return binding.root
     }
@@ -97,14 +100,19 @@ class ProductDetailsFragment : Fragment() {
                                 rvUnit.adapter = UnitAdapter(mContext, data.multiweight ?: listOf()) { setProductPrice(it) }
                             }
                         } else {
-                            findNavController().popBackStack()
+                            dialogHelper.showErrorMsgDialog(
+                                it.body()?.message?:"Something went wrong"
+                            ) {findNavController().popBackStack()}
                         }
                     } else {
-                        findNavController().popBackStack()
+                        dialogHelper.showErrorMsgDialog(
+                            "Something went wrong"
+                        ) {findNavController().popBackStack()}
                     }
                 } catch (e: Exception) {
-                    findNavController().popBackStack()
-                    e.printStackTrace()
+                    dialogHelper.showErrorMsgDialog(
+                        "Something went wrong"
+                    ) {findNavController().popBackStack()}
                 }
             }
         }
@@ -156,7 +164,6 @@ class ProductDetailsFragment : Fragment() {
     }
 
     private fun setProducts(productData: MutableList<ProductData>) {
-//            cartVM.cartTotalItem.observe(viewLifecycleOwner) {
 
         binding.rvProducts.adapter = ProductsAdapter(
             productData,
@@ -183,7 +190,6 @@ class ProductDetailsFragment : Fragment() {
                 }
 
             }
-//            }
 
         }
     }

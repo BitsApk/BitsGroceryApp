@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/space_16"
-                android:fontFamily="@font/poppins_semibold"
+                android:fontFamily="@font/roboto_medium_500"
                 android:text="Add Address"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_16"
@@ -97,7 +97,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
-                    android:fontFamily="@font/poppins_medium"
+                    android:fontFamily="@font/roboto_medium_500"
                     android:text="Sambhal"
                     android:textColor="@color/grey_900"
                     android:textSize="@dimen/text_14"
@@ -109,7 +109,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/space_8"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Lodhi Sarai, Railway Station Sambhal"
                     android:textColor="@color/grey_900"
                     android:textSize="@dimen/text_12"
@@ -148,7 +148,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Area &amp; Street"
                     android:textColor="@color/grey_700"
                     android:textSize="@dimen/text_12"
@@ -174,7 +174,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Landmark"
                     android:visibility="visible"
                     android:textColor="@color/grey_700"
@@ -201,7 +201,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Phone Number"
                     android:visibility="visible"
                     android:textColor="@color/grey_700"
@@ -230,7 +230,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Address Type"
                     android:textColor="@color/grey_700"
                     android:textSize="@dimen/text_12"
@@ -306,6 +306,7 @@
 
 
                     </com.google.android.material.chip.ChipGroup>
+
 
                 </HorizontalScrollView>
 

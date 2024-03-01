@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_16"
-            android:fontFamily="@font/poppins_semibold"
+            android:fontFamily="@font/roboto_medium_500"
             android:text="@string/my_orders"
             android:layout_marginTop="@dimen/space_16"
             android:textColor="@color/white"

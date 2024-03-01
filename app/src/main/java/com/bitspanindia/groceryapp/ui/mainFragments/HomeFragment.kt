@@ -18,18 +18,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
+import com.bitspanindia.groceryapp.data.DummyData
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.Viewtype
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.HomeRecyclerAdapter
+import com.bitspanindia.groceryapp.presentation.adapter.HomeTopListAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
+import com.bitspanindia.groceryapp.storage.SharedPreferenceUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -41,6 +45,9 @@ class HomeFragment : Fragment() {
     private val homeVM: HomeViewModel by activityViewModels()
     private val cartVM: CartManageViewModel by activityViewModels()
 
+    @Inject
+    lateinit var pref: SharedPreferenceUtil
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +57,8 @@ class HomeFragment : Fragment() {
 
         mContext = requireContext()
         mActivity = requireActivity()
+        Constant.name = pref.getString(Constant.USER_NAME,"").toString()
+        Constant.phoneNo = pref.getString(Constant.PHONE_NUMBER,"").toString()
 
         return binding.root
     }
@@ -101,10 +110,8 @@ class HomeFragment : Fragment() {
 //            findNavController().navigate(action)
 //        }
 
-        binding.tvCartDetails.setOnClickListener {
-//            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment()
-//            findNavController().navigate(action)
-        }
+        binding.otherAppList.adapter = HomeTopListAdapter(mContext, DummyData.homeTopDataList)
+
 
     }
 
@@ -113,7 +120,7 @@ class HomeFragment : Fragment() {
         cartVM.cartTotalItem.observe(viewLifecycleOwner) {
 
             if (cartVM.isCartVisible) {
-                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)
+                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)  // TODO
                 if (viewHolder is RecyclerView.ViewHolder) {
                     val childRecyclerView = viewHolder.itemView.findViewById<RecyclerView>(R.id.selectedRecView)
 

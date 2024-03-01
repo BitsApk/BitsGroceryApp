@@ -38,7 +38,6 @@
                 android:fontFamily="@font/roboto_medium_500"
                 android:layout_marginStart="@dimen/space_8"
                 android:textSize="16sp"
-
                 app:layout_constraintStart_toEndOf="@id/markImg"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,18 +54,6 @@
                 app:layout_constraintStart_toEndOf="@id/deliveryTxt"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvCartDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cart Details"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/space_20"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvProductDetails" />
 
 
             <TextView
@@ -94,6 +81,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 />
 
+            <ListView
+                android:id="@+id/otherAppList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_16"
+                android:paddingEnd="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_16"
+                tools:listitem="@layout/item_home_top_list"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/locAddressTxt"
+            />
+
             <TextView
                 android:id="@+id/rHomeSearch"
                 android:layout_width="0dp"
@@ -112,7 +112,7 @@
                 app:drawableStartCompat="@drawable/icon_search_greyish"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/locAddressTxt" />
+                app:layout_constraintTop_toBottomOf="@id/otherAppList" />
 
             <View
                 android:id="@+id/viewLineOne"

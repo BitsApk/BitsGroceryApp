@@ -294,5 +294,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             // Update marker position
             currentLocationMarker?.position = target
         }
+
+
     }
+
 }

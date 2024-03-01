@@ -16,16 +16,9 @@ class CustomList(mContext:Context) {
     val dataListProduct = listOf(
         SliderModel(
             image= R.drawable.lays1
-        ),
-        SliderModel(
-            image= R.drawable.lays2
-        ),
-        SliderModel(
-            image= R.drawable.lays3
-        ),
-        SliderModel(
-            image=  R.drawable.lays4
-        ),
+        ),SliderModel(
+            image= R.drawable.lays1
+        )
     ) // Replace this with your data
 
     val dataListProduct2 = listOf(
@@ -34,9 +27,6 @@ class CustomList(mContext:Context) {
         ),
         SliderModel(
             image= R.drawable.lays1
-        ),
-        SliderModel(
-            image= R.drawable.tedhe_medhe
         ),
         SliderModel(
             image=  R.drawable.kukure
