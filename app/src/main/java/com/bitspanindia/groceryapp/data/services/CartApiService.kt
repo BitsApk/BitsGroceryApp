@@ -4,12 +4,14 @@ import com.bitspanindia.groceryapp.data.model.HomeDataX
 import com.bitspanindia.groceryapp.data.model.SearchProductResponse
 import com.bitspanindia.groceryapp.data.model.SubCatProductsData
 import com.bitspanindia.groceryapp.data.model.SubCategoryData
+import com.bitspanindia.groceryapp.data.model.request.CartValidateReq
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.ConfirmOrderReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentVerifyReq
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
+import com.bitspanindia.groceryapp.data.model.response.CartValidateResponse
 import com.bitspanindia.groceryapp.data.model.response.ConfirmOrderResponse
 import com.bitspanindia.groceryapp.data.model.response.PaymentResponse
 import com.bitspanindia.groceryapp.data.model.response.PaymentVerifyResponse
@@ -34,4 +36,9 @@ interface CartApiService {
     suspend fun doConfirmOrder(
         @Body confirmOrderReq: ConfirmOrderReq
     ): Response<ConfirmOrderResponse>
+
+    @POST("CartValidate")
+    suspend fun validateCart(
+        @Body cartValidateReq: CartValidateReq
+    ): Response<CartValidateResponse>
 }

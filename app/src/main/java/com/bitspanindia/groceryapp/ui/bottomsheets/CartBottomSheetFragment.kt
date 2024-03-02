@@ -69,6 +69,8 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
                 CartAction.Minus -> {
                     cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
                     cartVM.decreaseCountOfItem(prod)
+
+                    Log.d("Rishabh", "count map CBF after minus ${cartVM.countMap}")
                 }
                 CartAction.ItemClick -> {
 //                    val action = HomeFragmentDirections.actionGlobalProductDetailsFragment(prod.id)

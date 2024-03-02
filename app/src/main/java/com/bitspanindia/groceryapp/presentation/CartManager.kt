@@ -37,6 +37,19 @@ class CartManager @Inject constructor(private val dataStore: DataStoreManager) {
         if(index == -1) return   // No need never be empty, but only for testing purpose
 
         cart.cartItemsMap[product.id]!![index].count -= 1
+        doCartRemoval(product, index)
+
+        saveDataToCart()
+    }
+
+    suspend fun updateProductInCart(product: ProductData) {
+        val index = getProdIndex(product)
+        cart.cartItemsMap[product.id]!![index] = product
+        doCartRemoval(product, index)
+        saveDataToCart()
+    }
+
+    private fun doCartRemoval(product: ProductData, index: Int) {
         if (cart.cartItemsMap[product.id]!![index].count == 0) {
             if (cart.cartItemsMap.size == 1 && cart.cartItemsMap[product.id]!!.size == 1) {
                 cart.cartItemsMap.clear()
@@ -46,7 +59,6 @@ class CartManager @Inject constructor(private val dataStore: DataStoreManager) {
                 cart.cartItemsMap[product.id]!!.removeAt(index)
             }
         }
-        saveDataToCart()
     }
 
     private suspend fun updateOrAddItemToCart(product: ProductData) {

@@ -4,9 +4,9 @@ package com.bitspanindia.groceryapp.data.model.request
 import com.google.gson.annotations.SerializedName
 
 data class HomeDataReq(
-    @SerializedName("domain")
-    val domain: String? = "",
+    @SerializedName("added_by_web")
+    val addedByWeb: String? = "",
 
     @SerializedName("user_id")
-    val userId: String? = ""
+    val userId: String? = null
 )

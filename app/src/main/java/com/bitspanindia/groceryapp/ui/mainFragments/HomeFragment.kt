@@ -123,7 +123,7 @@ class HomeFragment : Fragment() {
         cartVM.cartTotalItem.observe(viewLifecycleOwner) {
 
             if (cartVM.isCartVisible) {
-                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)  // TODO
+                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)  // TODO remove static
                 if (viewHolder is RecyclerView.ViewHolder) {
                     val childRecyclerView = viewHolder.itemView.findViewById<RecyclerView>(R.id.selectedRecView)
 
@@ -143,16 +143,22 @@ class HomeFragment : Fragment() {
     private fun getSavedCart() {
         viewLifecycleOwner.lifecycleScope.launch {
             cartVM.getSavedCart().let {
-                Log.d("Rishabh", "HF Cart Found before setted ${it.cartItemsMap.size} ${it.cartItemsMap}")
+                Log.d("Rishabh", "cart map ${it.cartItemsMap}")
                 var total = 0;
                 for (i in it.cartItemsMap) {
                     var count = 0;
                     for (j in it.cartItemsMap[i.key] ?: listOf()) {
+                        if (count == 0) {
+                            cartVM.countMap[i.key] = mutableMapOf()
+                        }
                         count += j.count
+                        cartVM.countMap[i.key]!![j.sizeId] =  j.count
                     }
                     total += count
-                    cartVM.countMap[i.key] = count
+                    cartVM.countMap[i.key]!!["-1"] = count
                 }
+
+                Log.d("Rishabh", "count map HF ${cartVM.countMap}")
                 getHomData()
                 if (total > 0) {
                     cartVM.setCartTotal(total)
@@ -165,7 +171,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getHomData() {
-        val homeDataReq = HomeDataReq("56testing.club",Constant.userId)
+        val homeDataReq = HomeDataReq("56testing.club")
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 homeVM.getHomeData(homeDataReq).let {
@@ -202,6 +208,8 @@ class HomeFragment : Fragment() {
                 CartAction.Minus -> {
                     cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
                     cartVM.decreaseCountOfItem(prod)
+                    Log.d("Rishabh", "count map HF after minus ${cartVM.countMap}")
+
                 }
 
                 CartAction.ItemClick -> {

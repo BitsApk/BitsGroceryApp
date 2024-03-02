@@ -15,7 +15,9 @@ import javax.inject.Inject
 class CartManageViewModel @Inject constructor(private val cartManager: CartManager) : ViewModel() {
 
 
-    val countMap: MutableMap<String, Int> = mutableMapOf()  // Temporary create for counting to show
+    val countMap: MutableMap<String, MutableMap<String, Int>> = mutableMapOf()
+    // Temporary create for counting to show, it contains data like [prodId, [sizeId: count, sizeId: count, "-1": total]]
+    // each item have a entry of -1 sizeId that contains sum of them
 
     var _cartTotalItem = MutableLiveData<Int>(0) // Temporary create for holding cart products
     val cartTotalItem: LiveData<Int>
@@ -63,6 +65,12 @@ class CartManageViewModel @Inject constructor(private val cartManager: CartManag
     fun decreaseCountOfItem(product: ProductData) {
         viewModelScope.launch {
             cartManager.decreaseCountOfItem(product)
+        }
+    }
+
+    fun updateProductInCart(product: ProductData) {
+        viewModelScope.launch {
+            cartManager.updateProductInCart(product)
         }
     }
 }

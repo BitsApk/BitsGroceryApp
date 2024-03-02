@@ -37,100 +37,65 @@
             android:textColor="@color/black"
             android:textSize="@dimen/text_12"
             android:layout_marginStart="@dimen/space_16"
-            android:layout_marginEnd="@dimen/space_36"
+            android:layout_marginEnd="@dimen/space_16"
             app:layout_constraintStart_toEndOf="@id/ivProduct"
-            app:layout_constraintEnd_toStartOf="@id/countLay"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ivProduct" />
 
         <TextView
             android:id="@+id/tvQuantity"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="@font/roboto_regular"
             android:maxLines="1"
             android:text="500 g"
+            android:layout_marginTop="4dp"
             android:textColor="@color/grey_700"
             android:textSize="@dimen/text_12"
-            app:layout_constraintEnd_toEndOf="@id/tvProductName"
-            app:layout_constraintStart_toStartOf="@+id/tvProductName"
+            android:layout_marginStart="80dp"
+            app:layout_constraintStart_toEndOf="@id/offeredField"
             app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
 
         <TextView
             android:id="@+id/offeredField"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium_500"
             android:text="र 108"
-            android:includeFontPadding="false"
             android:textColor="@color/grey_700"
             android:textSize="@dimen/text_12"
             android:textStyle="normal"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@id/tvProductName"
-            app:layout_constraintStart_toStartOf="@+id/tvQuantity"
-            app:layout_constraintTop_toBottomOf="@id/tvQuantity"/>
+            android:layout_marginTop="4dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/tvProductName"
+            app:layout_constraintTop_toBottomOf="@id/tvProductName"/>
 
         <TextView
             android:id="@+id/tvPrice"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium_500"
             android:text="र 00"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_12"
-            app:layout_constraintStart_toStartOf="@+id/tvQuantity"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintStart_toStartOf="@+id/offeredField"
             app:layout_constraintTop_toBottomOf="@+id/offeredField" />
 
-
-        <LinearLayout
-            android:id="@+id/countLay"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/stockInfo"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_corner_10"
-            android:backgroundTint="@color/violet_450"
-            android:elevation="@dimen/space_4"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            android:layout_marginStart="@dimen/space_16"
-            app:layout_constraintBottom_toBottomOf="@id/ivProduct"
+            android:fontFamily="@font/roboto_medium_500"
+            android:text="Reduce quantity from %d to %d"
+            android:textColor="@color/mark_negative"
+            android:textSize="@dimen/text_12"
+            android:layout_marginEnd="@dimen/space_16"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintTop_toTopOf="@id/ivProduct"
-            app:layout_constraintStart_toEndOf="@id/tvPrice">
-
-            <ImageView
-                android:id="@+id/minus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_4"
-                android:paddingHorizontal="@dimen/space_6"
-                android:paddingVertical="@dimen/space_4"
-                android:src="@drawable/icon_minus"
-                app:tint="@color/white" />
-
-            <TextView
-                android:id="@+id/count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium_600"
-                android:text="0"
-                android:enabled="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_14" />
+            app:layout_constraintStart_toStartOf="@+id/offeredField"
+            app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
 
 
-            <ImageView
-                android:id="@+id/add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_4"
-                android:paddingHorizontal="@dimen/space_6"
-                android:paddingVertical="@dimen/space_4"
-                android:src="@drawable/icon_add"
-            />
-        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
