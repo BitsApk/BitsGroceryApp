@@ -7,6 +7,6 @@ data class PaymentVerifyReq(
     @SerializedName("conv_charge") val convCharge: Double? = 0.0,
     @SerializedName("orderno") val orderno: String? = "",
     @SerializedName("TXN_AMOUNT") val tXNAMOUNT: Double? = 0.0,
-    @SerializedName("tarns_id") val tarnsId: String? = "",
+    @SerializedName("tarns_id") val transId: String? = "",
     @SerializedName("user_id") val userId: Int? = 0
 )

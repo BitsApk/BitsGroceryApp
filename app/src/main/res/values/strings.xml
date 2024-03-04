@@ -53,5 +53,7 @@
         AIzaSyADINJ4EnaRdWo_0qmILveqtrf16emt5zg
     </string>
     <string name="_d_items_in_your_cart_are_in_stock">%d items adjusted based on available quantity</string>
+    <string name="rs_00">Rs 00</string>
+    <string name="rs_f">Rs %.2f</string>
 
 </resources>

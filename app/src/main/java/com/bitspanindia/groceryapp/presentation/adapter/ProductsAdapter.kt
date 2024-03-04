@@ -37,7 +37,7 @@ class ProductsAdapter(
                 .load(product.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(binding.ivProduct)
-                binding.apply {
+            binding.apply {
                 tvProductName.text = product.productName
                 tvPrice.text = product.discountedPrice.toString()
 
@@ -53,38 +53,39 @@ class ProductsAdapter(
                     handleAddBtnVisiblity(View.GONE, View.VISIBLE)
                     countMap[product.id] = mutableMapOf(Pair(product.sizeId, 1), Pair("-1", 1))
                     count.text = "1"
-                    callback (product, CartAction.Add)
+                    callback(product, CartAction.Add)
                 }
 
                 add.setOnClickListener {
-                    countMap[product.id]!![product.sizeId] = countMap[product.id]!![product.sizeId]!! + 1
+                    countMap[product.id]!![product.sizeId] =
+                        countMap[product.id]!![product.sizeId]!! + 1
                     countMap[product.id]!!["-1"] = countMap[product.id]!!["-1"]!! + 1
                     count.text = countMap[product.id]!!["-1"].toString()
-                    callback (product, CartAction.Add)
+                    callback(product, CartAction.Add)
                 }
 
                 minus.setOnClickListener {
-                    if(countMap[product.id]!!["-1"] == 1) {
+                    if (countMap[product.id]!!["-1"] == 1) {
                         countMap.remove(product.id)
                         handleAddBtnVisiblity(View.VISIBLE, View.GONE)
                     } else {
                         if (countMap[product.id]!![product.sizeId] == 1) {
                             countMap[product.id]!!.remove(product.sizeId)
                         } else {
-                            countMap[product.id]!![product.sizeId] = countMap[product.id]!![product.sizeId]!! - 1
+                            countMap[product.id]!![product.sizeId] =
+                                countMap[product.id]!![product.sizeId]!! - 1
                         }
                         countMap[product.id]!!["-1"] = countMap[product.id]!!["-1"]!! - 1
                         count.text = countMap[product.id]!!["-1"].toString()
                     }
-                    callback (product, CartAction.Minus)
+                    callback(product, CartAction.Minus)
                 }
-
-                itemView.setOnClickListener {
-                    callback(product,CartAction.ItemClick)
+                binding.ivProduct.setOnClickListener {
+                    callback(product, CartAction.ItemClick)
                 }
             }
 
-            adjustItemWidth(orientation,binding.clItem)
+            adjustItemWidth(orientation, binding.clItem)
 
         }
 
@@ -120,10 +121,11 @@ class ProductsAdapter(
                 }
 
                 add.setOnClickListener {
-                    countMap[product.id]!![product.sizeId] = countMap[product.id]!![product.sizeId]!! + 1
+                    countMap[product.id]!![product.sizeId] =
+                        countMap[product.id]!![product.sizeId]!! + 1
                     countMap[product.id]!!["-1"] = countMap[product.id]!!["-1"]!! + 1
                     count.text = countMap[product.id]!![product.sizeId].toString()
-                    callback (product, CartAction.Add)
+                    callback(product, CartAction.Add)
                     if (countMap[product.id]!![product.sizeId] == (product.stock ?: "0").toInt()) {
                         binding.add.isEnabled = false
                     }
@@ -136,16 +138,17 @@ class ProductsAdapter(
                         handleAddBtnVisiblity(View.VISIBLE, View.GONE)
                         data.removeAt(absoluteAdapterPosition)
                         notifyItemRemoved(absoluteAdapterPosition)
-                    } else if(countMap[product.id]!![product.sizeId] == 1) {
+                    } else if (countMap[product.id]!![product.sizeId] == 1) {
                         countMap[product.id]!!.remove(product.sizeId)
                         handleAddBtnVisiblity(View.VISIBLE, View.GONE)
                         data.removeAt(absoluteAdapterPosition)
                         notifyItemRemoved(absoluteAdapterPosition)
                     } else {
-                        countMap[product.id]!![product.sizeId] = countMap[product.id]!![product.sizeId]!! - 1
+                        countMap[product.id]!![product.sizeId] =
+                            countMap[product.id]!![product.sizeId]!! - 1
                         count.text = countMap[product.id]!![product.sizeId].toString()
                     }
-                    callback (product, CartAction.Minus)
+                    callback(product, CartAction.Minus)
                     if (!binding.add.isEnabled) binding.add.isEnabled = true
                 }
             }
@@ -159,12 +162,26 @@ class ProductsAdapter(
     }
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        return when(orientation) {
-            1 -> { HorizontalViewHolder(ItemProductHorizontalBinding.inflate(LayoutInflater.from(parent.context), parent, false)) }
-            else -> VerticalViewHolder(ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return when (orientation) {
+            1 -> {
+                HorizontalViewHolder(
+                    ItemProductHorizontalBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
+            }
+
+            else -> VerticalViewHolder(
+                ItemProductBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
         }
     }
 

@@ -19,15 +19,32 @@ class CartManageViewModel @Inject constructor(private val cartManager: CartManag
     // Temporary create for counting to show, it contains data like [prodId, [sizeId: count, sizeId: count, "-1": total]]
     // each item have a entry of -1 sizeId that contains sum of them
 
-    var _cartTotalItem = MutableLiveData<Int>(0) // Temporary create for holding cart products
+    private var _cartTotalItem = MutableLiveData<Int>(0) // Temporary create for holding cart products
     val cartTotalItem: LiveData<Int>
         get() = _cartTotalItem
 
 
+    private var _cartTotalPrice = MutableLiveData<Double>(0.0) // Temporary create for holding cart products
+    val cartTotalPrice: LiveData<Double>
+        get() = _cartTotalPrice
+
+
     var isCartVisible: Boolean = false
+
+
+    var convCharge = 0.0
+
 
     fun setCartTotal(total: Int) {
         _cartTotalItem.postValue(total)
+    }
+
+    fun setCartTotalPrice(total: Double) {
+        _cartTotalPrice.postValue(total)
+    }
+
+    fun updateToTotalPrice(price: Double) {
+        _cartTotalPrice.postValue(_cartTotalPrice.value?.plus(price) ?: 0.0)
     }
 
     suspend fun getSavedCart(): Cart {
