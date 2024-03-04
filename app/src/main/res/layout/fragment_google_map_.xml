@@ -24,6 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/white_rounded"
+            android:visibility="gone"
             android:paddingHorizontal="@dimen/space_16"
             android:paddingVertical="@dimen/space_12"
             android:layout_margin="@dimen/space_16"
@@ -38,11 +39,25 @@
             android:layout_height="24dp"
             android:layout_marginEnd="@dimen/space_16"
             android:src="@drawable/icon_search"
+            android:visibility="gone"
             app:tint="@color/grey_700"
             app:layout_constraintBottom_toBottomOf="@+id/etSearch"
             app:layout_constraintEnd_toEndOf="@+id/etSearch"
             app:layout_constraintTop_toTopOf="@+id/etSearch" />
 
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_rounded"
+            android:paddingHorizontal="@dimen/space_16"
+            android:paddingVertical="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginHorizontal="@dimen/space_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch" />
 
         <TextView
             android:id="@+id/tvCity"

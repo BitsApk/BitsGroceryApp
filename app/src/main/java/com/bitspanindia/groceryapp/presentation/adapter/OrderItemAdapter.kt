@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.databinding.ItemLocationBinding
-import com.bitspanindia.groceryapp.data.model.PlaceModel
 import com.bitspanindia.groceryapp.data.model.response.ProductOrder
 import com.bitspanindia.groceryapp.databinding.ItemOrderProductBinding
 import com.bitspanindia.groceryapp.databinding.ItemOrdersBinding

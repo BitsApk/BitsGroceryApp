@@ -7,50 +7,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clHeader"
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/tvText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:fontFamily="@font/roboto_medium_500"
+            android:text="Select delivery location"
+            android:textColor="@color/grey_900"
+            android:textSize="@dimen/text_16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/ivBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_16"
-                android:src="@drawable/icon_back2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/grey_700" />
-
-            <TextView
-                android:id="@+id/tvText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_16"
-                android:fontFamily="@font/roboto_medium_500"
-                android:text="Your Location"
-                android:textColor="@color/grey_900"
-                android:textSize="@dimen/text_16"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/space_10"
-                android:background="@color/grey_200"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvText" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
             android:id="@+id/etSearch"
@@ -59,19 +32,24 @@
             android:drawableStart="@drawable/icon_search"
             android:drawableTint="@color/grey_700"
             android:drawablePadding="@dimen/space_8"
-            android:hint="Search a new address"
+            android:hint="Search for area, street name.."
             android:background="@drawable/white_rounded"
             android:backgroundTint="@color/grey_100"
             android:padding="@dimen/space_12"
             android:layout_margin="@dimen/space_16"
-            app:layout_constraintTop_toBottomOf="@+id/clHeader"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvText"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clCurrentLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/space_16"
-            android:visibility="gone"
+            android:layout_marginHorizontal="@dimen/space_16"
+            android:padding="@dimen/space_8"
+            android:hint="Search for area, street name.."
+            android:layout_marginTop="@dimen/space_10"
+            android:background="@drawable/white_rounded"
+            android:backgroundTint="@color/grey_100"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etSearch">
@@ -91,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_10"
                 android:fontFamily="@font/roboto_medium_500"
-                android:text="Current Location"
+                android:text="Get Current Location"
                 android:textColor="@color/red_500"
                 android:textSize="@dimen/text_16"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -114,16 +92,40 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/tvSavedAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:fontFamily="@font/roboto_medium_500"
+            android:text="Saved Address"
+            android:textColor="@color/grey_700"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/clCurrentLocation"/>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvLocation"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="400dp"
             android:layout_marginTop="@dimen/space_16"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clCurrentLocation"
+            app:layout_constraintTop_toBottomOf="@+id/tvSavedAdd"
             tools:itemCount="4"
+            tools:listitem="@layout/item_location" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAddedLocation"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="@dimen/space_10"
             android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/tvSavedAdd"
+            tools:itemCount="4"
             tools:listitem="@layout/item_location" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
