@@ -1,12 +1,17 @@
 package com.bitspanindia.groceryapp.ui.mainFragments
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -16,6 +21,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.DialogHelper
+import com.bitspanindia.groceryapp.AppUtils
+import com.bitspanindia.groceryapp.AppUtils.showShortToast
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.DummyData
@@ -30,6 +38,14 @@ import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
 import com.bitspanindia.groceryapp.storage.SharedPreferenceUtil
+import com.bitspanindia.groceryapp.ui.bottomsheets.CartBottomSheetFragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,9 +57,15 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
+    private lateinit var dialogHelper: DialogHelper
 
     private val homeVM: HomeViewModel by activityViewModels()
     private val cartVM: CartManageViewModel by activityViewModels()
+
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var lDialog : BottomSheetDialog
 
     @Inject
     lateinit var pref: SharedPreferenceUtil
@@ -57,6 +79,11 @@ class HomeFragment : Fragment() {
 
         mContext = requireContext()
         mActivity = requireActivity()
+        dialogHelper = DialogHelper(mContext, mActivity)
+
+        // Initialize FusedLocationProviderClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
         Constant.name = pref.getString(Constant.USER_NAME,"").toString()
         Constant.phoneNo = pref.getString(Constant.PHONE_NUMBER,"").toString()
 
@@ -65,6 +92,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (checkGpsStatus()&&Constant.userLocation.isEmpty()){
+            requestLocationUpdates(false)
+        }else{
+           if (Constant.userLocation.isEmpty()) showLocationDialog()
+        }
+
+        binding.locAddressTxt.text = Constant.userLocation
 
 //        showLocationDialog()
 //        setProducts()
@@ -85,12 +120,10 @@ class HomeFragment : Fragment() {
         }
 
         binding.markImg.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToMapFragment("home")
-            )
-
-//            val action = HomeFragmentDirections.actionHomeFragmentToChooseLocationFragment()
-//            findNavController().navigate(action)
+//            findNavController().navigate(
+//                HomeFragmentDirections.actionHomeFragmentToMapFragment("home")
+//            )
+            showManualLocationDialog()
         }
 
         getHomData()
@@ -230,20 +263,89 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun showLocationDialog() {
-        val dialog = BottomSheetDialog(mContext)
-//        val view = layoutInflater.inflate(R.layout.location_enable_bottom_sheet, null)
-        val bindingDialog = LocationEnableBottomSheetBinding.inflate(layoutInflater)
-        dialog.setCancelable(false)
-        dialog.setContentView(bindingDialog.root)
+    private fun checkGpsStatus():Boolean {
+        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+       return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
 
-        bindingDialog.clSearchLocation.setOnClickListener {
-            dialog.dismiss()
-            val action = HomeFragmentDirections.actionHomeFragmentToChooseLocationFragment()
-            findNavController().navigate(action)
+    private fun showLocationDialog() {
+        lDialog = BottomSheetDialog(mContext)
+        val bindingDialog = LocationEnableBottomSheetBinding.inflate(layoutInflater)
+        lDialog.setCancelable(false)
+        lDialog.setContentView(bindingDialog.root)
+
+
+        bindingDialog.btnContinue.setOnClickListener {
+            AppUtils.gpsPermission(requireContext(), requireActivity()) {
+                showShortToast(mContext,"click permission")
+                requestLocationUpdates(true)
+            }
         }
 
-        dialog.show()
+        bindingDialog.clSearchLocation.setOnClickListener {
+            lDialog.dismiss()
+            showManualLocationDialog()
+        }
+
+        lDialog.show()
+    }
+
+    private fun showManualLocationDialog() {
+        val modalBottomSheet by lazy {
+            ChooseLocationFragment()
+        }
+
+        modalBottomSheet.show(childFragmentManager, ChooseLocationFragment.TAG)
+        modalBottomSheet.isCancelable = false
+    }
+
+//    private var isLocationUpdatesStarted = false // Keep track of whether location updates are started
+
+    private fun requestLocationUpdates(dismissDialog:Boolean) {
+//        if (isLocationUpdatesStarted) return // Check if location updates are already started
+        dialogHelper.showProgressDialog()
+
+        locationRequest = LocationRequest.Builder(1000L).setPriority(Priority.PRIORITY_HIGH_ACCURACY).build()
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                if (dismissDialog) lDialog.dismiss()
+                locationResult ?: return
+                for (location in locationResult.locations) {
+                    dialogHelper.hideProgressDialog()
+                    // Handle location updates here
+
+                    val address = AppUtils.getAddressFromLocation(mContext,location.latitude,location.longitude)
+                    binding.locAddressTxt.text = address.getAddressLine(0)
+
+                    AppUtils.stopLocationUpdates(fusedLocationClient, locationCallback)
+//                    isLocationUpdatesStarted = false // Update flag to indicate that updates are stopped
+
+                    return
+                }
+            }
+        }
+
+        // Request location updates
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request location permissions if not granted
+            AppUtils.requestLocationPermissions(mActivity, 1)
+            return
+        }
+
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
+//        isLocationUpdatesStarted = true // Update flag to indicate that updates are started
     }
 
 }

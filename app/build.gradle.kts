@@ -107,6 +107,11 @@ dependencies {
     implementation ("com.google.android.gms:play-services-location:21.1.0")
     implementation ("com.google.android.libraries.places:places:3.3.0")
 
+
+    //map
+    implementation ("com.google.maps:google-maps-services:0.15.0")
+    implementation ("com.android.volley:volley:1.2.1")
+
     //paging library
     val pagingVersion = "3.2.1"
 

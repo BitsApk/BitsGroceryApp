@@ -20,4 +20,11 @@ object Constant {
     const val USER_NAME = "USER_NAME"
     const val PHONE_NUMBER = "PHONE_NUMBER"
 
+
+    //current address
+    var userLocation =""
+    var latitude = 0.0
+    var longitude = 0.0
+    var pinCode = ""
+
 }

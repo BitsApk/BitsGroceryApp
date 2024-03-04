@@ -26,8 +26,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
+import com.bitspanindia.groceryapp.AppUtils.gpsPermission
 import com.bitspanindia.groceryapp.AppUtils.showShortToast
+import com.bitspanindia.groceryapp.AppUtils.stopLocationUpdates
 import com.bitspanindia.groceryapp.R
+import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.databinding.FragmentGoogleMapBinding
 import com.bitspanindia.groceryapp.ui.mainFragments.AddressListFragmentDirections
 import com.google.android.gms.common.api.ResolvableApiException
@@ -47,6 +50,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import java.io.IOException
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -61,19 +69,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val args: MapFragmentArgs by navArgs()
     private var latitude = 0.0
     private var longitude = 0.0
+    private var addressString = ""
 
-    override fun onStart() {
-        super.onStart()
-        // Check if GPS is enabled, if not, prompt the user to enable it
-        checkGpsStatus()
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        // Check if GPS is enabled, if not, prompt the user to enable it
+//        checkGpsStatus()
+//    }
 
     private fun checkGpsStatus() {
-        val locationManager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // GPS is not enabled, show a dialog to prompt the user to enable it
-            showGpsDialog()
+//            showGpsDialog()
+            gpsPermission(requireContext(),requireActivity()){
+                requestLocationUpdates()
+            }
         } else {
             // GPS is enabled, proceed with getting the current location
             requestLocationUpdates()
@@ -134,6 +145,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     binding.tvFullAddress.visibility = View.VISIBLE
                     binding.tvCity.visibility = View.VISIBLE
                     // Handle location updates here
+                    Log.e("TAG", "onLocationResult: ${location.latitude} \n ${location.longitude}", )
                     updateCurrentLocationMarker(LatLng(location.latitude, location.longitude))
                     latitude = location.latitude
                     longitude = location.longitude
@@ -142,7 +154,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     val address = AppUtils.getAddressFromLocation(requireContext(),latitude,longitude)
                     setAddress(address)
                     // Stop location updates after receiving the location
-                    stopLocationUpdates()
+                    stopLocationUpdates(fusedLocationClient,locationCallback)
                     isLocationUpdatesStarted = false // Update flag to indicate that updates are stopped
                     return // Exit loop after handling first location update
                 }
@@ -171,7 +183,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setAddress(address: Address) {
-        val addressString = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
+        addressString = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
         binding.apply {
             tvCity.text = address.locality
             tvFullAddress.text = addressString
@@ -179,9 +191,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    private fun stopLocationUpdates() {
-        fusedLocationClient.removeLocationUpdates(locationCallback)
-    }
     private fun updateCurrentLocationMarker(latLng: LatLng) {
         if (currentLocationMarker == null) {
             currentLocationMarker = mMap.addMarker(MarkerOptions().position(latLng).title("Current Location"))
@@ -214,6 +223,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize Places API
+        Places.initialize(requireContext(), getString(R.string.google_maps_key))
+
         // Initialize FusedLocationProviderClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -221,6 +233,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        searchPlaces()
 
 
         binding.etSearch.setOnClickListener {
@@ -249,11 +263,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             if (args.redirectBy == "addAddress"){
              val action =  AddressListFragmentDirections.actionGlobalAddAddressFragment(latitude.toString(),longitude.toString())
                 findNavController().navigate(action)
+            }else{
+                Constant.latitude = latitude
+                Constant.longitude = longitude
+                Constant.userLocation = addressString
+                findNavController().popBackStack()
             }
 
         }
 
 }
+
+    private fun setLocationPre() {
+        dialogHelper.hideProgressDialog()
+        latitude = args.latitude.toDouble()
+        longitude = args.longitude.toDouble()
+
+        binding.tvFullAddress.visibility = View.VISIBLE
+        binding.tvCity.visibility = View.VISIBLE
+        // Handle location updates here
+        updateCurrentLocationMarker(LatLng(latitude, longitude))
+
+        val address = AppUtils.getAddressFromLocation(requireContext(),latitude,longitude)
+        setAddress(address)
+    }
 
     companion object {
         private const val PERMISSIONS_REQUEST_ACCESS_LOCATION = 1
@@ -296,6 +329,50 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
 
 
+        setLocationPre()
+
+        if (latitude==0.0 && longitude==0.0){
+            checkGpsStatus()
+        }
+
+    }
+
+    private fun searchPlaces() {
+
+        // Initialize the AutocompleteSupportFragment.
+        val autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
+
+        // Set up a PlaceSelectionListener to handle the selection of a place.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // Get info about the selected place.
+                val placeId = place.id
+                val fields = listOf(Place.Field.LAT_LNG, Place.Field.NAME)
+
+                // Specify the types of place data to return.
+                val request = FetchPlaceRequest.newInstance(placeId, fields)
+
+                // Fetch Place by ID
+                val placesClient = Places.createClient(requireContext())
+                placesClient.fetchPlace(request).addOnSuccessListener { response ->
+                    val latLng = response.place.latLng
+                    if (latLng != null) {
+//                        mMap.addMarker(MarkerOptions().position(latLng).title(place.name))
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f))
+                        updateCurrentLocationMarker(latLng)
+                    }
+                }.addOnFailureListener { exception ->
+                    exception.printStackTrace()
+                }
+            }
+
+            override fun onError(status: com.google.android.gms.common.api.Status) {
+                // Handle the error.
+            }
+        })
     }
 
 }

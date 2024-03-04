@@ -1,6 +1,8 @@
 package com.bitspanindia.groceryapp
 
+import android.Manifest
 import android.content.Context
+import android.content.IntentSender
 import android.content.res.Resources
 import android.location.Geocoder
 import android.opengl.Visibility
@@ -8,11 +10,22 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.databinding.ItemProductBinding
+import com.bitspanindia.groceryapp.ui.map.MapFragment
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.location.SettingsClient
+import com.google.android.gms.tasks.Task
 import java.io.IOException
 import java.util.Locale
 import java.util.regex.Pattern
@@ -91,6 +104,54 @@ object AppUtils {
             Log.e("Geocoder", "Error getting address: ${e.message}")
         }
         return android.location.Address(Locale(""))
+    }
+
+    fun gpsPermission(context: Context,activity: FragmentActivity,callback:()->Any) {
+        val REQUEST_CHECK_SETTINGS = 132
+
+        val locationRequest = LocationRequest.create().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+
+        val client: SettingsClient = LocationServices.getSettingsClient(context)
+        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
+
+        task.addOnSuccessListener { locationSettingsResponse ->
+            // Location settings are satisfied, the client can initialize location requests here
+            callback()
+        }
+
+        task.addOnFailureListener { exception ->
+            if (exception is ResolvableApiException) {
+                showShortToast(context,"Permission denied to access location")
+                // Location settings are not satisfied, but this can be fixed by showing the user a dialog
+                try {
+                    // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult()
+                    exception.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS)
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    // Ignore the error
+                }
+            }
+        }
+    }
+
+
+    fun requestLocationPermissions(activity: FragmentActivity,permissionReqCode:Int) {
+        ActivityCompat.requestPermissions(
+            activity,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
+            permissionReqCode
+        )
+    }
+
+    fun stopLocationUpdates(fusedLocationClient: FusedLocationProviderClient,locationCallback: LocationCallback) {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
 }

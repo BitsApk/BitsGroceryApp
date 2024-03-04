@@ -16,6 +16,7 @@ import com.bitspanindia.groceryapp.AppUtils.cartLayoutVisibility
 import com.bitspanindia.groceryapp.AppUtils.startShimmer
 import com.bitspanindia.groceryapp.AppUtils.stopShimmer
 import com.bitspanindia.groceryapp.R
+import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.presentation.adapter.AddressesAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentAddressListBinding
@@ -53,7 +54,7 @@ class AddressListFragment : Fragment() {
         getAddressList()
 
         binding.btnAddAddress.setOnClickListener {
-            val action = AddressListFragmentDirections.actionGlobalMapFragment("addAddress")
+            val action = AddressListFragmentDirections.actionGlobalMapFragment("addAddress","0.0","0.0")
             findNavController().navigate(action)
         }
 
@@ -63,7 +64,7 @@ class AddressListFragment : Fragment() {
         binding.noProduct.tvNotFound.text = getString(R.string.one_str,"No Address Found")
         startShimmer(binding.shimmer2,binding.rvAddresses)
         binding.btnAddAddress.visibility = View.GONE
-        val getAddressReq = HomeDataReq(userId = "1")
+        val getAddressReq = HomeDataReq(userId = Constant.userId)
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
@@ -73,8 +74,8 @@ class AddressListFragment : Fragment() {
                         binding.btnAddAddress.visibility = View.VISIBLE
                         if (it.body()?.statusCode == 200) {
                             val data = it.body()?.myAddress
-                            binding.rvAddresses.adapter = AddressesAdapter(mContext,data?: listOf()){addressId->
-                                removeAddress(addressId)
+                            binding.rvAddresses.adapter = AddressesAdapter(mContext,data?: listOf()){address,clickType->
+                                if (clickType=="del") removeAddress(address.id?:"")
                             }
 
                         } else {
@@ -96,7 +97,7 @@ class AddressListFragment : Fragment() {
     }
 
     private fun removeAddress(addressId:String) {
-        val removeAddress = CommonDataReq(userId = "1", addressId = addressId)
+        val removeAddress = CommonDataReq(userId = Constant.userId, addressId = addressId)
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {

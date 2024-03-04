@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 class AddressesAdapter(
     private val context: Context,
     private val addressesList: List<MyAddress>,
-    private val callBack:(addressId:String)->Any
+    private val callBack:(address:MyAddress,clickType:String)->Any
 ): RecyclerView.Adapter<AddressesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,7 +37,11 @@ class AddressesAdapter(
             binding.tvAddressType.text =  item.addressName
 
             binding.ivDelete.setOnClickListener {
-                callBack(item.id?:"")
+                callBack(item,"del")
+            }
+
+            itemView.setOnClickListener {
+                callBack(item,"itemClick")
             }
 
         }

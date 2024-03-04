@@ -1,6 +1,7 @@
 package com.bitspanindia.groceryapp.data.model
 data class PlaceModel(
-    val placeId: String,
-    val name: String,
-    val address: String
+    val city: String,
+    val latitude: Double,
+    val longitude: Double,
+    val fullAddress: String
 )
