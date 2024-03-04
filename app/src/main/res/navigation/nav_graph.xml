@@ -21,6 +21,18 @@
         app:popEnterAnim="@anim/nav_pop_enter_anim"
         app:popExitAnim="@anim/nav_pop_exit_anim" />
 
+    <action
+        android:id="@+id/action_global_mapFragment"
+        app:destination="@id/mapFragment"
+        app:popUpTo="@+id/addAddressFragment"
+        app:popUpToInclusive="true"
+        />
+    <action
+        android:id="@+id/action_global_addAddressFragment"
+        app:destination="@id/addAddressFragment"
+        app:popUpTo="@+id/mapFragment"
+        app:popUpToInclusive="true"
+        />
 
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -209,7 +221,18 @@
         android:id="@+id/addAddressFragment"
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.AddAddressFragment"
         android:label="AddAddressFragment"
-        tools:layout="@layout/fragment_add_address" />
+        tools:layout="@layout/fragment_add_address" >
+
+        <argument
+            android:name="latitude"
+            app:argType="string" />
+
+        <argument
+            android:name="longitude"
+            app:argType="string" />
+
+    </fragment>
+
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.ProductDetailsFragment"
@@ -314,6 +337,9 @@
             app:exitAnim="@anim/nav_exit_anim"
             app:popEnterAnim="@anim/nav_pop_enter_anim"
             app:popExitAnim="@anim/nav_pop_exit_anim" />
+        <action
+            android:id="@+id/action_orderListFragment_to_orderTrackingFragment"
+            app:destination="@id/orderTrackingFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderDetailsFragment"
@@ -330,7 +356,17 @@
         android:id="@+id/mapFragment"
         android:name="com.bitspanindia.groceryapp.ui.map.MapFragment"
         android:label="MapFragment"
-        tools:layout="@layout/fragment_google_map_" />
+        tools:layout="@layout/fragment_google_map_">
+
+        <argument app:argType="string"
+            android:name="redirectBy"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/orderTrackingFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.OrderTrackingFragment"
+        android:label="OrderTrackingFragment"
+        tools:layout="@layout/fragment_order_tracking"/>
 
 
 </navigation>

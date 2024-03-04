@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.model.ProductData
+import com.bitspanindia.groceryapp.data.model.request.AddAddressReq
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
@@ -42,6 +43,10 @@ class ProfileRepository @Inject constructor(private val profileApiService: Profi
 
     suspend fun getOrderDetails(commonDataReq: CommonDataReq): Response<OrderDetailsResponse> {
         return profileApiService.getOrderDetails(commonDataReq)
+    }
+
+    suspend fun addAddress(addAddressReq: AddAddressReq): Response<CommonResponse> {
+        return profileApiService.addAddress(addAddressReq)
     }
 
     fun getOrderList(productDataReq: ProductDataReq) : Flow<PagingData<Order>> {

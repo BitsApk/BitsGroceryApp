@@ -1,113 +1,193 @@
 package com.bitspanindia.groceryapp.ui.mainFragments
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.content.Context
+import android.location.Address
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.bitspanindia.DialogHelper
+import com.bitspanindia.groceryapp.AppUtils
+import com.bitspanindia.groceryapp.AppUtils.showShortToast
 import com.bitspanindia.groceryapp.R
+import com.bitspanindia.groceryapp.data.Constant
+import com.bitspanindia.groceryapp.data.model.request.AddAddressReq
 import com.bitspanindia.groceryapp.databinding.FragmentAddAddressBinding
-//import com.google.android.gms.location.LocationServices
-//import com.google.android.gms.maps.CameraUpdateFactory
-//import com.google.android.gms.maps.GoogleMap
-//import com.google.android.gms.maps.OnMapReadyCallback
-//import com.google.android.gms.maps.SupportMapFragment
-//import com.google.android.gms.maps.model.LatLng
-//import com.google.android.gms.maps.model.MarkerOptions
+import com.bitspanindia.groceryapp.presentation.viewmodel.ProfileViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-//class AddAddressFragment : Fragment() , OnMapReadyCallback,
-//    GoogleMap.OnMyLocationButtonClickListener{
-//    private lateinit var binding: FragmentAddAddressBinding
-//    private lateinit var mMap: GoogleMap
-
-class AddAddressFragment : Fragment(){
+@AndroidEntryPoint
+class AddAddressFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentAddAddressBinding
+    private lateinit var mMap: GoogleMap
+    private val args: AddAddressFragmentArgs by navArgs()
+    private lateinit var dialogHelper: DialogHelper
+    private lateinit var mContext: Context
+    private lateinit var mActivity: FragmentActivity
+    private val pvm: ProfileViewModel by activityViewModels()
+    private val addressReq = AddAddressReq()
+    private lateinit var address: Address
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
-        binding =  FragmentAddAddressBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentAddAddressBinding.inflate(inflater, container, false)
+        mContext = requireContext()
+        mActivity = requireActivity()
 
-//        val mapFragment =
-//            childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
-//        mapFragment.getMapAsync(this)
+        dialogHelper = DialogHelper(mContext, mActivity)
+
+        setLocationOnMap()
 
         return binding.root
     }
 
-//    override fun onMapReady(googleMap: GoogleMap) {
-//        mMap = googleMap
-//        mMap.setOnMyLocationButtonClickListener(this)
-//
-//        if (ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                android.Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-//                LOCATION_PERMISSION_REQUEST_CODE
-//            )
-//        } else {
-//            mMap.isMyLocationEnabled = true
-//            // Show the current location on the map
-//            showCurrentLocation()
-//        }
-//    }
-//
-//    override fun onMyLocationButtonClick(): Boolean {
-//        // Handle the My Location button click
-//        // You can customize this behavior if needed
-//        return false
-//    }
-//
-//    private fun showCurrentLocation() {
-//        // Get the last known location from the FusedLocationProviderClient
-//        // Note: You should handle location updates more gracefully in a production app
-//        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-//        if (ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return
-//        }
-//        fusedLocationClient.lastLocation
-//            .addOnSuccessListener { location ->
-//                if (location != null) {
-//                    val currentLatLng = LatLng(location.latitude, location.longitude)
-//                    mMap.addMarker(MarkerOptions().position(currentLatLng).title("You are here"))
-//                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM))
-//                }
-//            }
-//            .addOnFailureListener { e ->
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Error getting location: ${e.message}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//    }
-//
-//    companion object {
-//        const val DEFAULT_ZOOM = 15.0f
-//        const val LOCATION_PERMISSION_REQUEST_CODE = 123
-//    }
+    private fun setLocationOnMap() {
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btnChange.setOnClickListener {
+            val action = AddAddressFragmentDirections.actionGlobalMapFragment("addAddress")
+            findNavController().navigate(action)
+        }
+
+        binding.btnAddAddress.setOnClickListener {
+            if (validation()) {
+                addAddress()
+            }
+        }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        mMap.uiSettings.isZoomControlsEnabled = true
+
+        updateCurrentLocationMarker(LatLng(args.latitude.toDouble(), args.longitude.toDouble()))
+
+        address = AppUtils.getAddressFromLocation(
+            requireContext(),
+            args.latitude.toDouble(),
+            args.longitude.toDouble()
+        )
+        val fullAddress =
+            "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
+        binding.tvAddress.text = address.locality
+        binding.tvFullAddress.text = fullAddress
+
+    }
+
+    private fun updateCurrentLocationMarker(latLng: LatLng) {
+        mMap.addMarker(MarkerOptions().position(latLng).title("MarkerLocation"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
+    }
+
+
+    private fun addAddress() {
+        dialogHelper.showProgressDialog()
+        binding.apply {
+            addressReq.userId = Constant.userId
+            addressReq.perAdd = etAreaStreet.text.toString()
+            addressReq.city = address.locality
+            addressReq.locality = address.locality
+            addressReq.country = address.countryName
+            addressReq.state = address.adminArea
+            addressReq.zipcode = address.postalCode
+            addressReq.latitude = args.latitude
+            addressReq.longitude = args.longitude
+            addressReq.landMark = etLandMark.text.toString()
+            addressReq.phone = etPhoneNumber.text.toString()
+            addressReq.addressName = when (addTypeChipGroup.checkedChipId) {
+                R.id.chipHome -> "Home"
+                R.id.chipWork -> "Work"
+                else -> "Other"
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                pvm.addAddress(addressReq).let {
+                    dialogHelper.hideProgressDialog()
+                    if (it.isSuccessful && it.body() != null) {
+                        if (it.body()?.statusCode == 200) {
+                            showShortToast(mContext, "Address add successfully")
+                            findNavController().popBackStack()
+                        } else {
+                            dialogHelper.showErrorMsgDialog(
+                                it.body()?.message ?: "Something went wrong"
+                            ) {}
+                        }
+                    } else {
+                        dialogHelper.showErrorMsgDialog(
+                            "Something went wrong"
+                        ) {}
+                    }
+                }
+            } catch (e: Exception) {
+                dialogHelper.showErrorMsgDialog(
+                    "Something went wrong"
+                ) {}
+            }
+
+        }
+
+    }
+
+    private fun validation(): Boolean {
+        binding.apply {
+            addressReq.userId = Constant.userId
+            addressReq.perAdd = etAreaStreet.text.toString()
+            addressReq.city = address.locality
+            addressReq.locality = address.locality
+            addressReq.country = address.countryName
+            addressReq.state = address.adminArea
+            addressReq.zipcode = address.postalCode
+            addressReq.latitude = args.latitude
+            addressReq.longitude = args.longitude
+            addressReq.landMark = etLandMark.text.toString()
+            addressReq.phone = etPhoneNumber.text.toString()
+            addressReq.addressName = when (addTypeChipGroup.checkedChipId) {
+                R.id.chipHome -> "Home"
+                R.id.chipWork -> "Work"
+                else -> "Other"
+            }
+
+            with(addressReq) {
+                if (perAdd.isNullOrEmpty()) {
+                    etAreaStreet.error = "Enter Area and Street"
+                    etAreaStreet.isFocusable = true
+                    return false
+                } else if (phone?.length != 10) {
+                    etPhoneNumber.error = "Enter valid phone number"
+                    etPhoneNumber.isFocusable = true
+                    return false
+                } else if (addressName.isNullOrEmpty()) {
+                    showShortToast(mContext, "Select address type")
+                    return false
+                }
+            }
+
+        }
+
+        return true
+    }
 
 }

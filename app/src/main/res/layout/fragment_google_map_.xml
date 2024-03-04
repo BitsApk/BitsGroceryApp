@@ -15,7 +15,8 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/space_30"
+            app:layout_constraintBottom_toTopOf="@+id/tvCity"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -41,6 +42,50 @@
             app:layout_constraintBottom_toBottomOf="@+id/etSearch"
             app:layout_constraintEnd_toEndOf="@+id/etSearch"
             app:layout_constraintTop_toTopOf="@+id/etSearch" />
+
+
+        <TextView
+            android:id="@+id/tvCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Sambhal"
+            android:layout_marginHorizontal="@dimen/space_16"
+            android:layout_marginBottom="@dimen/space_8"
+            android:textColor="@color/grey_900"
+            android:textSize="@dimen/text_20"
+            app:layout_constraintBottom_toTopOf="@+id/tvFullAddress"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvFullAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="full address"
+            android:textColor="@color/grey_900"
+            android:layout_margin="@dimen/space_16"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintBottom_toTopOf="@+id/btnContinue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnContinue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_16"
+            android:background="@drawable/white_rounded"
+            android:backgroundTint="@color/red_500"
+            android:layout_marginBottom="@dimen/space_30"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/continue_"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

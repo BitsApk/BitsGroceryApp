@@ -2,16 +2,20 @@ package com.bitspanindia.groceryapp
 
 import android.content.Context
 import android.content.res.Resources
+import android.location.Geocoder
 import android.opengl.Visibility
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentActivity
-import java.util.regex.Pattern
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.databinding.ItemProductBinding
 import com.facebook.shimmer.ShimmerFrameLayout
+import java.io.IOException
+import java.util.Locale
+import java.util.regex.Pattern
 
 object AppUtils {
 
@@ -34,6 +38,11 @@ object AppUtils {
                     ")+"
         )
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches()
+    }
+
+    fun isValidPinCode(pinCode: String): Boolean {
+        val pinCodePattern = Pattern.compile("^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$")
+        return pinCodePattern.matcher(pinCode).matches()
     }
 
     fun isValidNum(mobile: String): Boolean {
@@ -71,5 +80,17 @@ object AppUtils {
         recyclerView.visibility = View.VISIBLE
     }
 
+    fun getAddressFromLocation(context: Context,latitude: Double, longitude: Double):android.location.Address {
+        val geocoder = Geocoder(context)
+        try {
+            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+            if (addresses?.isNotEmpty()==true) {
+              return addresses[0]
+            }
+        } catch (e: IOException) {
+            Log.e("Geocoder", "Error getting address: ${e.message}")
+        }
+        return android.location.Address(Locale(""))
+    }
 
 }

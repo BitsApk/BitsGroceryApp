@@ -139,6 +139,8 @@ class VerifyOtpFragment : Fragment() {
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()!!.statusCode == 200) {
                             pref.putString(Constant.USER_ID, it.body()!!.userId ?: "")
+                            pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone ?: "")
+                            pref.putString(Constant.USER_NAME, it.body()!!.name ?: "")
                             Constant.userId = it.body()!!.userId ?: ""
                             navigateToHome()
                         } else {
@@ -174,6 +176,8 @@ class VerifyOtpFragment : Fragment() {
                         if (it.body()!!.statusCode == 200) {
                             Toast.makeText(mContext, "SuccessFully Registered", Toast.LENGTH_SHORT).show()
                             pref.putString(Constant.USER_ID, it.body()!!.userId.toString())
+                            pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone.toString() ?: "")
+                            pref.putString(Constant.USER_NAME, it.body()!!.name ?: "")
                             Constant.userId = it.body()!!.userId.toString()
                             navigateToHome()
                         } else {

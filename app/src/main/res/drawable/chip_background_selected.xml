@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Selected state -->
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <!-- Change the background color here -->
+            <solid android:color="@color/green_500"/> <!-- Example color: Green -->
+            <corners android:radius="16dp"/> <!-- Example corner radius: 16dp -->
+        </shape>
+    </item>
+    <!-- Default state -->
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <!-- Set default background color here -->
+            <solid android:color="@color/white"/> <!-- Example color: White -->
+            <corners android:radius="16dp"/> <!-- Example corner radius: 16dp -->
+        </shape>
+    </item>
+</selector>

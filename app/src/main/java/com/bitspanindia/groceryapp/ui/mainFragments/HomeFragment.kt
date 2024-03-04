@@ -29,9 +29,11 @@ import com.bitspanindia.groceryapp.presentation.adapter.HomeTopListAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
+import com.bitspanindia.groceryapp.storage.SharedPreferenceUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -43,6 +45,9 @@ class HomeFragment : Fragment() {
     private val homeVM: HomeViewModel by activityViewModels()
     private val cartVM: CartManageViewModel by activityViewModels()
 
+    @Inject
+    lateinit var pref: SharedPreferenceUtil
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +57,8 @@ class HomeFragment : Fragment() {
 
         mContext = requireContext()
         mActivity = requireActivity()
+        Constant.name = pref.getString(Constant.USER_NAME,"").toString()
+        Constant.phoneNo = pref.getString(Constant.PHONE_NUMBER,"").toString()
 
         return binding.root
     }
@@ -79,7 +86,7 @@ class HomeFragment : Fragment() {
 
         binding.markImg.setOnClickListener {
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToMapFragment()
+                HomeFragmentDirections.actionHomeFragmentToMapFragment("home")
             )
 
 //            val action = HomeFragmentDirections.actionHomeFragmentToChooseLocationFragment()

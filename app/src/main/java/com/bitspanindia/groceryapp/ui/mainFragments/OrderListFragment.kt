@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils.startShimmer
 import com.bitspanindia.groceryapp.AppUtils.stopShimmer
 import com.bitspanindia.groceryapp.R
@@ -29,7 +30,6 @@ class OrderListFragment : Fragment() {
     private lateinit var mActivity: FragmentActivity
     private lateinit var adapter: OrderListPagingAdapter
     private val pvm: ProfileViewModel by activityViewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +55,7 @@ class OrderListFragment : Fragment() {
     }
 
     private fun setOrders() {
+        binding.noProduct.tvNotFound.text = getString(R.string.one_str,"No Order Found")
         setOrderAdapter()
         getOrderList()
 
@@ -88,7 +89,9 @@ class OrderListFragment : Fragment() {
 
     private fun setOrderAdapter() {
         adapter = OrderListPagingAdapter(requireContext()){data->
-          findNavController().navigate(OrderListFragmentDirections.actionOrderListFragmentToOrderDetailsFragment(data.orderId?:""))
+//          findNavController().navigate(OrderListFragmentDirections.actionOrderListFragmentToOrderDetailsFragment(data.orderId?:"",))
+            findNavController().navigate(OrderListFragmentDirections.actionOrderListFragmentToOrderTrackingFragment())
+
         }
         binding.rvOrders.adapter = adapter
     }

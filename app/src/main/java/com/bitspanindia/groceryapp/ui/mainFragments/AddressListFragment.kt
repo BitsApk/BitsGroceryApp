@@ -11,9 +11,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils.cartLayoutVisibility
 import com.bitspanindia.groceryapp.AppUtils.startShimmer
 import com.bitspanindia.groceryapp.AppUtils.stopShimmer
+import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.presentation.adapter.AddressesAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentAddressListBinding
@@ -28,6 +30,8 @@ class AddressListFragment : Fragment() {
     private val pvm: ProfileViewModel by activityViewModels()
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
+    private lateinit var dialogHelper: DialogHelper
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +40,7 @@ class AddressListFragment : Fragment() {
 
         mContext = requireContext()
         mActivity = requireActivity()
+        dialogHelper = DialogHelper(mContext, mActivity)
 
         cartLayoutVisibility(mActivity,View.GONE)
 
@@ -48,13 +53,14 @@ class AddressListFragment : Fragment() {
         getAddressList()
 
         binding.btnAddAddress.setOnClickListener {
-            val action = AddressListFragmentDirections.actionAddressListFragmentToAddAddressFragment()
+            val action = AddressListFragmentDirections.actionGlobalMapFragment("addAddress")
             findNavController().navigate(action)
         }
 
     }
 
     private fun getAddressList() {
+        binding.noProduct.tvNotFound.text = getString(R.string.one_str,"No Address Found")
         startShimmer(binding.shimmer2,binding.rvAddresses)
         binding.btnAddAddress.visibility = View.GONE
         val getAddressReq = HomeDataReq(userId = "1")
@@ -72,18 +78,17 @@ class AddressListFragment : Fragment() {
                             }
 
                         } else {
-                            Toast.makeText(
-                                mContext,
-                                it.body()?.message ?: "Something went wrong",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            binding.noProduct.clNoProduct.visibility = View.VISIBLE
+                            binding.rvAddresses.visibility = View.GONE
                         }
                     } else {
-                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                        binding.noProduct.clNoProduct.visibility = View.VISIBLE
+                        binding.rvAddresses.visibility = View.GONE
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                binding.noProduct.clNoProduct.visibility = View.VISIBLE
+                binding.rvAddresses.visibility = View.GONE
             }
 
         }
@@ -102,13 +107,20 @@ class AddressListFragment : Fragment() {
                             getAddressList()
                         } else {
                             Toast.makeText(mContext, it.body()?.message ?: "Something went wrong", Toast.LENGTH_SHORT).show()
+                            dialogHelper.showErrorMsgDialog(
+                                it.body()?.message ?: "Something went wrong"
+                            ) {}
                         }
                     } else {
-                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                        dialogHelper.showErrorMsgDialog(
+                            "Something went wrong"
+                        ) {}
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                dialogHelper.showErrorMsgDialog(
+                    "Something went wrong"
+                ) {}
             }
 
         }

@@ -80,6 +80,8 @@ class LoginFragment : Fragment() {
                 loginViewModel.doPassLogin(userRequest).let {
                     if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
                         pref.putString(Constant.USER_ID, it.body()!!.userId ?: "")
+                        pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone ?: "")
+                        pref.putString(Constant.USER_NAME, it.body()!!.name ?: "")
                         Constant.userId = it.body()!!.userId ?: ""
                         navigateToHomePage()
                     } else {
