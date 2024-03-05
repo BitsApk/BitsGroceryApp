@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/space_12"
+    android:elevation="@dimen/space_4"
+    android:background="@drawable/bg_layout_white_border_grey_corner_10"
+    android:padding="@dimen/space_16">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/shimmer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_4"
+        android:fontFamily="@font/roboto_medium_500"
+        android:text="@string/company_address"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="@dimen/space_8"
+        android:contentDescription="@string/cd_icon_saved"
+        android:background="@drawable/shimmer_bg_round"
+        app:layout_constraintBottom_toBottomOf="@id/shimmer1"
+        app:layout_constraintEnd_toStartOf="@id/shimmer1"
+        app:layout_constraintTop_toTopOf="@id/shimmer1" />
+
+    <ImageView
+        android:id="@+id/shimmer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_icon_saved"
+        android:padding="@dimen/space_10"
+        android:background="@drawable/shimmer_bg_round"
+        app:layout_constraintBottom_toBottomOf="@id/shimmer1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/shimmer1" />
+
+    <TextView
+        android:id="@+id/shimmer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_16"
+        android:fontFamily="@font/roboto"
+        android:text="@string/address"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer1" />
+
+    <TextView
+        android:id="@+id/shimmer4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/add_detail"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="@id/shimmer3" />
+
+    <TextView
+        android:id="@+id/shimmer5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/district"
+        android:layout_marginTop="@dimen/space_4"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        app:layout_constraintStart_toStartOf="@id/shimmer3"
+        app:layout_constraintTop_toBottomOf="@id/shimmer3" />
+
+    <TextView
+        android:id="@+id/shimmer6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/add_detail"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="@id/shimmer5" />
+
+    <TextView
+        android:id="@+id/rProfCityField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/zip_postal"
+        android:layout_marginTop="@dimen/space_4"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        app:layout_constraintStart_toStartOf="@id/shimmer3"
+        app:layout_constraintTop_toBottomOf="@id/shimmer5" />
+
+    <TextView
+        android:id="@+id/shimmer7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/add_detail"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="@id/rProfCityField" />
+
+    <TextView
+        android:id="@+id/rProfStateField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/state"
+        android:layout_marginTop="@dimen/space_4"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        app:layout_constraintStart_toStartOf="@id/shimmer3"
+        app:layout_constraintTop_toBottomOf="@id/rProfCityField" />
+
+    <TextView
+        android:id="@+id/shimmer8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/add_detail"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="@id/rProfStateField" />
+
+
+    <TextView
+        android:id="@+id/rProfZipField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/zip_postal"
+        android:layout_marginTop="@dimen/space_4"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        app:layout_constraintStart_toStartOf="@id/shimmer3"
+        app:layout_constraintTop_toBottomOf="@+id/rProfStateField" />
+
+    <TextView
+        android:id="@+id/shimmer9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/add_detail"
+        android:background="@drawable/shimmer_bg_round"
+        android:textColor="@color/shimmer_color"
+        android:textSize="@dimen/text_12"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="@id/rProfZipField" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

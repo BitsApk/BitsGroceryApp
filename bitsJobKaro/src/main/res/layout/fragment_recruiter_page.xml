@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_signup_card_round"
+        tools:context=".ui.mainFragments.recruiter.RecruiterPageFragment">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/space_16"
+                android:paddingTop="@dimen/space_16"
+                android:paddingBottom="@dimen/space_80"
+                >
+
+                <ImageView
+                    android:id="@+id/recBackArrImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_back"
+                    app:tint="@color/blue_500"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/recStarImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_star"
+                    app:layout_constraintBottom_toBottomOf="@id/recBackArrImg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/recBackArrImg" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/recInfoLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recBackArrImg">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/companyLogo"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/avataar_placeholder"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/recTitleTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="@string/backend_developer"
+                        android:textAlignment="center"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/companyLogo" />
+
+
+                    <TextView
+                        android:id="@+id/recHighQualTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:text="@string/b_tech"
+                        android:paddingVertical="3dp"
+                        android:paddingHorizontal="8dp"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        android:backgroundTint="@color/gray_100"
+                        android:elevation="6dp"
+                        android:background="@drawable/bg_layout_white_border_grey_corner_10"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/jobExpSubTxt"
+                        app:layout_constraintTop_toBottomOf="@id/recTitleTxt" />
+
+
+                    <TextView
+                        android:id="@+id/jobExpSubTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/exp_years"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:paddingVertical="3dp"
+                        android:paddingHorizontal="8dp"
+                        android:textColor="@color/dark_black"
+                        android:backgroundTint="@color/gray_100"
+                        android:elevation="6dp"
+                        android:background="@drawable/bg_layout_white_border_grey_corner_10"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toStartOf="@id/recJobTypeTxt"
+                        app:layout_constraintStart_toEndOf="@+id/recHighQualTxt"
+                        app:layout_constraintTop_toTopOf="@+id/recHighQualTxt" />
+
+
+
+                    <TextView
+                        android:id="@+id/recJobTypeTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:maxLines="1"
+                        android:paddingVertical="3dp"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/work_from_office"
+                        android:textColor="@color/dark_black"
+                        android:backgroundTint="@color/gray_100"
+                        android:elevation="6dp"
+                        android:background="@drawable/bg_layout_white_border_grey_corner_10"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/jobExpSubTxt"
+                        app:layout_constraintTop_toTopOf="@id/jobExpSubTxt" />
+
+
+                    <TextView
+                        android:id="@+id/recTimeTypeTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_20"
+                        android:paddingVertical="@dimen/space_8"
+                        android:paddingHorizontal="6dp"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:text="@string/job_type_nfull_time"
+                        android:backgroundTint="#F3B69B"
+                        android:elevation="6dp"
+                        android:background="@drawable/bg_layout_white_border_grey_corner_10"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        android:textAlignment="center"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/recAppAnnSalTxt"
+                        app:layout_constraintTop_toBottomOf="@id/jobExpSubTxt"
+                        app:drawableTopCompat="@drawable/icon_emp_prof_jobtype" />
+
+                    <TextView
+                        android:id="@+id/recAppAnnSalTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/salary_n_rs_2_6_lpa"
+                        android:paddingVertical="@dimen/space_8"
+                        android:paddingHorizontal="6dp"
+                        android:backgroundTint="#BCF39E"
+                        android:elevation="6dp"
+                        android:background="@drawable/bg_layout_white_border_grey_corner_10"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        android:textAlignment="center"
+                        app:layout_constraintStart_toEndOf="@id/recTimeTypeTxt"
+                        app:layout_constraintEnd_toStartOf="@id/recNumPosTxt"
+                        app:layout_constraintTop_toTopOf="@id/recTimeTypeTxt"
+                        app:drawableTopCompat="@drawable/icon_emp_prof_salary"  />
+
+
+                    <TextView
+                        android:id="@+id/recNumPosTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:text="@string/positions_n4_pos"
+                        android:paddingVertical="@dimen/space_8"
+                        android:paddingHorizontal="6dp"
+                        android:backgroundTint="#9BB9ED"
+                        android:elevation="6dp"
+                        android:background="@drawable/bg_layout_white_border_grey_corner_10"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        android:textAlignment="center"
+                        android:drawablePadding="@dimen/space_4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/recAppAnnSalTxt"
+                        app:layout_constraintTop_toTopOf="@id/recTimeTypeTxt"
+                        app:drawableTopCompat="@drawable/icon_emp_profile_position"  />
+
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/recEngTxt"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:paddingVertical="@dimen/space_8"-->
+<!--                        android:paddingHorizontal="6dp"-->
+<!--                        android:fontFamily="@font/roboto_regular_400"-->
+<!--                        android:text="Eng. Level\nlittle_english"-->
+<!--                        android:backgroundTint="#76DA9B"-->
+<!--                        android:elevation="6dp"-->
+<!--                        android:maxWidth="100dp"-->
+<!--                        android:background="@drawable/bg_layout_white_border_grey_corner_10"-->
+<!--                        android:textColor="@color/dark_black"-->
+<!--                        android:textSize="@dimen/text_14"-->
+<!--                        android:textAlignment="center"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/recNumPosTxt"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/recTimeTypeTxt"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:drawableTopCompat="@drawable/icon_emp_prof_english"-->
+<!--                        />-->
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/recProfImg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="@dimen/space_24"
+                        android:src="@drawable/avataar_placeholder"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recNumPosTxt" />
+
+                    <TextView
+                        android:id="@+id/recExpDesignTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:maxLines="1"
+                        android:text="Not Available"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintBottom_toTopOf="@id/recExpCompTxt"
+                        app:layout_constraintStart_toEndOf="@id/recProfImg"
+                        app:layout_constraintTop_toTopOf="@id/recProfImg" />
+
+                    <View
+                        android:id="@+id/recCircViewFourth"
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_view_full_circle_themed"
+                        app:layout_constraintBottom_toBottomOf="@+id/recExpDesignTxt"
+                        app:layout_constraintStart_toEndOf="@+id/recExpDesignTxt"
+                        app:layout_constraintTop_toTopOf="@+id/recExpDesignTxt" />
+
+                    <TextView
+                        android:id="@+id/recAppNameTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:maxLines="1"
+                        android:text="Not Available"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/recCircViewFourth"
+                        app:layout_constraintTop_toTopOf="@id/recExpDesignTxt" />
+
+                    <TextView
+                        android:id="@+id/recExpCompTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:maxLines="1"
+                        android:text="Not Available"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintBottom_toBottomOf="@id/recProfImg"
+                        app:layout_constraintStart_toStartOf="@id/recExpDesignTxt"
+                        app:layout_constraintTop_toBottomOf="@id/recExpDesignTxt" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <View
+                    android:id="@+id/recViewLine"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:background="@color/view_lines_bottom"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recInfoLayout" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recViewLine">
+
+                    <TextView
+                        android:id="@+id/recJobDesField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="@string/job_description"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_20"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/recChipGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recJobDesField" />
+
+                    <TextView
+                        android:id="@+id/recJobDesTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_12"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:text="@string/job_desc_para"
+                        android:textColor="#434343"
+                        android:textSize="@dimen/text_16"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recChipGroup" />
+
+                    <View
+                        android:id="@+id/recViewLineSec"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/space_24"
+                        android:background="@color/view_lines_bottom"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recJobDesTxt" />
+
+                    <TextView
+                        android:id="@+id/recLocationField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:drawablePadding="@dimen/space_8"
+                        android:fontFamily="@font/roboto_medium_500"
+                        android:text="@string/location"
+                        android:textColor="@color/dark_black"
+                        android:textSize="@dimen/text_18"
+                        app:drawableStartCompat="@drawable/icon_location"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recViewLineSec" />
+
+                    <TextView
+                        android:id="@+id/recLocationTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="22dp"
+                        android:layout_marginTop="@dimen/space_4"
+                        android:fontFamily="@font/roboto_regular_400"
+                        android:text="42 A, near gandinagar sgdfdg sdfdf  mandi road, gurgaon, Up"
+                        android:textColor="#434343"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recLocationField" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/recChatBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_12"
+            android:background="@drawable/bg_button_login"
+            android:paddingHorizontal="40dp"
+            android:text="@string/chat_space"
+            android:textAllCaps="false"
+            android:layout_marginStart="@dimen/space_12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/recApplyBtn"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/recApplyBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_login"
+            android:paddingHorizontal="40dp"
+            android:text="@string/apply_space"
+            android:layout_marginHorizontal="@dimen/space_12"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/recChatBtn"
+            app:layout_constraintTop_toTopOf="@id/recChatBtn" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/space_16"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="800">
+
+                <include layout="@layout/shimmer_recruiter_page" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

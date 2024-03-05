@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.mainFragments.employee.ProfileFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/space_80"
+            android:background="@color/layout_backgrounds">
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:contentDescription="@string/cd_wave_image"
+                android:scaleType="fitXY"
+                android:src="@drawable/wave__49_"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/rProfMyAccTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_16"
+                android:elevation="6dp"
+                android:fontFamily="@font/roboto_medium_600"
+                android:text="@string/my_account"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rProfFirstLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_16"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_profile_layout_white_corner"
+                android:elevation="@dimen/space_4"
+                android:padding="@dimen/space_8"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rProfMyAccTxt">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/rProfMainImg"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/avataar_placeholder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/rProfNameTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:background="@color/shimmer_color"
+                    android:fontFamily="@font/roboto_medium_500"
+                    android:text="@string/na"
+                    android:textColor="@color/shimmer_color"
+                    android:textSize="@dimen/text_18"
+                    app:layout_constraintEnd_toStartOf="@id/rProfBasicEditImg"
+                    app:layout_constraintStart_toEndOf="@id/rProfMainImg"
+                    app:layout_constraintTop_toTopOf="@id/rProfMainImg" />
+
+                <ImageView
+                    android:id="@+id/rProfBasicEditImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_10"
+                    android:src="@drawable/icon_edit_profile"
+                    app:tint="@color/shimmer_color"
+                    app:layout_constraintBottom_toBottomOf="@id/rProfNameTxt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/rProfNameTxt" />
+
+                <View
+                    android:id="@+id/jobLineViewFourth"
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:background="@drawable/bg_view_full_circle"
+                    android:backgroundTint="@color/sub_views"
+                    app:layout_constraintBottom_toBottomOf="@id/eProfEmpDesTxt"
+                    app:layout_constraintStart_toStartOf="@id/rProfNameTxt"
+                    app:layout_constraintTop_toTopOf="@id/eProfEmpDesTxt" />
+
+                <TextView
+                    android:id="@+id/eProfEmpDesTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/shimmer_color"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_regular_400"
+                    android:maxLines="3"
+                    android:text="@string/na"
+                    android:textColor="@color/shimmer_color"
+                    android:textSize="@dimen/text_14"
+                    app:layout_constraintStart_toEndOf="@id/jobLineViewFourth"
+                    app:layout_constraintTop_toBottomOf="@id/rProfNameTxt" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/eProfAppliedLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_12"
+                android:background="@drawable/bg_profile_layout_white_corner"
+                android:elevation="@dimen/space_4"
+                android:padding="@dimen/space_10"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@id/eProfSaveLayout"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rProfFirstLayout">
+
+                <ImageView
+                    android:id="@+id/eProfAppImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient_user_match_card"
+                    android:backgroundTint="@color/shimmer_color"
+                    android:contentDescription="@string/cd_icon_saved"
+                    android:padding="@dimen/space_8"
+                    android:src="@drawable/icon_saved"
+                    app:tint="@color/shimmer_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/eProfAppCountTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/shimmer_color"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/count_0"
+                    android:textColor="@color/shimmer_color"
+                    android:textSize="@dimen/text_14"
+                    app:layout_constraintBottom_toTopOf="@id/eProfAppTxt"
+                    app:layout_constraintEnd_toEndOf="@id/eProfAppTxt"
+                    app:layout_constraintStart_toStartOf="@id/eProfAppTxt"
+                    app:layout_constraintTop_toTopOf="@id/eProfAppImg" />
+
+                <TextView
+                    android:id="@+id/eProfAppTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:background="@color/shimmer_color"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/applied"
+                    android:textColor="@color/shimmer_color"
+                    android:textSize="@dimen/text_14"
+                    app:layout_constraintBottom_toBottomOf="@id/eProfAppImg"
+                    app:layout_constraintStart_toEndOf="@id/eProfAppImg"
+                    app:layout_constraintTop_toBottomOf="@id/eProfAppCountTxt" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/eProfSaveLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_16"
+                android:background="@drawable/bg_profile_layout_white_corner"
+                android:elevation="@dimen/space_4"
+                android:padding="@dimen/space_10"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/eProfAppliedLayout"
+                app:layout_constraintTop_toTopOf="@id/eProfAppliedLayout">
+
+                <ImageView
+                    android:id="@+id/eProfSaveImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient_user_match_card"
+                    android:backgroundTint="@color/shimmer_color"
+                    android:contentDescription="@string/cd_icon_job"
+                    android:padding="11dp"
+                    android:src="@drawable/icon_saved"
+                    app:tint="@color/shimmer_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvChatCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/shimmer_color"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/count_0"
+                    android:textColor="@color/shimmer_color"
+                    android:textSize="@dimen/text_14"
+                    app:layout_constraintBottom_toTopOf="@id/tvChats"
+                    app:layout_constraintEnd_toEndOf="@id/tvChats"
+                    app:layout_constraintStart_toStartOf="@id/tvChats"
+                    app:layout_constraintTop_toTopOf="@id/eProfSaveImg" />
+
+                <TextView
+                    android:id="@+id/tvChats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:background="@color/shimmer_color"
+                    android:fontFamily="@font/roboto"
+                    android:text="Chats"
+                    android:textColor="@color/shimmer_color"
+                    android:textSize="@dimen/text_14"
+                    app:layout_constraintBottom_toBottomOf="@id/eProfSaveImg"
+                    app:layout_constraintStart_toEndOf="@id/eProfSaveImg"
+                    app:layout_constraintTop_toBottomOf="@id/tvChatCount" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/profileLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/imageView9">
+
+                <include layout="@layout/shimmer_profile_card_layouts" />
+                <include layout="@layout/shimmer_profile_card_layouts" />
+                <include layout="@layout/shimmer_profile_card_layouts" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+</layout>

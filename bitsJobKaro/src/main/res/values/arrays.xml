@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="emplTypeList">
+        <item>Work From Home</item>
+        <item>Work From Office</item>
+        <item>Field Work</item>
+    </string-array>
+
+    <string-array name="jobTypeList">
+        <item>Part Time</item>
+        <item>Full Time</item>
+        <item>Contractual</item>
+        <item>Internship</item>
+    </string-array>
+
+    <string-array name="expReqList">
+        <item>Fresher</item>
+        <item>1 – 2 Yr</item>
+        <item>2 – 5 Yr</item>
+        <item>5+ Yr</item>
+    </string-array>
+
+    <string-array name="genderList">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="empExpReqList">
+        <item>Experienced</item>
+        <item>Fresher</item>
+    </string-array>
+
+    <string-array name="empNoticePerList">
+        <item>15 Days</item>
+        <item>1 Month</item>
+        <item>2 Month</item>
+        <item>3 Month</item>
+    </string-array>
+
+    <string-array name="dayShiftList">
+        <item>Day Shift</item>
+        <item>Night Shift</item>
+        <item>Rotational</item>
+    </string-array>
+
+    <string-array name="empDayShiftList">
+        <item>Day Shift</item>
+        <item>Night Shift</item>
+        <item>Flexible</item>
+    </string-array>
+
+    <string-array name="qualReqList">
+        <item>Below 10th</item>
+        <item>10 – 12th</item>
+        <item>Graduation</item>
+        <item>Post Graduation</item>
+    </string-array>
+
+    <string-array name="empQualReqList">
+        <item>Doctorate</item>
+        <item>Post Graduate</item>
+        <item>Graduate</item>
+        <item>Class 12th</item>
+        <item>Class 10th</item>
+        <item>Below 10th</item>
+    </string-array>
+
+    <string-array name="engLevList">
+        <item>No English</item>
+        <item>Little English</item>
+        <item>Good English</item>
+    </string-array>
+
+    <string-array name="empEngLevList">
+        <item>No English</item>
+        <item>Little English</item>
+        <item>Good English</item>
+        <item>Fluent English</item>
+    </string-array>
+
+    <string-array name="daysList">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+
+    <array name="uploadImageList">
+        <item>@drawable/avataar_first</item>
+        <item>@drawable/avataar_sec</item>
+        <item>@drawable/avataar_third</item>
+        <item>@drawable/avataar_four</item>
+        <item>@drawable/avataar_five</item>
+        <item>@drawable/avataar_six</item>
+        <item>@drawable/avataar_seven</item>
+        <item>@drawable/avataar_eight</item>
+        <item>@drawable/avataar_nine</item>
+        <item>@drawable/avataar_ten</item>
+        <item>@drawable/avataar_eleven</item>
+        <item>@drawable/avataar_twelve</item>
+    </array>
+
+
+
+</resources>

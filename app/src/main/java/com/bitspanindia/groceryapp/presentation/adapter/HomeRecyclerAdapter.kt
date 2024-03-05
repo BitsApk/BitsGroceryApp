@@ -24,7 +24,7 @@ import com.google.gson.GsonBuilder
 class HomeRecyclerAdapter(
     private val sectionList: List<Viewtype>,
     private val context: Context,
-    private val countMap: MutableMap<String, Int>,
+    private val countMap: MutableMap<String, MutableMap<String, Int>>,
     private val prodCallback: (prod: ProductData, action: CartAction) -> Any,
     private val callBackCat: (catId:String,catName:String) -> Any
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

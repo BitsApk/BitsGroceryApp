@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/space_16"
+            tools:context=".ui.subFragment.postJob.PostJobFirstFragment">
+
+            <TextView
+                android:id="@+id/rPostAddOptField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                app:layout_constraintEnd_toStartOf="@id/rPostArrowImg"
+                android:layout_marginEnd="@dimen/space_4"
+                android:textColor="@color/text_heading"
+                android:textSize="@dimen/text_14"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_marginStart="@dimen/space_8"
+                android:fontFamily="@font/roboto_medium_500"
+                android:text="@string/address_option_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/rPostArrowImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_down_arrow"
+                android:padding="@dimen/space_4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/rPostAddOptField"
+                app:layout_constraintBottom_toBottomOf="@id/rPostAddOptField"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rPostAddLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rPostAddOptField"
+                >
+
+                <TextView
+                    android:id="@+id/rPostAddressField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_16"
+                    android:text="@string/address"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/rPostAddressEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_comp_address"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    app:layout_constraintTop_toBottomOf="@id/rPostAddressField"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPostalAddress" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/rPostStateTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    android:text="@string/state"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="@id/rPostAddressEdTxt"
+                    app:layout_constraintTop_toBottomOf="@id/rPostAddressEdTxt" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/rPostStateEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    app:layout_constraintHorizontal_weight="5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/rPostStateTxt"
+                    app:layout_constraintTop_toBottomOf="@id/rPostStateTxt">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/select"
+                        android:inputType="none"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/rPostDistField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:text="@string/district"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rPostStateEdTxt"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/rPostDistEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    app:layout_constraintTop_toBottomOf="@id/rPostDistField"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/select"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/rPostCityField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:textSize="@dimen/text_16"
+                    android:text="@string/city"
+                    android:textStyle="italic"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="@id/rPostAddressEdTxt"
+                    app:layout_constraintTop_toBottomOf="@id/rPostDistEdTxt"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/rPostCityEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    android:hint="@string/enter_company_city"
+                    app:layout_constraintHorizontal_weight="4"
+                    app:layout_constraintEnd_toStartOf="@id/rEditZipPostalEdTxt"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rPostCityField">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/rPostZipPostalField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    android:textColor="@color/text_heading"
+                    android:text="@string/zip_postal"
+                    app:layout_constraintStart_toStartOf="@id/rEditZipPostalEdTxt"
+                    app:layout_constraintBottom_toTopOf="@id/rEditZipPostalEdTxt"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/rEditZipPostalEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    android:hint="@string/postal_code"
+                    app:layout_constraintHorizontal_weight="3"
+                    android:layout_marginStart="@dimen/space_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/rPostCityEdTxt"
+                    app:layout_constraintTop_toTopOf="@id/rPostCityEdTxt">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/postJobDesField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:text="@string/job_description"
+                android:textColor="@color/text_heading"
+                android:textSize="@dimen/text_16"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rPostAddLayout"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/postJobDesEdTxt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:errorEnabled="true"
+                android:hint="@string/enter_job_description"
+                android:layout_marginTop="@dimen/space_8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postJobDesField"
+                app:layout_constraintStart_toStartOf="@id/postJobDesField">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

@@ -8,12 +8,14 @@ import com.bitspanindia.groceryapp.data.model.HomeDataX
 import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.data.model.SearchProductResponse
 import com.bitspanindia.groceryapp.data.model.SubCategoryData
+import com.bitspanindia.groceryapp.data.model.request.CartValidateReq
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.ConfirmOrderReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentVerifyReq
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
+import com.bitspanindia.groceryapp.data.model.response.CartValidateResponse
 import com.bitspanindia.groceryapp.data.model.response.ConfirmOrderResponse
 import com.bitspanindia.groceryapp.data.model.response.PaymentResponse
 import com.bitspanindia.groceryapp.data.model.response.PaymentVerifyResponse
@@ -39,6 +41,10 @@ class CartRepository @Inject constructor(private val cartApiService: CartApiServ
 
     suspend fun doConfirmOrder(confirmOrderReq: ConfirmOrderReq): Response<ConfirmOrderResponse> {
         return cartApiService.doConfirmOrder(confirmOrderReq)
+    }
+
+    suspend fun validateCart(cartValidateReq: CartValidateReq): Response<CartValidateResponse> {
+        return cartApiService.validateCart(cartValidateReq)
     }
 
 }

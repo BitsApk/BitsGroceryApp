@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.subFragment.recEditProfile.EditCompDescFragment">
+
+
+            <ImageView
+                android:id="@+id/editTopImg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/image_edit_profile_comp_info_top"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="centerCrop"
+                />
+
+            <TextView
+                android:id="@+id/editComDescTopTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/thanks_mess"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_18"
+                android:paddingHorizontal="@dimen/space_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/editLayout"/>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/editLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="100dp"
+                android:padding="@dimen/space_16"
+                app:layout_constraintTop_toTopOf="@id/editTopImg"
+                android:background="@drawable/bg_edit_comp_info">
+
+                <TextView
+                    android:id="@+id/rEditComDescTitleTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/edit_your_detail"
+                    android:textSize="@dimen/text_20"
+                    android:textColor="@color/text_heading"
+                    android:fontFamily="@font/roboto_medium_500"/>
+
+
+                <Button
+                    android:id="@+id/logoBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Choose Logo"
+                    android:textAllCaps="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rEditComDescTitleTxt"/>
+
+                <TextView
+                    android:id="@+id/uploadedImgTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@drawable/bg_border_layout"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:hint="/*image uploaded*/"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="@id/logoBtn"
+                    android:layout_marginStart="8dp"
+                    android:padding="@dimen/space_8"
+                    app:layout_constraintStart_toEndOf="@id/logoBtn"
+                    app:layout_constraintTop_toTopOf="@id/logoBtn"
+                    />
+                <TextView
+                    android:id="@+id/rEditIndTypeField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_16"
+                    android:text="@string/industrial_typeh"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    android:visibility="gone"
+                    android:textColor="@color/text_heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/uploadedImgTxt"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/rIndTypeEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/light_grey"
+                    app:errorEnabled="true"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/rEditIndTypeField"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/indusType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/select"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/rEditDocTypeField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_12"
+                    android:text="Doc Type"
+                    android:textColor="@color/text_heading"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rIndTypeEdTxt"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/rEditDocTypeEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/light_grey"
+                    app:errorEnabled="true"
+                    android:hint="Select doc type"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rEditDocTypeField"
+                    app:layout_constraintStart_toStartOf="@id/rEditDocTypeField">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:focusable="false"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                <Button
+                    android:id="@+id/docsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Choose document"
+                    android:textAllCaps="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rEditDocTypeEdTxt"/>
+
+                <TextView
+                    android:id="@+id/uploadedPdfTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/docsBtn"
+                    android:background="@drawable/bg_border_layout"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:hint="/*Company doc verify*/"
+                    android:textAlignment="center"
+                    android:layout_marginStart="8dp"
+                    android:padding="@dimen/space_8"
+                    app:layout_constraintStart_toEndOf="@id/docsBtn"
+                    app:layout_constraintTop_toTopOf="@id/docsBtn"
+                    />
+
+                <TextView
+                    android:id="@+id/docType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/docsBtn"
+                    android:text="@string/pdf"
+                    app:layout_constraintStart_toStartOf="@id/docsBtn"
+                    app:layout_constraintTop_toBottomOf="@id/docsBtn"
+                    />
+
+                <TextView
+                    android:id="@+id/rEditComDescField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_16"
+                    android:text="@string/company_description"
+                    android:textColor="@color/text_heading"
+                    android:textSize="@dimen/text_16"
+                    android:textStyle="italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/docType"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/rEditComDescEdTxt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/light_grey"
+                    app:errorEnabled="true"
+                    android:hint="@string/enter_about_your_company"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rEditComDescField"
+                    app:layout_constraintStart_toStartOf="@id/rEditComDescField">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/rEditPostbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update"
+                    android:paddingHorizontal="40dp"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:background="@drawable/button_round_corner"
+                    app:layout_constraintTop_toBottomOf="@id/rEditComDescEdTxt"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

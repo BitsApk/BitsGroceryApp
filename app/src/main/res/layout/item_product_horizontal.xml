@@ -116,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium_600"
                 android:text="0"
+                android:enabled="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_14" />
 
@@ -128,8 +129,7 @@
                 android:paddingHorizontal="@dimen/space_6"
                 android:paddingVertical="@dimen/space_4"
                 android:src="@drawable/icon_add"
-                app:tint="@color/white" />
-
+            />
         </LinearLayout>
 
 

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/layout_backgrounds"
+        android:paddingBottom="70dp"
+        tools:context=".ui.subFragment.recInter.RecruiterViewedByFragment">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_layout_white_border_grey_corner_10"
+            android:padding="@dimen/space_12"
+            >
+
+            <TextView
+                android:id="@+id/rApplyEmpTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium_500"
+                android:textSize="@dimen/text_16"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/employee_applied"
+                android:textColor="@color/dark_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                app:layout_constraintTop_toBottomOf="@id/rApplyEmpTxt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <include layout="@layout/layout_no_data_found"
+                    android:id="@+id/noDataLay"
+                    />
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rApplyRecyView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/rApplyEmpTxt"
+                android:layout_marginTop="@dimen/space_12"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_rec_applied_viewed" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/rEmpApplyShimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_marginTop="@dimen/space_12"
+                app:layout_constraintTop_toBottomOf="@+id/rApplyEmpTxt">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/shimmer_manage_viewed_by"/>
+                    <include layout="@layout/shimmer_manage_viewed_by"/>
+                    <include layout="@layout/shimmer_manage_viewed_by"/>
+                    <include layout="@layout/shimmer_manage_viewed_by"/>
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <TextView
+                android:id="@+id/rViewedEmpTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium_500"
+                android:textSize="@dimen/text_16"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:visibility="visible"
+                android:layout_marginTop="4dp"
+                android:text="@string/employee_viewed_you"
+                android:textColor="@color/dark_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rApplyRecyView"
+                />
+
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                app:layout_constraintTop_toBottomOf="@id/rViewedEmpTxt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <include layout="@layout/layout_no_data_found"
+                    android:id="@+id/noDataLaySec"
+                    />
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rViewedRecyView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/rViewedEmpTxt"
+                app:layout_constraintTop_toBottomOf="@id/rViewedEmpTxt"
+                android:layout_marginTop="12dp"
+                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_rec_applied_viewed"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

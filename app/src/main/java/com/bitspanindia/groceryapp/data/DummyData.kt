@@ -59,7 +59,7 @@ object DummyData {
             R.drawable.banner_3, R.drawable.banner_1)
 
         val homeTopDataList = listOf(
-            HomeTopData(R.drawable.img_job_karo, "Nitro"),
+            HomeTopData(R.drawable.img_job_karo, "JobKaro.In"),
             HomeTopData(R.drawable.img_job_karo, "Nitr00o"),
             HomeTopData(R.drawable.img_job_karo, "Nitro00"),
 

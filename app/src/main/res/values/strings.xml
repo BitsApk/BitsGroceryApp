@@ -52,5 +52,8 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyAKgqAyTO5G0rIf8laUc5_gOaF16Qwjg2Y
     </string>
+    <string name="_d_items_in_your_cart_are_in_stock">%d items adjusted based on available quantity</string>
+    <string name="rs_00">Rs 00</string>
+    <string name="rs_f">Rs %.2f</string>
 
 </resources>

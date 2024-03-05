@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_16"
+            tools:context=".ui.mainFragments.recruiter.EmpAppliedJobFragment">
+
+            <ImageView
+                android:id="@+id/iconBackImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/blue_500" />
+
+
+
+            <TextView
+                android:id="@+id/pageTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/iconBackImg"
+                app:layout_constraintTop_toBottomOf="@id/iconBackImg"
+                android:layout_marginTop="@dimen/space_12"
+                android:fontFamily="@font/roboto_bold_700"
+                android:text="Employees\napplied"
+                android:textColor="@color/dark_black"
+                android:textSize="@dimen/text_32" />
+
+
+            <ImageView
+                android:id="@+id/appliedImg"
+                android:layout_width="200dp"
+                android:layout_height="250dp"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toEndOf="@id/pageTitleTxt"
+                android:src="@drawable/image_emp_applied_to_job"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iconBackImg" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/empAppliedChipGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/appliedImg"
+                android:layout_marginTop="@dimen/space_10"
+                app:layout_constraintTop_toBottomOf="@id/pageTitleTxt"/>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/empbarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="empAppliedChipGroup, appliedImg"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/empAppliedRecView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:visibility="visible"
+                tools:listitem="@layout/item_home_job_seekers"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="@dimen/space_60"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/empbarrier" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+</layout>
