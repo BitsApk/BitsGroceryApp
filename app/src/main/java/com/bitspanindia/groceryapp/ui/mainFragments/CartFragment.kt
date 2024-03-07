@@ -103,10 +103,8 @@ class CartFragment : Fragment() {
     private fun validateCart(cartValidateReq: CartValidateReq) {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                Toast.makeText(mContext, "Some error: 4 ", Toast.LENGTH_SHORT).show()
                 cartVM.validateCart(cartValidateReq).let {
 
-                    Toast.makeText(mContext, "Some error: 5 ", Toast.LENGTH_SHORT).show()
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()!!.statusCode == 200) {
                             val outOfStockList = mutableListOf<CartUpdatedProdData>()

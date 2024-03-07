@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.AppUtils.adjustItemWidth
 import com.bitspanindia.groceryapp.AppUtils.toDp
+import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.data.model.ProductData
@@ -111,6 +112,11 @@ class ProductsAdapter(
                 tvQuantity.text = product.stock
                 tvPrice.text = product.discountedPrice.toString()
 
+                priceInfo.visibility = if (product.priceChange == null) View.GONE
+                else {
+                    priceInfo.text = context.getString(R.string.change_price_from_2f_to_2f, product.priceChange!!.first, product.priceChange!!.second)
+                    View.VISIBLE
+                }
 
 
                 if (countMap[product.id] == null) {

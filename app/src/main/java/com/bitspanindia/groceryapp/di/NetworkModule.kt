@@ -1,6 +1,7 @@
 package com.bitspanindia.groceryapp.di
 
 import com.bitspanindia.groceryapp.data.Constant
+import com.bitspanindia.groceryapp.data.services.AuthApiServices
 import com.bitspanindia.groceryapp.data.services.CartApiService
 import com.bitspanindia.groceryapp.data.services.HomeApiService
 import com.bitspanindia.groceryapp.data.services.ProductApiService
@@ -56,6 +57,29 @@ class NetworkModule {
             .build()
     }
 
+
+
+
+    @Provides
+    @Singleton
+    @Named("auth")
+    fun provideAuthRetrofit(baseUrl: String): Retrofit {
+        val client = OkHttpClient.Builder()
+        client.addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+        client.connectTimeout(3, TimeUnit.MINUTES)
+            .retryOnConnectionFailure(true)
+            .writeTimeout(3, TimeUnit.MINUTES) // write timeout
+            .readTimeout(3, TimeUnit.MINUTES)
+            .connectionPool(ConnectionPool(0, 5, TimeUnit.MINUTES))
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client.build())
+            .baseUrl(baseUrl)
+            .build()
+    }
+
+
+
     @Provides
     @Singleton
     fun provideHomeApiService(retrofit: Retrofit): HomeApiService = retrofit.create(HomeApiService::class.java)
@@ -75,5 +99,11 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideProfileApiService(retrofit: Retrofit): ProfileApiService = retrofit.create(ProfileApiService::class.java)
+
+
+    @Provides
+    @Singleton
+    fun provideAuthApiService(@Named("auth") retrofit: Retrofit): AuthApiServices = retrofit.create(AuthApiServices::class.java)
+
 
 }

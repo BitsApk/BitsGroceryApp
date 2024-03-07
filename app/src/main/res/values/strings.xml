@@ -55,5 +55,7 @@
     <string name="_d_items_in_your_cart_are_in_stock">%d items adjusted based on available quantity</string>
     <string name="rs_00">Rs 00</string>
     <string name="rs_f">Rs %.2f</string>
+    <string name="reduce_quantity_from_d_to_d">Reduce quantity from %d to %d</string>
+    <string name="change_price_from_2f_to_2f">Change price from %.2f to %.2f</string>
 
 </resources>

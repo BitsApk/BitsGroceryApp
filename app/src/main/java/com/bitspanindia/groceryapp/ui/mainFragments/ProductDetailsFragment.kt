@@ -30,12 +30,13 @@ import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class ProductDetailsFragment : Fragment() {
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
-    private lateinit var dialogHelper:DialogHelper
+    private lateinit var dialogHelper: DialogHelper
     private val pvm: ProductViewModel by activityViewModels()
     private val args: ProductDetailsFragmentArgs by navArgs()
     private val cartVM: CartManageViewModel by activityViewModels()
@@ -48,7 +49,7 @@ class ProductDetailsFragment : Fragment() {
 
         mContext = requireContext()
         mActivity = requireActivity()
-        dialogHelper = DialogHelper(mContext,mActivity)
+        dialogHelper = DialogHelper(mContext, mActivity)
 
         return binding.root
     }
@@ -77,16 +78,14 @@ class ProductDetailsFragment : Fragment() {
     private fun getProductDetails() {
         val commonDataReq = CommonDataReq()
         commonDataReq.productId = args.proId
-        commonDataReq.userId = Constant.userId
+        commonDataReq.addedByWeb = Constant.addedByWeb
 
         startProgress()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            pvm.getProductDetails(
-                commonDataReq
-            ).let {
-                try {
-                    if (it.body() != null) {
+            try {
+                pvm.getProductDetails(commonDataReq).let {
+                    if (it.isSuccessful && it.body() != null) {
                         stopProgress()
                         val data = it.body()
                         if (data?.statusCode == 200) {
@@ -97,36 +96,44 @@ class ProductDetailsFragment : Fragment() {
                                 setProducts(data.related ?: mutableListOf())
                                 setViewpagerSlider(data.multiimg)
                                 setProductDetails(data.description ?: "")
-                                rvUnit.adapter = UnitAdapter(mContext, data.multiweight ?: listOf()) { setProductPrice(it) }
+                                rvUnit.adapter = UnitAdapter(
+                                    mContext,
+                                    data.multiweight ?: listOf()
+                                ) { setProductPrice(it) }
                             }
                         } else {
                             dialogHelper.showErrorMsgDialog(
-                                it.body()?.message?:"Something went wrong"
-                            ) {findNavController().popBackStack()}
+                                it.body()?.message ?: "Something went wrong"
+                            ) { findNavController().popBackStack() }
                         }
                     } else {
                         dialogHelper.showErrorMsgDialog(
                             "Something went wrong"
-                        ) {findNavController().popBackStack()}
+                        ) { findNavController().popBackStack() }
                     }
-                } catch (e: Exception) {
-                    dialogHelper.showErrorMsgDialog(
-                        "Something went wrong"
-                    ) {findNavController().popBackStack()}
                 }
+            } catch (e: Exception) {
+                dialogHelper.showErrorMsgDialog(
+                    "Something went wrong"
+                ) { findNavController().popBackStack() }
             }
         }
+
     }
 
     private fun setViewpagerSlider(multiImg: List<MultiImg>?) {
         val adapter = SliderAdapter(mContext, multiImg ?: listOf()) { pos ->
-            val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToProductImagesFragment(pos)
+            val action =
+                ProductDetailsFragmentDirections.actionProductDetailsFragmentToProductImagesFragment(
+                    pos
+                )
             findNavController().navigate(action)
         }
         binding.viewPager.adapter = adapter
 
         binding.dotsIndicator.setViewPager2(binding.viewPager)
     }
+
     private fun setProductDetails(description: String) {
         binding.webView.loadDataWithBaseURL(
             null,

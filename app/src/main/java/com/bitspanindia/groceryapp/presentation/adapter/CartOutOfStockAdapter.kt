@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.model.SliderModel
 import com.bitspanindia.groceryapp.data.model.custom.CartUpdatedProdData
 import com.bitspanindia.groceryapp.databinding.ItemCartUpdatedHorizBinding
@@ -27,6 +28,7 @@ class CartOutOfStockAdapter(private val context: Context, private val data: List
                 tvProductName.text = data.productName
                 tvQuantity.text = data.weight
                 tvPrice.text = data.discountedPrice.toString()
+                stockInfo.text = context.getString(R.string.reduce_quantity_from_d_to_d, data.stockChange!!.first, data.stockChange!!.second)
             }
         }
 

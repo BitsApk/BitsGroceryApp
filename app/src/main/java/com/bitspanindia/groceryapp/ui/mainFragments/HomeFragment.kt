@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.AppUtils.showShortToast
-import com.bitspan.bitsjobkaro.JobMainActivity
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.DummyData
@@ -151,8 +150,8 @@ class HomeFragment : Fragment() {
         binding.otherAppList.setOnItemClickListener(){adapterView, view, position, id ->
 
             Toast.makeText(mContext, "Click on item at $position its item id $id", Toast.LENGTH_LONG).show()
-            val intent = Intent(mActivity, JobMainActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(mActivity, JobMainActivity::class.java)
+//            startActivity(intent)
         }
 
 

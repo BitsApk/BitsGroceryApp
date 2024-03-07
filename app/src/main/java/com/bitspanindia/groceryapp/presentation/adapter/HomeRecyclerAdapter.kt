@@ -52,8 +52,24 @@ class HomeRecyclerAdapter(
                 ElementType.Products -> {
                     val data = homeData.getDataAs<ProductData>()
                     binding.selectedField.text = homeData.title
-                    binding.selectedRecView.layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+                    binding.selectedRecView.layoutManager = when (designType) {
+                        ViewDesign.TwoRowProductGrid -> GridLayoutManager(
+                            context,
+                            2,
+                            GridLayoutManager.HORIZONTAL,
+                            false
+                        )
+                        else -> {
+                            GridLayoutManager(
+                                context,
+                                1,
+                                GridLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        }
+                    }
                     binding.selectedRecView.adapter = ProductsAdapter(data ?: mutableListOf(), context, countMap, 0, prodCallback)
+                    }
                 }
                 else -> {}
 

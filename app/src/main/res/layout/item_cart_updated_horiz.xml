@@ -87,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium_500"
-            android:text="Reduce quantity from %d to %d"
+            android:text="@string/reduce_quantity_from_d_to_d"
             android:textColor="@color/mark_negative"
             android:textSize="@dimen/text_12"
             android:layout_marginEnd="@dimen/space_16"
