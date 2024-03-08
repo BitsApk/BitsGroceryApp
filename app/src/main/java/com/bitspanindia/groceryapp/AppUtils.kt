@@ -5,17 +5,16 @@ import android.content.Context
 import android.content.IntentSender
 import android.content.res.Resources
 import android.location.Geocoder
-import android.opengl.Visibility
+import android.location.LocationManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bitspanindia.groceryapp.data.enums.ElementType
-import com.bitspanindia.groceryapp.databinding.ItemProductBinding
-import com.bitspanindia.groceryapp.ui.map.MapFragment
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -24,6 +23,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.location.Priority
 import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.Task
 import java.io.IOException
@@ -92,6 +92,10 @@ object AppUtils {
         shimmer.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
     }
+    fun checkGpsStatus(activity: FragmentActivity):Boolean {
+        val locationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
 
     fun getAddressFromLocation(context: Context,latitude: Double, longitude: Double):android.location.Address {
         val geocoder = Geocoder(context)
@@ -106,8 +110,11 @@ object AppUtils {
         return android.location.Address(Locale(""))
     }
 
-    fun gpsPermission(context: Context,activity: FragmentActivity,callback:()->Any) {
-        val REQUEST_CHECK_SETTINGS = 132
+    fun gpsPermission(
+        context: Context,
+        locationSettingsResultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+        callback: () -> Any
+    ) {
 
         val locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -126,18 +133,16 @@ object AppUtils {
 
         task.addOnFailureListener { exception ->
             if (exception is ResolvableApiException) {
-                showShortToast(context,"Permission denied to access location")
                 // Location settings are not satisfied, but this can be fixed by showing the user a dialog
                 try {
-                    // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult()
-                    exception.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS)
+                    val intentSenderRequest = IntentSenderRequest.Builder(exception.resolution.intentSender).build()
+                    locationSettingsResultLauncher.launch(intentSenderRequest)
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error
                 }
             }
         }
     }
-
 
     fun requestLocationPermissions(activity: FragmentActivity,permissionReqCode:Int) {
         ActivityCompat.requestPermissions(

@@ -1,23 +1,21 @@
 package com.bitspanindia.groceryapp.ui.mainFragments
 
 import android.Manifest
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
@@ -25,8 +23,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
+import com.bitspanindia.groceryapp.AppUtils.checkGpsStatus
 import com.bitspanindia.groceryapp.AppUtils.requestLocationPermissions
-import com.bitspanindia.groceryapp.AppUtils.showShortToast
 import com.bitspanindia.groceryapp.AppUtils.stopLocationUpdates
 import com.bitspanindia.groceryapp.AppUtils.toDp
 import com.bitspanindia.groceryapp.R
@@ -38,21 +36,18 @@ import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.presentation.adapter.AddressesAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.ProfileViewModel
-import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.location.Priority
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -107,8 +102,7 @@ class ChooseLocationFragment : BottomSheetDialogFragment() {
         getAddressList()
 
         adapter = PlaceAdapter(ArrayList()){latitude,longitude->
-            mBehave.isHideable = true
-            mBehave.state = BottomSheetBehavior.STATE_HIDDEN
+            hideBottomSheet()
             findNavController().navigate(
                 HomeFragmentDirections.actionGlobalMapFragment("home",latitude,longitude)
             )
@@ -140,53 +134,44 @@ class ChooseLocationFragment : BottomSheetDialogFragment() {
         })
 
         binding.clCurrentLocation.setOnClickListener {
-            checkGpsStatus()
-        }
-
-    }
-
-    private fun checkGpsStatus() {
-        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            // GPS is not enabled, show a dialog to prompt the user to enable it
-            AppUtils.gpsPermission(requireContext(), requireActivity()) {
+            if (AppUtils.checkGpsStatus(requireActivity())) {
                 requestLocationUpdates()
+            } else {
+                AppUtils.gpsPermission(requireContext(), locationSettingsResultLauncher) {
+                    requestLocationUpdates()
+                }
             }
-        } else {
-            // GPS is enabled, proceed with getting the current location
+        }
+
+    }
+
+    private val locationSettingsResultLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
             requestLocationUpdates()
+        } else {
+            AppUtils.showShortToast(requireContext(), "Error for getting current location")
         }
     }
 
-    private var isLocationUpdatesStarted = false // Keep track of whether location updates are started
 
     private fun requestLocationUpdates() {
-        if (isLocationUpdatesStarted) return // Check if location updates are already started
         dialogHelper.showProgressDialog()
 
-        // Create location request
-        locationRequest = LocationRequest.create().apply {
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 1000 // Update interval in milliseconds
-        }
+        locationRequest = LocationRequest.Builder(1000L).setPriority(Priority.PRIORITY_HIGH_ACCURACY).build()
 
-        // Create location callback
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                locationResult ?: return
-                for (location in locationResult.locations) {
-                    dialogHelper.hideProgressDialog()
-                    // Handle location updates here
 
-                    findNavController().navigate(
-                        HomeFragmentDirections.actionGlobalMapFragment("home", location.latitude.toString(),location.longitude.toString())
-                    )
+                dialogHelper.hideProgressDialog()
+                hideBottomSheet()
 
-                    stopLocationUpdates(fusedLocationClient,locationCallback)
-                    isLocationUpdatesStarted = false // Update flag to indicate that updates are stopped
+                stopLocationUpdates(fusedLocationClient,locationCallback)
 
-                    return // Exit loop after handling first location update
-                }
+                findNavController().navigate(
+                    HomeFragmentDirections.actionGlobalMapFragment("home", locationResult.locations[0].latitude.toString(),
+                        locationResult.locations[0].longitude.toString())
+                )
+
             }
         }
 
@@ -209,7 +194,7 @@ class ChooseLocationFragment : BottomSheetDialogFragment() {
             locationCallback,
             Looper.getMainLooper()
         )
-        isLocationUpdatesStarted = true // Update flag to indicate that updates are started
+//        isLocationUpdatesStarted = true // Update flag to indicate that updates are started
     }
 
     private fun fetchPredictions(query: String) {
@@ -242,13 +227,11 @@ class ChooseLocationFragment : BottomSheetDialogFragment() {
                     predictions.add(placeModel)
                     updateRecyclerView(predictions)
                 }.addOnFailureListener { exception ->
-                    // Handle failure to fetch place details
                     exception.printStackTrace()
                 }
             }
         }.addOnFailureListener { exception ->
             placesNotAvailableVis()
-            // Handle failure to fetch autocomplete predictions
             exception.printStackTrace()
         }
     }
@@ -287,6 +270,7 @@ class ChooseLocationFragment : BottomSheetDialogFragment() {
                                 if (clickType=="del"){
                                     removeAddress(address.id?:"")
                                 }else{
+                                    hideBottomSheet()
                                     findNavController().navigate(
                                         HomeFragmentDirections.actionGlobalMapFragment("home",address.latitude?:"",address.longitude?:"")
                                     )
@@ -335,5 +319,11 @@ class ChooseLocationFragment : BottomSheetDialogFragment() {
         }
 
     }
+
+    private fun hideBottomSheet() {
+        mBehave.isHideable = true
+        mBehave.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
 
 }

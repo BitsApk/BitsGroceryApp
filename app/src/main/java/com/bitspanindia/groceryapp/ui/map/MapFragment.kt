@@ -3,24 +3,19 @@ package com.bitspanindia.groceryapp.ui.map
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -41,6 +36,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.location.Priority
 import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -55,7 +51,6 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import java.io.IOException
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
@@ -70,57 +65,62 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var latitude = 0.0
     private var longitude = 0.0
     private var addressString = ""
-
-//    override fun onStart() {
-//        super.onStart()
-//        // Check if GPS is enabled, if not, prompt the user to enable it
-//        checkGpsStatus()
-//    }
-
-    private fun checkGpsStatus() {
-        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            // GPS is not enabled, show a dialog to prompt the user to enable it
-//            showGpsDialog()
-            gpsPermission(requireContext(),requireActivity()){
-                requestLocationUpdates()
-            }
-        } else {
-            // GPS is enabled, proceed with getting the current location
-            requestLocationUpdates()
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentGoogleMapBinding.inflate(inflater, container, false)
+        dialogHelper = DialogHelper(requireContext(),requireActivity())
+        return binding.root
     }
 
-    private val REQUEST_CHECK_SETTINGS = 132
-    private fun showGpsDialog() {
-        val locationRequest = LocationRequest.create().apply {
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Initialize Places API
+        Places.initialize(requireContext(), getString(R.string.google_maps_key))
+
+        // Initialize FusedLocationProviderClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        // Initialize map fragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        searchPlaces()
+
+        binding.btnContinue.setOnClickListener {
+            if (args.redirectBy == "addAddress"){
+                val action =  AddressListFragmentDirections.actionGlobalAddAddressFragment(latitude.toString(),longitude.toString())
+                findNavController().navigate(action)
+            }else{
+                Constant.latitude = latitude
+                Constant.longitude = longitude
+                Constant.userLocation = addressString
+                findNavController().popBackStack()
+            }
+
         }
 
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest)
-
-        val client: SettingsClient = LocationServices.getSettingsClient(requireContext())
-        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
-
-        task.addOnSuccessListener { locationSettingsResponse ->
-            // Location settings are satisfied, the client can initialize location requests here
-            requestLocationUpdates()
-        }
-
-        task.addOnFailureListener { exception ->
-            if (exception is ResolvableApiException) {
-                // Location settings are not satisfied, but this can be fixed by showing the user a dialog
-                try {
-                    // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult()
-                    exception.startResolutionForResult(requireActivity(), REQUEST_CHECK_SETTINGS)
-                } catch (sendEx: IntentSender.SendIntentException) {
-                    // Ignore the error
+        binding.clCurrentLocation.setOnClickListener {
+            if (AppUtils.checkGpsStatus(requireActivity())) {
+                requestLocationUpdates()
+            } else {
+                AppUtils.gpsPermission(requireContext(), locationSettingsResultLauncher) {
+                    requestLocationUpdates()
                 }
             }
         }
+
     }
 
+    private val locationSettingsResultLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            requestLocationUpdates()
+        } else {
+            showShortToast(requireContext(),"Error for getting current location")
+        }
+    }
 
     private var isLocationUpdatesStarted = false // Keep track of whether location updates are started
 
@@ -131,10 +131,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         binding.tvCity.visibility = View.GONE
 
         // Create location request
-        locationRequest = LocationRequest.create().apply {
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 1000 // Update interval in milliseconds
-        }
+        locationRequest = LocationRequest.Builder(1000L).setPriority(Priority.PRIORITY_HIGH_ACCURACY).build()
+
 
         // Create location callback
         locationCallback = object : LocationCallback() {
@@ -211,69 +209,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentGoogleMapBinding.inflate(inflater, container, false)
-        dialogHelper = DialogHelper(requireContext(),requireActivity())
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // Initialize Places API
-        Places.initialize(requireContext(), getString(R.string.google_maps_key))
-
-        // Initialize FusedLocationProviderClient
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        // Initialize map fragment
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-
-        searchPlaces()
-
-
-        binding.etSearch.setOnClickListener {
-            mMap.clear() // Clear previous markers
-            val locationName = binding.etSearch.text.toString()
-
-            if (locationName.isNotEmpty()) {
-                val geoCoder = Geocoder(requireContext())
-                val addressList = geoCoder.getFromLocationName(locationName, 1)
-
-                if (addressList?.isNotEmpty() == true) {
-                    val address = addressList[0]
-                    val latLng = LatLng(address.latitude, address.longitude)
-
-                    mMap.addMarker(MarkerOptions().position(latLng).title(locationName))
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
-                } else {
-                    Toast.makeText(requireContext(), "Location not found", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(requireContext(), "Please enter a location", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        binding.btnContinue.setOnClickListener {
-            if (args.redirectBy == "addAddress"){
-             val action =  AddressListFragmentDirections.actionGlobalAddAddressFragment(latitude.toString(),longitude.toString())
-                findNavController().navigate(action)
-            }else{
-                Constant.latitude = latitude
-                Constant.longitude = longitude
-                Constant.userLocation = addressString
-                findNavController().popBackStack()
-            }
-
-        }
-
-}
-
     private fun setLocationPre() {
         dialogHelper.hideProgressDialog()
         latitude = args.latitude.toDouble()
@@ -296,8 +231,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
 
-        // Request location updates
-        requestLocationUpdates()
+        //check if user coming from add address and address list fragment
+        if (args.redirectBy=="addAddress" && latitude==0.0 && longitude==0.0){
+            if (AppUtils.checkGpsStatus(requireActivity())) {
+                requestLocationUpdates()
+            } else {
+                AppUtils.gpsPermission(requireContext(), locationSettingsResultLauncher) {
+                    requestLocationUpdates()
+                }
+            }
+        }
+
+        setLocationPre()
 
         // Implement marker drag listener
         mMap.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
@@ -321,19 +266,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val target = mMap.cameraPosition.target
             latitude = target.latitude
             longitude = target.longitude
-//            getAddressFromLocation(target.latitude, target.longitude)
             val address = AppUtils.getAddressFromLocation(requireContext(),latitude,longitude)
             setAddress(address)
+
             // Update marker position
             currentLocationMarker?.position = target
         }
 
-
-        setLocationPre()
-
-        if (latitude==0.0 && longitude==0.0){
-            checkGpsStatus()
-        }
 
     }
 
@@ -360,8 +299,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 placesClient.fetchPlace(request).addOnSuccessListener { response ->
                     val latLng = response.place.latLng
                     if (latLng != null) {
-//                        mMap.addMarker(MarkerOptions().position(latLng).title(place.name))
-//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f))
                         updateCurrentLocationMarker(latLng)
                     }
                 }.addOnFailureListener { exception ->
@@ -370,9 +307,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
             override fun onError(status: com.google.android.gms.common.api.Status) {
-                // Handle the error.
+                showShortToast(requireContext(),status.statusMessage.toString())
             }
         })
+
     }
 
 }

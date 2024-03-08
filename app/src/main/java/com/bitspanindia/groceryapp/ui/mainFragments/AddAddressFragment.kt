@@ -66,7 +66,7 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnChange.setOnClickListener {
-            val action = AddAddressFragmentDirections.actionGlobalMapFragment("addAddress")
+            val action = AddAddressFragmentDirections.actionGlobalMapFragment("addAddress",args.latitude,args.longitude)
             findNavController().navigate(action)
         }
 
@@ -88,10 +88,10 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
             args.latitude.toDouble(),
             args.longitude.toDouble()
         )
-        val fullAddress =
-            "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
+        val fullAddress = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
         binding.tvAddress.text = address.locality
         binding.tvFullAddress.text = fullAddress
+        binding.etAreaStreet.setText(fullAddress)
 
     }
 
@@ -103,24 +103,6 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
 
     private fun addAddress() {
         dialogHelper.showProgressDialog()
-        binding.apply {
-            addressReq.userId = Constant.userId
-            addressReq.perAdd = etAreaStreet.text.toString()
-            addressReq.city = address.locality
-            addressReq.locality = address.locality
-            addressReq.country = address.countryName
-            addressReq.state = address.adminArea
-            addressReq.zipcode = address.postalCode
-            addressReq.latitude = args.latitude
-            addressReq.longitude = args.longitude
-            addressReq.landMark = etLandMark.text.toString()
-            addressReq.phone = etPhoneNumber.text.toString()
-            addressReq.addressName = when (addTypeChipGroup.checkedChipId) {
-                R.id.chipHome -> "Home"
-                R.id.chipWork -> "Work"
-                else -> "Other"
-            }
-        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
@@ -156,13 +138,11 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
             addressReq.userId = Constant.userId
             addressReq.perAdd = etAreaStreet.text.toString()
             addressReq.city = address.locality
-            addressReq.locality = address.locality
             addressReq.country = address.countryName
             addressReq.state = address.adminArea
             addressReq.zipcode = address.postalCode
             addressReq.latitude = args.latitude
             addressReq.longitude = args.longitude
-            addressReq.landMark = etLandMark.text.toString()
             addressReq.phone = etPhoneNumber.text.toString()
             addressReq.addressName = when (addTypeChipGroup.checkedChipId) {
                 R.id.chipHome -> "Home"
@@ -171,16 +151,29 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
             }
 
             with(addressReq) {
-                if (perAdd.isNullOrEmpty()) {
-                    etAreaStreet.error = "Enter Area and Street"
+                if (userId=="0" || userId.isNullOrEmpty()){
+                    showShortToast(mContext,"Please login before add address")
+                    return false
+                }
+                else if (perAdd.isNullOrEmpty()) {
+                    etAreaStreet.error = "Enter Full Address"
                     etAreaStreet.isFocusable = true
                     return false
                 } else if (phone?.length != 10) {
                     etPhoneNumber.error = "Enter valid phone number"
                     etPhoneNumber.isFocusable = true
                     return false
-                } else if (addressName.isNullOrEmpty()) {
+                }
+                else if (addressName.isNullOrEmpty()) {
                     showShortToast(mContext, "Select address type")
+                    return false
+                }
+                else if (latitude.isNullOrEmpty()||longitude.isNullOrEmpty()||zipcode.isNullOrEmpty()) {
+                    showShortToast(mContext,"Enter Valid Location")
+                    return false
+                }
+                else if (state.isNullOrEmpty()||city.isNullOrEmpty()) {
+                    showShortToast(mContext,"Choose location again")
                     return false
                 }
             }

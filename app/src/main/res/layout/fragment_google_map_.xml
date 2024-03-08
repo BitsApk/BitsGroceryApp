@@ -19,45 +19,31 @@
             app:layout_constraintBottom_toTopOf="@+id/tvCity"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/etSearch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/white_rounded"
-            android:visibility="gone"
-            android:paddingHorizontal="@dimen/space_16"
-            android:paddingVertical="@dimen/space_12"
-            android:layout_margin="@dimen/space_16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <ImageView
-            android:id="@+id/ivSearch"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="@dimen/space_16"
-            android:src="@drawable/icon_search"
-            android:visibility="gone"
-            app:tint="@color/grey_700"
-            app:layout_constraintBottom_toBottomOf="@+id/etSearch"
-            app:layout_constraintEnd_toEndOf="@+id/etSearch"
-            app:layout_constraintTop_toTopOf="@+id/etSearch" />
-
-        <fragment
-            android:id="@+id/autocomplete_fragment"
-            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSearch"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
+            android:layout_margin="@dimen/space_16"
             android:background="@drawable/white_rounded"
-            android:paddingHorizontal="@dimen/space_16"
-            android:paddingVertical="@dimen/space_12"
-            android:layout_marginTop="@dimen/space_16"
-            android:layout_marginHorizontal="@dimen/space_16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etSearch" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/autocomplete_fragment"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_16"
+                android:paddingHorizontal="@dimen/space_16"
+                android:paddingVertical="@dimen/space_12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tvCity"
@@ -101,6 +87,28 @@
             android:textSize="@dimen/text_16"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:layout_editor_absoluteX="16dp" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clCurrentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:background="@drawable/bg_circle_view"
+            app:layout_constraintBottom_toBottomOf="@+id/map_fragment"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_gps"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
