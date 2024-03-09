@@ -15,14 +15,13 @@
         android:padding="@dimen/space_8">
 
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivProduct"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Circle"
-            app:srcCompat="@drawable/img_job_karo"
-            app:strokeColor="@color/grey_400"
-            app:strokeWidth="1dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/img_job_karo"
+            app:civ_border_color="@color/grey_400"
+            app:civ_border_width="1dp" />
 
         <TextView
             android:id="@+id/headingTxt"

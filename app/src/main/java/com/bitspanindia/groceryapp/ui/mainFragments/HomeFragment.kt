@@ -37,6 +37,7 @@ import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.HomeRecyclerAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.HomeTopListAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
+import com.bitspanindia.groceryapp.presentation.viewmodel.AddressViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
 import com.bitspanindia.groceryapp.storage.SharedPreferenceUtil
@@ -61,6 +62,8 @@ class HomeFragment : Fragment() {
 
     private val homeVM: HomeViewModel by activityViewModels()
     private val cartVM: CartManageViewModel by activityViewModels()
+
+    private val addViewModel: AddressViewModel by activityViewModels()
 
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
@@ -101,6 +104,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.locAddressTxt.text = Constant.userLocation
+
+        observeAddress()
 
 //        showLocationDialog()
 //        setProducts()
@@ -147,6 +152,14 @@ class HomeFragment : Fragment() {
         binding.otherAppList.adapter = HomeTopListAdapter(mContext, DummyData.homeTopDataList)
 
 
+        binding.otherAppList.setOnItemClickListener(){adapterView, view, position, id ->
+
+            Toast.makeText(mContext, "Click on item at $position its item id $id", Toast.LENGTH_LONG).show()
+//            val intent = Intent(mActivity, JobMainActivity::class.java)
+//            startActivity(intent)
+        }
+
+
     }
 
 
@@ -154,7 +167,7 @@ class HomeFragment : Fragment() {
         cartVM.cartTotalItem.observe(viewLifecycleOwner) {
 
             if (cartVM.isCartVisible) {
-                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)  // TODO
+                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)  // TODO remove static
                 if (viewHolder is RecyclerView.ViewHolder) {
                     val childRecyclerView = viewHolder.itemView.findViewById<RecyclerView>(R.id.selectedRecView)
 
@@ -174,16 +187,22 @@ class HomeFragment : Fragment() {
     private fun getSavedCart() {
         viewLifecycleOwner.lifecycleScope.launch {
             cartVM.getSavedCart().let {
-                Log.d("Rishabh", "HF Cart Found before setted ${it.cartItemsMap.size} ${it.cartItemsMap}")
+                Log.d("Rishabh", "cart map ${it.cartItemsMap}")
                 var total = 0;
                 for (i in it.cartItemsMap) {
                     var count = 0;
                     for (j in it.cartItemsMap[i.key] ?: listOf()) {
+                        if (count == 0) {
+                            cartVM.countMap[i.key] = mutableMapOf()
+                        }
                         count += j.count
+                        cartVM.countMap[i.key]!![j.sizeId] =  j.count
                     }
                     total += count
-                    cartVM.countMap[i.key] = count
+                    cartVM.countMap[i.key]!!["-1"] = count
                 }
+
+                Log.d("Rishabh", "count map HF ${cartVM.countMap}")
                 getHomData()
                 if (total > 0) {
                     cartVM.setCartTotal(total)
@@ -196,7 +215,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getHomData() {
-        val homeDataReq = HomeDataReq("56testing.club",Constant.userId)
+        val homeDataReq = HomeDataReq("56testing.club")
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 homeVM.getHomeData(homeDataReq).let {
@@ -233,6 +252,8 @@ class HomeFragment : Fragment() {
                 CartAction.Minus -> {
                     cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
                     cartVM.decreaseCountOfItem(prod)
+                    Log.d("Rishabh", "count map HF after minus ${cartVM.countMap}")
+
                 }
 
                 CartAction.ItemClick -> {
@@ -292,10 +313,10 @@ class HomeFragment : Fragment() {
 
     private fun showManualLocationDialog() {
         val modalBottomSheet by lazy {
-            ChooseLocationFragment()
+            ChooseLocationBottomSheetFragment()
         }
 
-        modalBottomSheet.show(childFragmentManager, ChooseLocationFragment.TAG)
+        modalBottomSheet.show(childFragmentManager, ChooseLocationBottomSheetFragment.TAG)
         modalBottomSheet.isCancelable = false
     }
 
@@ -358,6 +379,15 @@ class HomeFragment : Fragment() {
             requestLocationUpdates(false)
         } else {
             showShortToast(requireContext(),"Error for getting current location")
+        }
+    }
+
+    private fun observeAddress(){
+        addViewModel.myAddress.observe(viewLifecycleOwner){address->
+            Constant.latitude = address.latitude?.toDouble() ?: 0.0
+            Constant.longitude = address.longitude?.toDouble() ?: 0.0
+            Constant.userLocation = address.permanentAdd?:""
+            binding.locAddressTxt.text = address.permanentAdd
         }
     }
 

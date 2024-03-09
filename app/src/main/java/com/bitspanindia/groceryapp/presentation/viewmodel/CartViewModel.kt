@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bitspanindia.groceryapp.data.model.Cart
 import com.bitspanindia.groceryapp.data.model.ProductData
+import com.bitspanindia.groceryapp.data.model.request.CartValidateReq
 import com.bitspanindia.groceryapp.data.model.request.ConfirmOrderReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentVerifyReq
+import com.bitspanindia.groceryapp.data.model.response.CartValidateResponse
 import com.bitspanindia.groceryapp.data.model.response.ConfirmOrderResponse
 import com.bitspanindia.groceryapp.data.model.response.PaymentResponse
 import com.bitspanindia.groceryapp.data.model.response.PaymentVerifyResponse
@@ -22,6 +24,10 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(private val cartRepository: CartRepository) : ViewModel() {
 
+
+
+
+
     suspend fun doPayment(paymentReq: PaymentReq): Response<PaymentResponse> {
         return cartRepository.doPayment(paymentReq)
     }
@@ -32,6 +38,10 @@ class CartViewModel @Inject constructor(private val cartRepository: CartReposito
 
     suspend fun doConfirmOrder(confirmOrderReq: ConfirmOrderReq): Response<ConfirmOrderResponse> {
         return cartRepository.doConfirmOrder(confirmOrderReq)
+    }
+
+    suspend fun validateCart(cartValidateReq: CartValidateReq): Response<CartValidateResponse> {
+        return cartRepository.validateCart(cartValidateReq)
     }
 
 }

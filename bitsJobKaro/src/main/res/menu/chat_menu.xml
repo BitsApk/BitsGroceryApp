@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/icon_menu_dots_white"
+        android:title=""
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/sendResume"
+                android:icon="@drawable/icon_file_send"
+                android:title="@string/send_resume" />
+            <item
+                android:id="@+id/reqNumber"
+                android:icon="@drawable/icon_receive_num"
+                android:title="@string/request_number" />
+            <item
+                android:id="@+id/sendNumber"
+                android:icon="@drawable/icon_send_num"
+                android:title="@string/send_num" />
+        </menu>
+    </item>
+</menu>

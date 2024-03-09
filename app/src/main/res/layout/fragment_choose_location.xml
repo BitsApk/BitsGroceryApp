@@ -124,42 +124,31 @@
             android:layout_marginTop="@dimen/space_10"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSavedAdd"
             tools:itemCount="4"
+            android:paddingBottom="70dp"
             tools:listitem="@layout/item_location" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_16"
+            android:layout_marginBottom="@dimen/space_16"
+            android:background="@drawable/white_rounded"
+            android:backgroundTint="@color/green_500"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/add_address"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--        <fragment-->
-<!--            android:id="@+id/autocomplete_fragment1"-->
-<!--            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:layout_marginBottom="16dp"-->
-<!--            android:hint="Search location"-->
-<!--            android:background="@android:color/transparent" />-->
-
-<!--        &lt;!&ndash; Add other views as needed &ndash;&gt;-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/tv1"-->
-<!--            android:layout_below="@id/autocomplete_fragment1"-->
-<!--            android:layout_marginTop="20sp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            />-->
-
-
-<!--    </RelativeLayout>-->
-
 
 </layout>

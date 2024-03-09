@@ -142,6 +142,7 @@ class SubCategoryFragment : Fragment() {
         productDataReq.userId = Constant.userId
         productDataReq.pageno = 1
         productDataReq.subcategoryId = subCatId
+        productDataReq.addedByWeb = Constant.addedByWeb
 
         viewLifecycleOwner.lifecycleScope.launch {
             homeVM.getSubCatProducts(

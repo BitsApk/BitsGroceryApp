@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootLayout"
+        android:layout_width="match_parent"
+        android:padding="@dimen/space_16"
+        android:background="@drawable/bg_item_stroke_white_corner"
+        android:elevation="6dp"
+        android:layout_marginBottom="@dimen/space_16"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/jobTitleTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/backend_developer"
+            android:textSize="@dimen/text_18"
+            android:fontFamily="@font/roboto_medium_500"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/jobAppAnnSalTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rs 2 - 6 LPA"
+            android:textSize="@dimen/text_14"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            app:layout_constraintTop_toTopOf="@id/jobTitleTxt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/jobTitleTxt"/>
+
+        <TextView
+            android:id="@+id/jobHighQualTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/b_tech"
+            android:layout_marginTop="4dp"
+            android:textSize="@dimen/text_10"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            android:fontFamily="@font/roboto_regular_400"
+            app:layout_constraintStart_toStartOf="@id/jobTitleTxt"
+            app:layout_constraintTop_toBottomOf="@id/jobTitleTxt" />
+
+        <View
+            android:id="@+id/jobLineViewFirst"
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:background="@color/sub_views"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/jobHighQualTxt"
+            app:layout_constraintTop_toTopOf="@+id/jobHighQualTxt"
+            app:layout_constraintBottom_toBottomOf="@+id/jobHighQualTxt" />
+
+        <TextView
+            android:id="@+id/jobExpSubTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/exp_years"
+            android:layout_marginStart="8dp"
+            android:textSize="@dimen/text_10"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            android:fontFamily="@font/roboto_regular_400"
+            app:layout_constraintTop_toTopOf="@+id/jobHighQualTxt"
+            app:layout_constraintStart_toEndOf="@+id/jobLineViewFirst" />
+
+
+
+        <TextView
+            android:id="@+id/jobTypeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/work_from_office"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/space_8"
+            android:textSize="@dimen/text_12"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            android:fontFamily="@font/roboto_regular_400"
+            app:layout_constraintTop_toBottomOf="@id/jobExpSubTxt"
+            app:layout_constraintStart_toStartOf="@id/jobHighQualTxt" />
+
+        <View
+            android:id="@+id/jobLineViewThird"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_view_full_circle"
+            android:backgroundTint="@color/sub_views"
+            app:layout_constraintStart_toEndOf="@+id/jobTypeTxt"
+            app:layout_constraintTop_toTopOf="@+id/jobTypeTxt"
+            app:layout_constraintBottom_toBottomOf="@+id/jobTypeTxt" />
+
+        <TextView
+            android:id="@+id/jobTimeTypeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/full_time"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_8"
+            android:textSize="@dimen/text_12"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            android:fontFamily="@font/roboto_regular_400"
+            app:layout_constraintTop_toBottomOf="@id/jobExpSubTxt"
+            app:layout_constraintStart_toEndOf="@id/jobLineViewThird"/>
+
+        <TextView
+            android:id="@+id/jobExpCompTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bits_panindia"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/space_8"
+            android:textSize="@dimen/text_14"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            android:fontFamily="@font/roboto_regular_400"
+            app:layout_constraintTop_toBottomOf="@id/jobTypeTxt"
+            app:layout_constraintStart_toStartOf="@id/jobTypeTxt" />
+
+        <TextView
+            android:id="@+id/jobCompLocatTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gurgaon"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_14"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            android:fontFamily="@font/roboto_regular_400"
+            app:layout_constraintTop_toTopOf="@id/jobExpCompTxt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/jobExpCompTxt" />
+
+
+
+        <View
+            android:id="@+id/jobLineViewFifth"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/view_lines_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/space_12"
+            app:layout_constraintTop_toBottomOf="@id/jobExpCompTxt"/>
+
+        <TextView
+            android:id="@+id/jobResponsesTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="@dimen/text_10"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            app:layout_constraintEnd_toStartOf="@id/jobOpenClosedTxt"
+            android:text="@string/num_responses"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:layout_marginTop="@dimen/space_8"
+            app:layout_constraintTop_toBottomOf="@id/jobLineViewFifth"/>
+        <TextView
+            android:id="@+id/jobSeeAllTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="See All"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_10"
+            android:paddingBottom="@dimen/space_4"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            app:layout_constraintTop_toBottomOf="@id/jobResponsesTxt"
+            app:layout_constraintStart_toStartOf="@id/jobResponsesTxt"
+            app:layout_constraintEnd_toEndOf="@id/jobResponsesTxt"/>
+
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/jobOpenClosedSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            app:layout_constraintEnd_toEndOf="@id/jobOpenClosedTxt"
+            app:trackTint="@color/switch_tail_color_selector"
+            app:thumbTint="@color/switch_head_color_selector"
+            app:layout_constraintStart_toStartOf="@id/jobOpenClosedTxt"
+            app:layout_constraintTop_toTopOf="@id/jobResponsesTxt"
+            app:layout_constraintBottom_toTopOf="@id/jobOpenClosedTxt"/>
+
+        <TextView
+            android:id="@+id/jobOpenClosedTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Closed"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_14"
+            android:background="@drawable/shimmer_bg_round"
+            android:textColor="@color/shimmer_color"
+            app:layout_constraintBottom_toBottomOf="@id/jobSeeAllTxt"
+            app:layout_constraintTop_toBottomOf="@id/jobOpenClosedSwitch"
+            app:layout_constraintStart_toEndOf="@id/jobResponsesTxt"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

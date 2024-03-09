@@ -3,6 +3,7 @@ package com.bitspanindia.groceryapp.ui.mainFragments
 import android.content.Context
 import android.location.Address
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.model.request.AddAddressReq
 import com.bitspanindia.groceryapp.databinding.FragmentAddAddressBinding
+import com.bitspanindia.groceryapp.presentation.viewmodel.AddressViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.ProfileViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -40,6 +42,8 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
     private val pvm: ProfileViewModel by activityViewModels()
     private val addressReq = AddAddressReq()
     private lateinit var address: Address
+
+    private val addViewModel: AddressViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,7 +92,7 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
             args.latitude.toDouble(),
             args.longitude.toDouble()
         )
-        val fullAddress = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
+        val fullAddress = address.getAddressLine(0)
         binding.tvAddress.text = address.locality
         binding.tvFullAddress.text = fullAddress
         binding.etAreaStreet.setText(fullAddress)
@@ -97,7 +101,7 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
 
     private fun updateCurrentLocationMarker(latLng: LatLng) {
         mMap.addMarker(MarkerOptions().position(latLng).title("MarkerLocation"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f))
     }
 
 
@@ -110,6 +114,7 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
                     dialogHelper.hideProgressDialog()
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()?.statusCode == 200) {
+                            addViewModel.myAddress.value = it.body()?.myAddress?.get(0)
                             showShortToast(mContext, "Address add successfully")
                             findNavController().popBackStack()
                         } else {

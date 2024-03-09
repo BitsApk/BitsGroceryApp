@@ -77,9 +77,10 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/exceptionLay"
                     android:layout_width="0dp"
-                    android:layout_height="300dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
                     android:elevation="6dp"
+                    android:paddingBottom="@dimen/space_16"
                     android:visibility="visible"
                     android:background="@drawable/bg_white_top_corners_5"
                     android:backgroundTint="@color/white"
@@ -103,11 +104,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium_600"
-                        android:text="3 items in your cart are not in stock"
+                        android:text="@string/_d_items_in_your_cart_are_in_stock"
                         android:textColor="@color/mark_negative"
                         android:textSize="@dimen/text_16"
                         android:textStyle="italic"
                         android:textAlignment="center"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:backgroundTint="@color/red_50"
                         android:background="@drawable/bg_white_top_corners_5"
                         android:paddingHorizontal="@dimen/space_16"
@@ -121,7 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/messTxt"
@@ -437,7 +440,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Rs 20"
+                        android:text="@string/rs_00"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_14"
                         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
@@ -461,7 +464,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium_500"
-                        android:text="Rs 351"
+                        android:text="@string/rs_f"
                         android:textColor="@color/grey_900"
                         android:textSize="@dimen/text_16"
                         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
@@ -669,6 +672,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageView
@@ -678,16 +682,16 @@
                 android:layout_margin="@dimen/space_10"
                 android:src="@drawable/icon_location"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textview8" />
+                app:layout_constraintTop_toTopOf="@+id/tvDeliveringTo" />
 
             <TextView
-                android:id="@+id/textview8"
+                android:id="@+id/tvDeliveringTo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_10"
                 android:layout_marginTop="@dimen/space_10"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Delivering to"
+                android:text="@string/delivering_to"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_12"
                 app:layout_constraintEnd_toStartOf="@+id/tvChangeAddress"
@@ -699,14 +703,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_10"
-                android:layout_marginTop="-4dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Sambhal, Uttar Pradesh"
                 android:textColor="@color/grey_700"
                 android:textSize="@dimen/text_10"
-                app:layout_constraintEnd_toEndOf="@+id/textview8"
+                app:layout_constraintEnd_toEndOf="@+id/tvDeliveringTo"
                 app:layout_constraintStart_toEndOf="@+id/imageView5"
-                app:layout_constraintTop_toBottomOf="@+id/textview8" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDeliveringTo" />
 
             <TextView
                 android:id="@+id/tvChangeAddress"
@@ -747,7 +750,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium_500"
-                android:text="Rs 107"
+                android:text="@string/rs_00"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_14"
                 app:layout_constraintStart_toStartOf="@+id/imageView5"
@@ -772,6 +775,24 @@
                 app:layout_constraintTop_toTopOf="@+id/textview10" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_16"
+            android:layout_marginBottom="@dimen/space_16"
+            android:background="@drawable/white_rounded"
+            android:backgroundTint="@color/green_500"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/add_address"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.mainFragments.recruiter.PostJobFragment">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/postJobProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="0"
+            android:layout_marginHorizontal="@dimen/space_16"
+            android:translationZ="10dp"
+            app:indicatorColor="@color/blue_500"
+            app:layout_constraintBottom_toBottomOf="@id/postProgSecImg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/postProgSecImg"
+            app:trackColor="@color/layout_backgrounds"
+            app:trackThickness="8dp" />
+
+        <ImageView
+            android:id="@+id/postProgFirstImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_post_checkpoint"
+            android:translationZ="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/postJobProgress"
+            app:layout_constraintStart_toStartOf="@+id/postJobProgress"
+            app:layout_constraintTop_toTopOf="@+id/postJobProgress" />
+
+        <ImageView
+            android:id="@+id/postProgSecImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_10"
+            android:translationZ="10dp"
+            android:src="@drawable/ic_post_uncheck"
+            app:layout_constraintEnd_toEndOf="@+id/postJobProgress"
+            app:layout_constraintStart_toStartOf="@+id/postJobProgress"
+            app:layout_constraintBottom_toTopOf="@id/postProgEmpTxt"/>
+
+
+        <ImageView
+            android:id="@+id/postProgThirdImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_post_uncheck"
+            android:translationZ="10dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/postJobProgress"
+            app:layout_constraintEnd_toEndOf="@+id/postJobProgress"
+            app:layout_constraintTop_toTopOf="@+id/postJobProgress" />
+
+
+        <TextView
+            android:id="@+id/postProgJobDetailTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular_400"
+            android:text="@string/job_detail"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/postProgEmpTxt"
+            app:layout_constraintStart_toStartOf="@+id/postJobProgress"
+            app:layout_constraintTop_toTopOf="@+id/postProgEmpTxt" />
+
+        <TextView
+            android:id="@+id/postProgEmpTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/roboto_medium_600"
+            android:text="@string/employee_prefer"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_14"
+            android:translationZ="1dp"
+            android:layout_marginBottom="@dimen/space_12"
+            app:layout_constraintEnd_toEndOf="@+id/postJobProgress"
+            app:layout_constraintStart_toStartOf="@+id/postJobProgress"
+            app:layout_constraintBottom_toTopOf="@id/postJobLayout" />
+
+        <TextView
+            android:id="@+id/postProgJobDescTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular_400"
+            android:text="@string/description"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="@id/postProgEmpTxt"
+            app:layout_constraintEnd_toEndOf="@+id/postJobProgress"
+            app:layout_constraintTop_toTopOf="@id/postProgEmpTxt" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/userMatchImg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:translationZ="-5dp"
+            android:src="@drawable/img_post_job_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.PostJobCorner" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/postJobLayout"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:background="@drawable/bg_post_job_solid_cornered"
+            android:paddingHorizontal="30dp"
+            app:layout_constraintBottom_toBottomOf="@id/userMatchImg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userMatchImg">
+
+            <TextView
+                android:id="@+id/postJobTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/post_your_job_here"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textAlignment="inherit"
+                android:layout_marginTop="@dimen/space_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/postJobThoughtTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/find_best_employee_s"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postJobTxt"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@color/blue_200"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/postJobLayout"/>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragmentLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingVertical="@dimen/space_18"
+            android:background="@drawable/bg_post_job_solid_one_cornered"
+            app:layout_constraintBottom_toTopOf="@id/postNextTxt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/postJobLayout">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/postJobNavFragment"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_post_job_solid_one_cornered"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navGraph="@navigation/post_job_nav_graph"
+                app:defaultNavHost="true"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/postNextTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/space_24"
+            android:padding="@dimen/space_16"
+            android:visibility="visible"
+            android:layout_marginBottom="@dimen/space_16"
+            android:background="@drawable/gradient_next_circled_corner_themed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:drawableEndCompat="@drawable/icon_next_arrow" />
+
+        <TextView
+            android:id="@+id/postJobBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_16"
+            android:text="@string/post"
+            android:paddingVertical="@dimen/space_10"
+            android:paddingHorizontal="@dimen/space_24"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="@dimen/text_16"
+            android:background="@drawable/button_round_corner"
+            android:backgroundTint="@color/blue_200"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

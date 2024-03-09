@@ -24,7 +24,7 @@ import com.google.gson.GsonBuilder
 class HomeRecyclerAdapter(
     private val sectionList: List<Viewtype>,
     private val context: Context,
-    private val countMap: MutableMap<String, Int>,
+    private val countMap: MutableMap<String, MutableMap<String, Int>>,
     private val prodCallback: (prod: ProductData, action: CartAction) -> Any,
     private val callBackCat: (catId:String,catName:String) -> Any
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -52,9 +52,25 @@ class HomeRecyclerAdapter(
                 ElementType.Products -> {
                     val data = homeData.getDataAs<ProductData>()
                     binding.selectedField.text = homeData.title
-                    binding.selectedRecView.layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+                    binding.selectedRecView.layoutManager = when (designType) {
+                        ViewDesign.TwoRowProductGrid -> GridLayoutManager(
+                            context,
+                            2,
+                            GridLayoutManager.HORIZONTAL,
+                            false
+                        )
+                        else -> {
+                            GridLayoutManager(
+                                context,
+                                1,
+                                GridLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        }
+                    }
                     binding.selectedRecView.adapter = ProductsAdapter(data ?: mutableListOf(), context, countMap, 0, prodCallback)
-                }
+                    }
+
                 else -> {}
 
 

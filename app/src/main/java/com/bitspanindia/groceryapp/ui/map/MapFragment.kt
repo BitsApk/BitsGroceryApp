@@ -71,6 +71,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     ): View {
         binding = FragmentGoogleMapBinding.inflate(inflater, container, false)
         dialogHelper = DialogHelper(requireContext(),requireActivity())
+        AppUtils.cartLayoutVisibility(requireActivity(), View.GONE)
+
         return binding.root
     }
 
@@ -86,6 +88,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         // Initialize map fragment
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        latitude = args.latitude.toDouble()
+        longitude = args.longitude.toDouble()
 
         searchPlaces()
 
@@ -181,7 +186,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setAddress(address: Address) {
-        addressString = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
+//        addressString = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
+        addressString = address.getAddressLine(0)?:""
         binding.apply {
             tvCity.text = address.locality
             tvFullAddress.text = addressString
@@ -210,7 +216,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setLocationPre() {
-        dialogHelper.hideProgressDialog()
+//        dialogHelper.hideProgressDialog()
         latitude = args.latitude.toDouble()
         longitude = args.longitude.toDouble()
 

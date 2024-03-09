@@ -15,9 +15,4 @@
     <style name="Theme.GroceryApp" parent="Base.Theme.GroceryApp" />
 
 
-    <style name="ShapeAppearanceOverlay.App" parent="">
-        <item name="cornerSize">50%</item>
-    </style>
-
-
 </resources>

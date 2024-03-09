@@ -10,6 +10,8 @@ data class ProductDataReq(
     var subcategoryId: String? = "",
     @SerializedName("user_id")
     var userId: String? = "",
+    @SerializedName("added_by_web")
+    var addedByWeb: String? = "",
 
 
     //for search product

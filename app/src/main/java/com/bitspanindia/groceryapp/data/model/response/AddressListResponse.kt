@@ -31,7 +31,6 @@ data class MyAddress(
     var phone: String? = "",
     @SerializedName("zipcode")
     var zipcode: String? = "",
-
     @SerializedName("latitude")
     var latitude: String? = "",
     @SerializedName("longitude")

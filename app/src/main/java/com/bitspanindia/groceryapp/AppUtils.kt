@@ -75,10 +75,10 @@ object AppUtils {
         Toast.makeText(context,msg,Toast.LENGTH_SHORT).show()
     }
 
-    fun cartLayoutVisibility(activity: FragmentActivity,visibility: Int){
+    fun cartLayoutVisibility(activity: FragmentActivity,visibility: Int) {
         try {
             (activity as MainActivity).bottomCartVisibility(visibility)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 

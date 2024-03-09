@@ -82,6 +82,21 @@
             app:layout_constraintStart_toStartOf="@+id/tvQuantity"
             app:layout_constraintTop_toBottomOf="@+id/offeredField" />
 
+        <TextView
+            android:id="@+id/priceInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium_500"
+            android:text="@string/change_price_from_2f_to_2f"
+            android:textColor="@color/mark_negative"
+            android:textSize="@dimen/text_12"
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/space_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/offeredField"
+            app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+
+
 
         <LinearLayout
             android:id="@+id/countLay"
@@ -116,6 +131,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium_600"
                 android:text="0"
+                android:enabled="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_14" />
 
@@ -128,8 +144,8 @@
                 android:paddingHorizontal="@dimen/space_6"
                 android:paddingVertical="@dimen/space_4"
                 android:src="@drawable/icon_add"
-                app:tint="@color/white" />
-
+                app:tint="@color/white"
+            />
         </LinearLayout>
 
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    // Collapsing toolbar
+    // Employee side
+    <style name="collapsedTitleStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="expandedTitleStyle" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    // Recruiter side collapsing toolbar
+    <style name="recruiterCollapsedStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/roboto_regular_400</item>
+        <item name="backgroundTint">@color/medium_orange</item>
+        <item name="background">@color/medium_orange</item>
+        <item name="backgroundColor">@color/medium_orange</item>
+    </style>
+
+    <style name="recruiterExpandedStyle" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <!--toolbar home fragment-->
+    <style name="Theme.TeamHiring.Toolbar">
+        <item name="android:textColorSecondary">@android:color/primary_text_dark</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="backgroundTint">@color/medium_orange</item>
+        <item name="background">@color/medium_orange</item>
+        <item name="backgroundColor">@color/medium_orange</item>
+    </style>
+
+    <style name="Theme.TeamHiring.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.TeamHiring.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    // Tab Layout
+    <style name="MyCustomTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/tabTextAppear</item>
+    </style>
+    <style name="tabTextAppear" parent="TextAppearance.MaterialComponents.Button">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    // ImageView
+    <style name="ShapeAppearanceOverlay.App.BottomBothCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">@dimen/space_10</item>
+        <item name="cornerSizeBottomRight">@dimen/space_10</item>
+    </style>
+
+    // Post job bottom corner
+    <style name="ShapeAppearanceOverlay.App.PostJobCorner" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">50dp</item>
+    </style>
+
+</resources>

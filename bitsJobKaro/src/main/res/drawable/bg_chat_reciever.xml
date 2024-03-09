@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!--ForeGround-->
+
+    <item android:left="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/light_grey" />
+            <corners android:bottomLeftRadius="0dp" android:radius="@dimen/space_18" />
+        </shape>
+    </item>
+
+</layer-list>
