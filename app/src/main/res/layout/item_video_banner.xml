@@ -7,7 +7,8 @@
     <androidx.media3.ui.PlayerView
         android:id="@+id/playerView"
         android:layout_width="320dp"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
+        android:layout_marginVertical="@dimen/space_8"
         android:layout_marginStart="@dimen/space_8"
         android:layout_marginEnd="@dimen/space_8"/>
 
