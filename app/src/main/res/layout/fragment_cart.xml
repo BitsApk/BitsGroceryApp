@@ -672,6 +672,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageView
@@ -681,16 +682,16 @@
                 android:layout_margin="@dimen/space_10"
                 android:src="@drawable/icon_location"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textview8" />
+                app:layout_constraintTop_toTopOf="@+id/tvDeliveringTo" />
 
             <TextView
-                android:id="@+id/textview8"
+                android:id="@+id/tvDeliveringTo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_10"
                 android:layout_marginTop="@dimen/space_10"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Delivering to"
+                android:text="@string/delivering_to"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_12"
                 app:layout_constraintEnd_toStartOf="@+id/tvChangeAddress"
@@ -702,14 +703,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_10"
-                android:layout_marginTop="-4dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Sambhal, Uttar Pradesh"
                 android:textColor="@color/grey_700"
                 android:textSize="@dimen/text_10"
-                app:layout_constraintEnd_toEndOf="@+id/textview8"
+                app:layout_constraintEnd_toEndOf="@+id/tvDeliveringTo"
                 app:layout_constraintStart_toEndOf="@+id/imageView5"
-                app:layout_constraintTop_toBottomOf="@+id/textview8" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDeliveringTo" />
 
             <TextView
                 android:id="@+id/tvChangeAddress"
@@ -775,6 +775,24 @@
                 app:layout_constraintTop_toTopOf="@+id/textview10" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_16"
+            android:layout_marginBottom="@dimen/space_16"
+            android:background="@drawable/white_rounded"
+            android:backgroundTint="@color/green_500"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/add_address"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

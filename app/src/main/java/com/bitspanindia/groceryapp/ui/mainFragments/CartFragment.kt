@@ -3,6 +3,7 @@ package com.bitspanindia.groceryapp.ui.mainFragments
 import android.content.Context
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.CartOutOfStockAdapter
 import com.bitspanindia.groceryapp.adapter.CartProductAdapter
@@ -23,15 +25,18 @@ import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.data.model.custom.CartUpdatedProdData
 import com.bitspanindia.groceryapp.data.model.request.CartValidateData
 import com.bitspanindia.groceryapp.data.model.request.CartValidateReq
-import com.bitspanindia.groceryapp.data.model.request.ConfirmOrderReq
+import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentVerifyReq
 import com.bitspanindia.groceryapp.data.model.response.CartProdBackendData
 import com.bitspanindia.groceryapp.databinding.FragmentCartBinding
 import com.bitspanindia.groceryapp.datalist.CustomList
+import com.bitspanindia.groceryapp.presentation.adapter.AddressesAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
+import com.bitspanindia.groceryapp.presentation.viewmodel.AddressViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
+import com.bitspanindia.groceryapp.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,10 +46,15 @@ class CartFragment : Fragment() {
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
 
+    private val pvm: ProfileViewModel by activityViewModels()
+    private val addViewModel: AddressViewModel by activityViewModels()
+
     private val cartManageVM: CartManageViewModel by activityViewModels()
     private val cartVM: CartViewModel by viewModels()
 
     private lateinit var cartData: MutableList<ProductData>
+
+    private lateinit var dialogHelper: DialogHelper
 
     private var cartTotal = 0.0
     private var delPartCharge = 20.0
@@ -61,6 +71,9 @@ class CartFragment : Fragment() {
         binding = FragmentCartBinding.inflate(inflater, container, false)
         mContext = requireContext()
         mActivity = requireActivity()
+
+        dialogHelper = DialogHelper(mContext, mActivity)
+
         return binding.root
     }
 
@@ -68,6 +81,11 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 //        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
+
+        getAddressList()
+
+        observeAddress()
+
         binding.tvDelCharge.paintFlags =
             binding.tvDelCharge.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
@@ -94,6 +112,15 @@ class CartFragment : Fragment() {
 
 //            val action = CartFragmentDirections.actionCartFragmentToOrderSuccessFragment()
 //            findNavController().navigate(action)
+        }
+
+        binding.tvChangeAddress.setOnClickListener {
+            showAddressDialog()
+        }
+
+        binding.btnAddAddress.setOnClickListener {
+            val action = CartFragmentDirections.actionGlobalMapFragment("addAddress","0.0","0.0")
+            findNavController().navigate(action)
         }
 
         setInstructionData()
@@ -320,5 +347,69 @@ class CartFragment : Fragment() {
 //        super.onDestroyView()
 //        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.green_500)
 //    }
+
+    private fun getAddressList() {
+        val getAddressReq = HomeDataReq(userId = Constant.userId)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                pvm.getAddressList(getAddressReq).let {
+                    if (it.isSuccessful && it.body() != null) {
+                        if (it.body()?.statusCode == 200) {
+                            val addressList = it.body()?.myAddress
+
+                            if (addressList.isNullOrEmpty()){
+                                binding.clPay.visibility = View.GONE
+                                binding.btnAddAddress.visibility = View.VISIBLE
+                            }else{
+                                binding.clPay.visibility = View.VISIBLE
+                                binding.btnAddAddress.visibility = View.GONE
+                                if (addViewModel.myAddress.value?.latitude==null && addViewModel.myAddress.value?.longitude==null){
+                                    addViewModel.myAddress.value = addressList[0]
+                                    binding.tvDeliveryAddress.text = addressList[0].permanentAdd
+                                    binding.tvDeliveringTo.text = getString(R.string.delivering_to,addressList[0].addressName)
+                                }
+
+                            }
+
+                        }else{
+                            dialogHelper.showErrorMsgDialog(it.body()?.message?:"Something went wrong"){
+                                findNavController().popBackStack()
+                            }
+                        }
+                    }
+                    else{
+                        dialogHelper.showErrorMsgDialog("Something went wrong"){
+                            findNavController().popBackStack()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                    dialogHelper.showErrorMsgDialog("Something went wrong"){
+                        findNavController().popBackStack()
+                    }
+            }
+
+        }
+
+    }
+
+    private fun showAddressDialog() {
+        addViewModel.redirectFrom = "Cart"
+
+        val modalBottomSheet by lazy {
+            ChooseLocationBottomSheetFragment()
+        }
+
+        modalBottomSheet.show(childFragmentManager, ChooseLocationBottomSheetFragment.TAG)
+        modalBottomSheet.isCancelable = true
+    }
+
+    private fun observeAddress(){
+        addViewModel.myAddress.observe(viewLifecycleOwner){address->
+            binding.tvDeliveryAddress.text = address.permanentAdd
+            binding.tvDeliveringTo.text = getString(R.string.delivering_to,address.addressName)
+        }
+    }
 
 }

@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.maps.DirectionsApiRequest
 import com.google.maps.GeoApiContext
 import com.google.maps.model.DirectionsResult
@@ -38,10 +39,8 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
-    private var latitude = 0.0
-    private var longitude = 0.0
-    private var userLongitude = 78.56315524529306
-    private var userLatitude = 28.586321056126064
+    private var userLatitude = 28.592654196068896
+    private var userLongitude = 78.574333584813
 
     // Define marker and polyline variables
     private var deliveryBoyMarker: Marker? = null
@@ -70,7 +69,7 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Retrieve location data from Firestore and update map
+        // Update the map with static user location
         updateMapWithLocations("order123")
     }
 
@@ -78,32 +77,25 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
 
-        updateCurrentLocationMarker(LatLng(28.5997677, 78.57035796),"User Location")
-
+        // Update the current location marker with static user location
+        updateCurrentLocationMarker(LatLng(userLatitude, userLongitude), "User Location")
     }
 
-    private var userMarker: Marker? = null
+    private var deliveryBoyLocationListener: ListenerRegistration? = null
 
     private fun updateCurrentLocationMarker(latLng: LatLng, locationName: String) {
         val icon = if (locationName == "User Location") R.drawable.icon_location_svg else R.drawable.icon_bike
 
         if (locationName == "User Location") {
-            // If the user marker already exists, update its position and icon
-            if (userMarker != null) {
-                userMarker!!.position = latLng
-                userMarker!!.title = locationName
-                userMarker!!.setIcon(BitmapFromVector(requireContext(), R.drawable.icon_location_svg))
-            } else {
-                // Otherwise, create a new user marker
-                userMarker = mMap.addMarker(
-                    MarkerOptions().position(latLng).title(locationName).icon(
-                        BitmapFromVector(
-                            requireContext(),
-                            R.drawable.icon_location_svg
-                        )
+            // Add marker for user location
+            mMap.addMarker(
+                MarkerOptions().position(latLng).title(locationName).icon(
+                    BitmapFromVector(
+                        requireContext(),
+                        R.drawable.icon_location_svg
                     )
                 )
-            }
+            )
         } else {
             // For the delivery boy marker
             // If the delivery boy marker already exists, update its position and icon
@@ -127,23 +119,24 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f))
     }
 
-    private fun updateMapWithLocations(orderId: String, userId: String = "deepak123") {
+    private fun updateMapWithLocations(orderId: String) {
         val db = FirebaseFirestore.getInstance()
         val orderRef = db.collection("orders").document(orderId)
 
-        orderRef.addSnapshotListener { snapshot, e ->
+        // Listen for changes in the delivery boy's location in real-time
+        deliveryBoyLocationListener = orderRef.addSnapshotListener { snapshot, e ->
             if (snapshot != null && snapshot.exists()) {
                 val geoPoint = snapshot.getGeoPoint("geoPoint")
                 if (geoPoint != null) {
-                    latitude = geoPoint.latitude
-                    longitude = geoPoint.longitude
-                    val location = LatLng(latitude, longitude)
+                    val deliveryBoyLatitude = geoPoint.latitude
+                    val deliveryBoyLongitude = geoPoint.longitude
+                    val deliveryBoyLocation = LatLng(deliveryBoyLatitude, deliveryBoyLongitude)
 
                     // Update the marker's position
-                    updateCurrentLocationMarker(location, "Delivery Boy Location")
+                    updateCurrentLocationMarker(deliveryBoyLocation, "Delivery Boy Location")
 
                     // Fetch directions and draw polyline
-                    fetchDirectionsAndDrawPolyline(location)
+                    fetchDirectionsAndDrawPolyline(deliveryBoyLocation)
                 } else {
                     Log.e("TAG", "GeoPoint is null")
                 }
@@ -153,8 +146,8 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun fetchDirectionsAndDrawPolyline(destination: LatLng) {
-        val origin = LatLng(destination.latitude, destination.longitude)
+    private fun fetchDirectionsAndDrawPolyline(origin: LatLng) {
+        val destination = LatLng(userLatitude, userLongitude)
         val geoApiContext = GeoApiContext.Builder()
             .apiKey(getString(R.string.google_maps_key))
             .build()
@@ -162,7 +155,7 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
         val directionsApiRequest: DirectionsApiRequest = com.google.maps.DirectionsApi.newRequest(geoApiContext)
         directionsApiRequest.mode(TravelMode.DRIVING)
         directionsApiRequest.origin(com.google.maps.model.LatLng(origin.latitude, origin.longitude))
-        directionsApiRequest.destination(com.google.maps.model.LatLng(28.5997677, 78.57035796))
+        directionsApiRequest.destination(com.google.maps.model.LatLng(destination.latitude, destination.longitude))
 
         directionsApiRequest.setCallback(object : com.google.maps.PendingResult.Callback<DirectionsResult?> {
             override fun onResult(result: DirectionsResult?) {
@@ -170,26 +163,6 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
                 activity?.runOnUiThread {
 
                     val route = result!!.routes[0]
-//                    val polylineOptions = PolylineOptions()
-//                    val polylinePoints = route.overviewPolyline.decodePath()
-//
-//                    Log.e("TAG", "onResult: $route")
-
-//                    for (point in polylinePoints) {
-//                        Log.e("TAG", "onResultPoint: ${point.lat} \n ${point.lng}")
-//                        polylineOptions.add(
-//                            LatLng(
-//                                point.lat,
-//                                point.lng
-//                            )
-//                        )
-//                    }
-//
-//                    // Remove existing polyline if any
-//                    polyline?.remove()
-//
-//                    // Add new polyline to the map
-//                    polyline = mMap.addPolyline(polylineOptions)
 
                     drawPolylineOnMap(getPolylineOptions(route.overviewPolyline.decodePath()))
 
@@ -212,16 +185,12 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
         polyline = mMap.addPolyline(polylineOptions)
     }
 
-
     private fun getPolylineOptions(polylinePoints: MutableList<com.google.maps.model.LatLng>): PolylineOptions {
         // Create polyline options
         val polylineOptions = PolylineOptions()
-        // Add coordinates to the polyline options (example coordinates)
-//        polylineOptions.add(LatLng(latitude, longitude)) // San Francisco
-//            .add(LatLng(userLatitude,userLongitude))   // Los Angeles
 
+        // Add coordinates to the polyline options
         for (point in polylinePoints) {
-            Log.e("TAG", "onResultPoint: ${point.lat} \n ${point.lng}")
             polylineOptions.add(
                 LatLng(
                     point.lat,
@@ -230,15 +199,11 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
             )
         }
 
-        // Remove existing polyline if any
-//        polyline?.remove()
-
-
-        // Add more coordinates as needed...
         // Customize polyline appearance
         polylineOptions.width(12f)  // Width of the polyline
             .color(Color.RED) // Color of the polyline
             .geodesic(true)  // Whether to draw the polyline as a geodesic (true/false)
+
         return polylineOptions
     }
 
@@ -256,5 +221,11 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
         val canvas = Canvas(bitmap)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Remove the listener to prevent memory leaks
+        deliveryBoyLocationListener?.remove()
     }
 }

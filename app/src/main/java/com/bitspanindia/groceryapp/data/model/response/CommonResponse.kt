@@ -7,5 +7,10 @@ data class CommonResponse(
     @SerializedName("status")
     var status: String? = "",
     @SerializedName("statusCode")
-    var statusCode: Int? = 0
+    var statusCode: Int? = 0,
+
+    //for getting add address response
+
+    @SerializedName("my_address")
+    var myAddress: List<MyAddress>? = listOf(),
 )

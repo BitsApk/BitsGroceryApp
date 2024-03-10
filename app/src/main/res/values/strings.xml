@@ -24,7 +24,7 @@
     <string name="one_str">%s</string>
     <string name="two_str">%s %s</string>
     <string name="three_str">%s %s %s</string>
-    <string name="my_address">%s %s %s \n%s (%s)</string>
+    <string name="my_address">%s \n%s (%s)</string>
     <string name="quantity_price">Qnt %s * र %s</string>
     <string name="product_not_found">Product Not Found</string>
     <string name="d_items">%d Items</string>
@@ -48,6 +48,7 @@
     <string name="did_not_receive">Did not receive?\t</string>
     <string name="resend">RESEND</string>
     <string name="cd_back_arrow">Back arrow</string>
+    <string name="not_available">NA</string>
     <!--    <string name="terms_of_use_amp_privacy_policy">Terms of Use &amp; Privacy Policy</string>-->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyAKgqAyTO5G0rIf8laUc5_gOaF16Qwjg2Y
@@ -57,5 +58,6 @@
     <string name="rs_f">Rs %.2f</string>
     <string name="reduce_quantity_from_d_to_d">Reduce quantity from %d to %d</string>
     <string name="change_price_from_2f_to_2f">Change price from %.2f to %.2f</string>
+    <string name="delivering_to">Delivering to <font color="#0000"> %s </font></string>
 
 </resources>

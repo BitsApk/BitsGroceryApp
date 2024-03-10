@@ -1,10 +1,10 @@
 package com.bitspanindia.groceryapp.ui.mainFragments
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.content.Intent
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -37,17 +38,16 @@ import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.HomeRecyclerAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.HomeTopListAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
+import com.bitspanindia.groceryapp.presentation.viewmodel.AddressViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
 import com.bitspanindia.groceryapp.storage.SharedPreferenceUtil
-import com.bitspanindia.groceryapp.ui.bottomsheets.CartBottomSheetFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -63,6 +63,8 @@ class HomeFragment : Fragment() {
 
     private val homeVM: HomeViewModel by activityViewModels()
     private val cartVM: CartManageViewModel by activityViewModels()
+
+    private val addViewModel: AddressViewModel by activityViewModels()
 
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
@@ -98,6 +100,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         if (checkGpsStatus()&&Constant.userLocation.isEmpty()){
             requestLocationUpdates(false)
         }else{
@@ -105,6 +108,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.locAddressTxt.text = Constant.userLocation
+
+        observeAddress()
 
 //        showLocationDialog()
 //        setProducts()
@@ -315,8 +320,7 @@ class HomeFragment : Fragment() {
 
 
         bindingDialog.btnContinue.setOnClickListener {
-            AppUtils.gpsPermission(requireContext(), requireActivity()) {
-                showShortToast(mContext,"click permission")
+            AppUtils.gpsPermission(requireContext(), locationSettingsResultLauncher) {
                 requestLocationUpdates(true)
             }
         }
@@ -331,10 +335,10 @@ class HomeFragment : Fragment() {
 
     private fun showManualLocationDialog() {
         val modalBottomSheet by lazy {
-            ChooseLocationFragment()
+            ChooseLocationBottomSheetFragment()
         }
 
-        modalBottomSheet.show(childFragmentManager, ChooseLocationFragment.TAG)
+        modalBottomSheet.show(childFragmentManager, ChooseLocationBottomSheetFragment.TAG)
         modalBottomSheet.isCancelable = false
     }
 
@@ -353,6 +357,11 @@ class HomeFragment : Fragment() {
                 for (location in locationResult.locations) {
                     dialogHelper.hideProgressDialog()
                     // Handle location updates here
+
+                    Constant.latitude = location.latitude
+                    Constant.longitude = location.longitude
+
+                    Log.e("TAG", "onViewCreatedLatLong: ${Constant.latitude} ${Constant.longitude}")
 
                     val address = AppUtils.getAddressFromLocation(mContext,location.latitude,location.longitude)
                     binding.locAddressTxt.text = address.getAddressLine(0)
@@ -385,6 +394,23 @@ class HomeFragment : Fragment() {
             Looper.getMainLooper()
         )
 //        isLocationUpdatesStarted = true // Update flag to indicate that updates are started
+    }
+
+    private val locationSettingsResultLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            requestLocationUpdates(false)
+        } else {
+            showShortToast(requireContext(),"Error for getting current location")
+        }
+    }
+
+    private fun observeAddress(){
+        addViewModel.myAddress.observe(viewLifecycleOwner){address->
+            Constant.latitude = address.latitude?.toDouble() ?: 0.0
+            Constant.longitude = address.longitude?.toDouble() ?: 0.0
+            Constant.userLocation = address.permanentAdd?:""
+            binding.locAddressTxt.text = address.permanentAdd
+        }
     }
 
 }

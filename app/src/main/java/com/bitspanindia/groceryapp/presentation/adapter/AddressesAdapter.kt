@@ -33,7 +33,7 @@ class AddressesAdapter(
     inner class ViewHolder(val binding: ItemAddressesBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MyAddress) {
 
-            binding.tvCityDetails.text = context.getString(R.string.my_address,item.permanentAdd,item.locality,item.landMark,item.city,item.zipcode)
+            binding.tvCityDetails.text = context.getString(R.string.my_address,item.permanentAdd,item.city,item.zipcode)
             binding.tvAddressType.text =  item.addressName
 
             binding.ivDelete.setOnClickListener {

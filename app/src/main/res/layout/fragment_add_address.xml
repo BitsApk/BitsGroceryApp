@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
                     android:fontFamily="@font/roboto_medium_500"
-                    android:text="Sambhal"
+                    android:text="@string/not_available"
                     android:textColor="@color/grey_900"
                     android:textSize="@dimen/text_14"
                     app:layout_constraintStart_toStartOf="parent"
@@ -110,7 +110,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/space_8"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Lodhi Sarai, Railway Station Sambhal"
+                    android:text="@string/not_available"
+                    android:visibility="gone"
                     android:textColor="@color/grey_900"
                     android:textSize="@dimen/text_12"
                     app:layout_constraintEnd_toStartOf="@+id/btnChange"
@@ -141,7 +142,7 @@
                     android:layout_marginTop="@dimen/space_10"
                     android:background="@color/grey_200"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFullAddress" />
+                    app:layout_constraintTop_toBottomOf="@+id/btnChange" />
 
                 <TextView
                     android:id="@+id/tvAreaStreet"
@@ -149,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Area &amp; Street"
+                    android:text="Full Address"
                     android:textColor="@color/grey_700"
                     android:textSize="@dimen/text_12"
                     app:layout_constraintStart_toStartOf="parent"
@@ -164,6 +165,7 @@
                     android:backgroundTint="@color/grey_200"
                     android:padding="@dimen/space_12"
                     android:textSize="@dimen/text_16"
+                    android:minLines="4"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +178,7 @@
                     android:layout_marginTop="@dimen/space_16"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Landmark"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:textColor="@color/grey_700"
                     android:textSize="@dimen/text_12"
                     app:layout_constraintStart_toStartOf="parent"
@@ -191,7 +193,7 @@
                     android:backgroundTint="@color/grey_200"
                     android:padding="@dimen/space_12"
                     android:textSize="@dimen/text_16"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvLandmark" />
