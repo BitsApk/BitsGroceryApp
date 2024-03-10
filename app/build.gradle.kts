@@ -125,6 +125,13 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.google.firebase:firebase-firestore-ktx")
 
+    val mediaVersion = "1.3.0"
+    
+    implementation ("androidx.media3:media3-exoplayer:$mediaVersion")
+    implementation ("androidx.media3:media3-ui:$mediaVersion")
+    implementation ("androidx.media3:media3-exoplayer-dash:$mediaVersion")
+
+
 }
 
 kapt {

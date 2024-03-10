@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -70,6 +71,9 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var pref: SharedPreferenceUtil
+
+
+    private var player: ExoPlayer? = null
 
 
     override fun onCreateView(
@@ -179,6 +183,21 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun initializePlayer() {
+        player = ExoPlayer.Builder(mContext)
+            .build()
+            .also { exoPlayer ->
+
+                exoPlayer.trackSelectionParameters = exoPlayer.trackSelectionParameters
+                    .buildUpon()
+                    .setMaxVideoSizeSd()
+                    .build()
+
+                exoPlayer.prepare()
+            }
+
+    }
+
     private fun getSavedCart() {
         viewLifecycleOwner.lifecycleScope.launch {
             cartVM.getSavedCart().let {
@@ -210,7 +229,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun getHomData() {
-        val homeDataReq = HomeDataReq("56testing.club")
+        val homeDataReq = HomeDataReq("56testing.club",
+            sellerAutoId = "2",
+            sellerId = "SELLER70")
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 homeVM.getHomeData(homeDataReq).let {
@@ -227,6 +248,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setHomeAdapter(viewList: List<Viewtype>?) {
+        initializePlayer()
         val itemDecorator = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         itemDecorator.setDrawable(
             ContextCompat.getDrawable(
@@ -235,7 +257,7 @@ class HomeFragment : Fragment() {
             )!!
         )
         binding.homeRecView.addItemDecoration(itemDecorator)
-        binding.homeRecView.adapter = HomeRecyclerAdapter(viewList ?: listOf(), mContext, cartVM.countMap, {prod, action ->
+        binding.homeRecView.adapter = HomeRecyclerAdapter(viewList ?: listOf(), player, mContext, cartVM.countMap, {prod, action ->
 
             val cartTotalItem = cartVM.cartTotalItem.value
             when (action) {

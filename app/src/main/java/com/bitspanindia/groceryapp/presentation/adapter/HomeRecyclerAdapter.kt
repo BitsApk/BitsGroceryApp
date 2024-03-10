@@ -4,30 +4,39 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MimeTypes
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.data.enums.ViewDesign
 import com.bitspanindia.groceryapp.data.model.BannerData
-import com.bitspanindia.groceryapp.data.model.Category
 import com.bitspanindia.groceryapp.data.model.CategoryData
 import com.bitspanindia.groceryapp.data.model.ProductData
+import com.bitspanindia.groceryapp.data.model.VideoData
 import com.bitspanindia.groceryapp.data.model.Viewtype
 import com.bitspanindia.groceryapp.databinding.ItemBannerBinding
 import com.bitspanindia.groceryapp.databinding.ItemHomeTextRecviewLayoutBinding
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 
 class HomeRecyclerAdapter(
     private val sectionList: List<Viewtype>,
+    private val exoplayer: ExoPlayer?,
     private val context: Context,
     private val countMap: MutableMap<String, MutableMap<String, Int>>,
     private val prodCallback: (prod: ProductData, action: CartAction) -> Any,
     private val callBackCat: (catId:String,catName:String) -> Any
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+
+    var videoLastPos = 0
+
 
     inner class TextRecViewHolder(val binding: ItemHomeTextRecviewLayoutBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(homeData: Viewtype, elementType: ElementType) {
@@ -38,6 +47,7 @@ class HomeRecyclerAdapter(
                 "TwoRowProductGrid" -> ViewDesign.TwoRowProductGrid
                 else -> ViewDesign.MainCategoryGrid
             }
+
             when (elementType) {
 
                 ElementType.Category -> {
@@ -70,7 +80,7 @@ class HomeRecyclerAdapter(
                     }
                     binding.selectedRecView.adapter = ProductsAdapter(data ?: mutableListOf(), context, countMap, 0, prodCallback)
                     }
-                }
+
                 else -> {}
 
 
@@ -85,6 +95,7 @@ class HomeRecyclerAdapter(
             "category" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), CategoryData::class.java) as? T}.toMutableList()
             "Products" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), ProductData::class.java) as? T}.toMutableList()
             "Banner" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), BannerData::class.java) as? T}.toMutableList()
+            "video_type" -> data.mapNotNull { gson.fromJson(gson.toJsonTree(it), VideoData::class.java) as? T}.toMutableList()
             else -> null
         }
     }
@@ -100,8 +111,61 @@ class HomeRecyclerAdapter(
                     snapHelper.attachToRecyclerView(binding.bannerRecView)
                     binding.bannerRecView.adapter = BannerImageAdapter(data ?: listOf(), context)
                 }
-                ElementType.Category->{
+                ElementType.Video -> {
+                    val data = homeData.getDataAs<VideoData>()
+                    val snapHelper = PagerSnapHelper()
+                    snapHelper.attachToRecyclerView(binding.bannerRecView)
+                    binding.bannerRecView.adapter = VideoBannerAdapter(data ?: listOf(), exoplayer, context)
 
+                    binding.bannerRecView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                        override fun onScrollStateChanged(
+                            recyclerView: RecyclerView,
+                            newState: Int
+                        ) {
+                            super.onScrollStateChanged(recyclerView, newState)
+
+                            val pos = (recyclerView.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition()
+                            Log.d("Rishabh", "videoLastPos: $videoLastPos, firstcomp: $pos")
+                            if (newState == RecyclerView.SCROLL_STATE_IDLE && videoLastPos != pos) {
+                                // removing old exoplayer
+                                var videoHolder = recyclerView.findViewHolderForAdapterPosition(videoLastPos)
+                                if (videoHolder is VideoBannerAdapter.ViewHolder) {
+                                    val playerView = videoHolder.itemView.findViewById<PlayerView>(
+                                        R.id.playerView)
+                                    Log.d("Rishabh", "Inside old viewholder")
+                                    if (playerView.player != null) {
+                                        Log.d("Rishabh", "Player view old not null")
+                                        playerView.player = null
+                                    }
+                                }
+
+                                // Attaching exoplayer to current view
+                                videoHolder = recyclerView.findViewHolderForAdapterPosition(pos!!)
+                                if (videoHolder is VideoBannerAdapter.ViewHolder) {
+                                    val playerView = videoHolder.itemView.findViewById<PlayerView>(
+                                        R.id.playerView)
+
+                                    Log.d("Rishabh", "Inside new viewholder")
+                                    if (playerView.player == null) {
+
+                                        Log.d("Rishabh", "Player view new null")
+                                        exoplayer?.seekTo(0)
+                                        exoplayer?.setMediaItem(MediaItem.fromUri(data?.get(pos)?.video ?: ""))
+                                        exoplayer?.playWhenReady = true
+                                        playerView.player = exoplayer
+                                    }
+                                }
+                                videoLastPos = pos
+
+                            }
+
+                        }
+
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+
+                        }
+                    })
                 }
                 else -> {}
             }
@@ -116,7 +180,7 @@ class HomeRecyclerAdapter(
             ElementType.Category.type -> TextRecViewHolder(ItemHomeTextRecviewLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             ElementType.Products.type -> TextRecViewHolder(ItemHomeTextRecviewLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             ElementType.Banner.type -> RecyclerViewHolder(ItemBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-//            ElementType.Video.type -> TextRecViewHolder(ItemHomeTextRecviewLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            ElementType.Video.type -> RecyclerViewHolder(ItemBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             else -> TextRecViewHolder(ItemHomeTextRecviewLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }
 
@@ -128,7 +192,7 @@ class HomeRecyclerAdapter(
             ElementType.Category.type -> (holder as TextRecViewHolder).bind(item, ElementType.Category)
             ElementType.Products.type -> (holder as TextRecViewHolder).bind(item, ElementType.Products)
             ElementType.Banner.type -> (holder as RecyclerViewHolder).bind(item, ElementType.Banner)
-//            ElementType.Video.type -> (holder as TextRecViewHolder).bind(item, ElementType.Video)
+            ElementType.Video.type -> (holder as RecyclerViewHolder).bind(item, ElementType.Video)
         }
 
     }

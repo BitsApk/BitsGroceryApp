@@ -9,6 +9,8 @@ data class CommonDataReq(
     @SerializedName("product_name") var productName: String? = null,
 
     @SerializedName("user_id") var userId: String? = null,
+    @SerializedName("seller_id") var sellerId: String? = null,
+    @SerializedName("seller_auto_id") var sellerAutoId: String? = null,
 
     //for product-page api
     @SerializedName("product_id") var productId: String? = null,
