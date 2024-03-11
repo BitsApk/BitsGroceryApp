@@ -83,11 +83,8 @@ class CartFragment : Fragment() {
 //        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
 
         getAddressList()
-
         observeAddress()
 
-        binding.tvDelCharge.paintFlags =
-            binding.tvDelCharge.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
         cartData = cartManageVM.getCartList()
 
@@ -102,7 +99,6 @@ class CartFragment : Fragment() {
             )
         }
         validateCart(CartValidateReq(cart = cartValidateDataList))
-
 
 
 

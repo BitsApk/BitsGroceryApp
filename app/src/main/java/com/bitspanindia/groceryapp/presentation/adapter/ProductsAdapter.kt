@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.AppUtils.adjustItemWidth
 import com.bitspanindia.groceryapp.AppUtils.toDp
@@ -50,12 +51,22 @@ class ProductsAdapter(
                 }
 
 
-                btnAdd.setOnClickListener {
-                    handleAddBtnVisiblity(View.GONE, View.VISIBLE)
-                    countMap[product.id] = mutableMapOf(Pair(product.sizeId, 1), Pair("-1", 1))
-                    count.text = "1"
-                    callback(product, CartAction.Add)
+                if (product.stock == "0") {
+                    btnAdd.isEnabled = false
+                    btnAdd.text = context.getString(R.string.no_stock)
+                } else {
+                    btnAdd.isEnabled = true
+                    btnAdd.text = context.getString(R.string.add)
+                    btnAdd.setOnClickListener {
+                        handleAddBtnVisiblity(View.GONE, View.VISIBLE)
+                        countMap[product.id] = mutableMapOf(Pair(product.sizeId, 1), Pair("-1", 1))
+                        count.text = "1"
+                        callback(product, CartAction.Add)
+                    }
                 }
+
+
+
 
                 add.setOnClickListener {
                     countMap[product.id]!![product.sizeId] =
@@ -134,6 +145,7 @@ class ProductsAdapter(
                     callback(product, CartAction.Add)
                     if (countMap[product.id]!![product.sizeId] == (product.stock ?: "0").toInt()) {
                         binding.add.isEnabled = false
+                        binding.add.setColorFilter(ContextCompat.getColor(context, R.color.grey_700))
                     }
                 }
 
@@ -155,7 +167,10 @@ class ProductsAdapter(
                         count.text = countMap[product.id]!![product.sizeId].toString()
                     }
                     callback(product, CartAction.Minus)
-                    if (!binding.add.isEnabled) binding.add.isEnabled = true
+                    if (!binding.add.isEnabled) {
+                        binding.add.isEnabled = true
+                        binding.add.setColorFilter(ContextCompat.getColor(context, R.color.white))
+                    }
                 }
             }
 

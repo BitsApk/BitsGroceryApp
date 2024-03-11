@@ -128,8 +128,8 @@
             android:fontFamily="@font/roboto_bold"
             android:paddingHorizontal="@dimen/space_12"
             android:paddingVertical="5dp"
-            android:text="Add"
-            android:textColor="@color/violet_500"
+            android:text="@string/add"
+            android:textColor="@color/text_enable_violet_colour"
             android:textSize="@dimen/text_12"
             android:includeFontPadding="false"
             android:layout_marginTop="@dimen/space_8"
@@ -146,7 +146,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_corner_10"
             android:backgroundTint="@color/violet_450"
-            android:elevation="@dimen/space_4"
             android:gravity="center"
             android:layout_marginTop="@dimen/space_8"
             android:orientation="horizontal"
@@ -162,8 +161,7 @@
                 android:layout_weight="1"
                 android:paddingVertical="5dp"
                 android:layout_gravity="start"
-                android:src="@drawable/icon_minus"
-                app:tint="@color/white" />
+                android:src="@drawable/icon_minus" />
 
             <TextView
                 android:id="@+id/count"
