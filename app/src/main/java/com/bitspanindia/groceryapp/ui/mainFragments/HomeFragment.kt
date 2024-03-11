@@ -23,6 +23,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
@@ -74,6 +75,7 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var pref: SharedPreferenceUtil
 
+    private lateinit var homeDataViewList: List<Viewtype>
 
     private var player: ExoPlayer? = null
 
@@ -98,11 +100,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
-            requestLocationUpdates(false)
-        }else{
-           if (Constant.userLocation.isEmpty()) showLocationDialog()
-        }
+//        if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
+//            requestLocationUpdates(false)
+//        }else{
+//           if (Constant.userLocation.isEmpty()) showLocationDialog()
+//        }
 
         observeAddress()
 
@@ -135,7 +137,7 @@ class HomeFragment : Fragment() {
 
 //        getHomData()
 
-        bindCartTotal()
+        refreshHomeProduct()
 
 //        val images = listOf(R.drawable.banner_1, R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_4,  R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_1)
 //
@@ -164,22 +166,37 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun bindCartTotal() {
+    private fun refreshHomeProduct() {
         cartVM.cartTotalItem.observe(viewLifecycleOwner) {
 
             if (cartVM.isCartVisible) {
-                val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(4)  // TODO remove static
-                if (viewHolder is RecyclerView.ViewHolder) {
-                    val childRecyclerView = viewHolder.itemView.findViewById<RecyclerView>(R.id.selectedRecView)
-
-                    val adapter = childRecyclerView.adapter as? ProductsAdapter
-
-                    val layoutManager = childRecyclerView.layoutManager
-                    if (layoutManager is GridLayoutManager) {
-                        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
-                        adapter?.notifyItemRangeChanged(firstVisiblePosition - 2, 8)
+                val homeLayMang = binding.homeRecView.layoutManager
+                val productViewHolders = mutableListOf<Int>()
+                if (homeLayMang is LinearLayoutManager) {
+                    val first = homeLayMang.findFirstVisibleItemPosition()
+                    for (pos in first - 2..first + 7) {
+                        if (pos > 0 && pos < homeDataViewList.size && homeDataViewList[pos].viewtype == "Products") {
+                            productViewHolders.add(pos)
+                        }
                     }
                 }
+
+                for (pos in productViewHolders) {
+                    val viewHolder = binding.homeRecView.findViewHolderForAdapterPosition(pos)
+                    if (viewHolder is RecyclerView.ViewHolder) {
+                        val childRecyclerView = viewHolder.itemView.findViewById<RecyclerView>(R.id.selectedRecView)
+
+                        val adapter = childRecyclerView.adapter as? ProductsAdapter
+
+                        val layoutManager = childRecyclerView.layoutManager
+                        if (layoutManager is GridLayoutManager) {
+                            val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+                            adapter?.notifyItemRangeChanged(firstVisiblePosition - 2, 8)
+                        }
+                    }
+                }
+
+
             }
 
         }
@@ -238,7 +255,8 @@ class HomeFragment : Fragment() {
             try {
                 homeVM.getHomeData(homeDataReq).let {
                     if (it.isSuccessful && it.body() != null) {
-                        setHomeAdapter(it.body()!!.viewtypeList)
+                        homeDataViewList = it.body()!!.viewtypeList ?: listOf()
+                        setHomeAdapter()
                     } else {
                         Toast.makeText(mContext, "Error", Toast.LENGTH_SHORT).show()
                     }
@@ -249,7 +267,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setHomeAdapter(viewList: List<Viewtype>?) {
+    private fun setHomeAdapter() {
         initializePlayer()
         val itemDecorator = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         itemDecorator.setDrawable(
@@ -259,7 +277,7 @@ class HomeFragment : Fragment() {
             )!!
         )
         binding.homeRecView.addItemDecoration(itemDecorator)
-        binding.homeRecView.adapter = HomeRecyclerAdapter(viewList ?: listOf(), player, mContext, cartVM.countMap, {prod, action ->
+        binding.homeRecView.adapter = HomeRecyclerAdapter(homeDataViewList, player, mContext, cartVM.countMap, {prod, action ->
 
             val cartTotalItem = cartVM.cartTotalItem.value
             when (action) {
