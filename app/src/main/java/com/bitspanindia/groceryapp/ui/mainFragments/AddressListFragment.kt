@@ -58,6 +58,10 @@ class AddressListFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
     }
 
     private fun getAddressList() {

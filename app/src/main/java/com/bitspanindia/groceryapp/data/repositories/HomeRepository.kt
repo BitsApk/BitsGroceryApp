@@ -7,9 +7,11 @@ import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.model.HomeDataX
 import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.data.model.SubCategoryData
+import com.bitspanindia.groceryapp.data.model.request.CheckLocalityReq
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
+import com.bitspanindia.groceryapp.data.model.response.CheckLocalityResponse
 import com.bitspanindia.groceryapp.data.pagingSource.ProductPagingSource
 import com.bitspanindia.groceryapp.data.services.HomeApiService
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +37,11 @@ class HomeRepository @Inject constructor(private val homeApiService: HomeApiServ
         return Pager(config = PagingConfig(Constant.PAGE_SIZE, enablePlaceholders = false)) {
             ProductPagingSource(homeApiService, productDataReq,"searchProduct")
         }.flow
+    }
+
+
+    suspend fun checkLocality(checkLocalityReq: CheckLocalityReq): Response<CheckLocalityResponse> {
+        return homeApiService.checkLocality(checkLocalityReq)
     }
 
 }

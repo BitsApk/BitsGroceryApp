@@ -381,7 +381,28 @@
         android:id="@+id/orderTrackingFragment"
         android:name="com.bitspanindia.groceryapp.ui.mainFragments.OrderTrackingFragment"
         android:label="OrderTrackingFragment"
-        tools:layout="@layout/fragment_order_tracking"/>
+        tools:layout="@layout/fragment_order_tracking">
+
+        <argument
+            app:argType="string"
+            android:name="latitude"
+            android:defaultValue="0.0"/>
+
+        <argument
+            app:argType="string"
+            android:name="longitude"
+            android:defaultValue="0.0"/>
+
+        <argument
+            app:argType="string"
+            android:name="orderId"
+            android:defaultValue="0"/>
+
+        <action
+            android:id="@+id/action_orderTrackingFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
+
+    </fragment>
 
 
 </navigation>

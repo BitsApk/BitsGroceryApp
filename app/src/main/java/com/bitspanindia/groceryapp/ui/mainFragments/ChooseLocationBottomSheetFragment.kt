@@ -23,7 +23,10 @@ import androidx.navigation.fragment.findNavController
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.AppUtils.requestLocationPermissions
+import com.bitspanindia.groceryapp.AppUtils.showShortToast
+import com.bitspanindia.groceryapp.AppUtils.startShimmer
 import com.bitspanindia.groceryapp.AppUtils.stopLocationUpdates
+import com.bitspanindia.groceryapp.AppUtils.stopShimmer
 import com.bitspanindia.groceryapp.AppUtils.toDp
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
@@ -54,7 +57,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
+class ChooseLocationBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentChooseLocationBinding
     private lateinit var mBehave: BottomSheetBehavior<FrameLayout>
     private val pvm: ProfileViewModel by activityViewModels()
@@ -94,15 +97,9 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
         dialogHelper = DialogHelper(mContext, mActivity)
 
         if (addViewModel.redirectFrom == "Cart") {
-            binding.clCurrentLocation.visibility = View.GONE
-            binding.etSearch.visibility = View.GONE
-            binding.tvText.visibility = View.GONE
-            binding.btnAddAddress.visibility = View.VISIBLE
+            designVisibility(visibility = View.GONE, visibility2 = View.VISIBLE)
         } else {
-            binding.clCurrentLocation.visibility = View.VISIBLE
-            binding.etSearch.visibility = View.VISIBLE
-            binding.tvText.visibility = View.VISIBLE
-            binding.btnAddAddress.visibility = View.GONE
+            designVisibility(visibility = View.VISIBLE, visibility2 = View.GONE)
         }
 
         return binding.root
@@ -110,6 +107,10 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Places.initialize(requireContext(), getString(R.string.google_maps_key))
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        placesClient = Places.createClient(mContext)
 
         getAddressList()
 
@@ -122,23 +123,15 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
 
         binding.rvLocation.adapter = adapter
 
-        // Initialize Places API
-        Places.initialize(requireContext(), getString(R.string.google_maps_key))
-        placesClient = Places.createClient(requireContext())
-
-        // Initialize FusedLocationProviderClient
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        // Set up text change listener for EditText
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s!!.isNotEmpty()) {
-                    placesAvailableVis()
-                    fetchPredictions(s.toString())
+                    placesVisibility(visibility = View.GONE, visibility2 = View.VISIBLE)
+                    searchPlaces(s.toString())
                 } else {
-                    placesNotAvailableVis()
+                    placesVisibility(visibility = View.VISIBLE, visibility2 = View.GONE)
                 }
             }
 
@@ -162,16 +155,6 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
         }
 
     }
-
-    private val locationSettingsResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                requestLocationUpdates()
-            } else {
-                AppUtils.showShortToast(requireContext(), "Error for getting current location")
-            }
-        }
-
 
     private fun requestLocationUpdates() {
         dialogHelper.showProgressDialog()
@@ -219,14 +202,13 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
 //        isLocationUpdatesStarted = true // Update flag to indicate that updates are started
     }
 
-    private fun fetchPredictions(query: String) {
+    private fun searchPlaces(query: String) {
         val request = FindAutocompletePredictionsRequest.builder()
             .setQuery(query)
             .build()
 
         placesClient.findAutocompletePredictions(request).addOnSuccessListener { response ->
-
-            placesAvailableVis()
+            placesVisibility(visibility = View.GONE, visibility2 = View.VISIBLE)
 
             val predictions = ArrayList<PlaceModel>()
 
@@ -235,6 +217,7 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
                 val placeId = prediction.placeId
                 val placeRequest =
                     FetchPlaceRequest.newInstance(placeId, listOf(Place.Field.LAT_LNG))
+
                 placesClient.fetchPlace(placeRequest).addOnSuccessListener { response ->
                     val place = response.place
                     val latitude = place.latLng?.latitude ?: 0.0
@@ -254,38 +237,19 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
                 }
             }
         }.addOnFailureListener { exception ->
-            placesNotAvailableVis()
+            placesVisibility(visibility = View.VISIBLE, visibility2 = View.GONE)
             exception.printStackTrace()
         }
     }
 
-    private fun placesAvailableVis() {
-        binding.tvSavedAdd.visibility = View.GONE
-        binding.rvAddedLocation.visibility = View.GONE
-        binding.clCurrentLocation.visibility = View.GONE
-        binding.rvLocation.visibility = View.VISIBLE
-    }
-
-    private fun placesNotAvailableVis() {
-        binding.tvSavedAdd.visibility = View.VISIBLE
-        binding.rvAddedLocation.visibility = View.VISIBLE
-        binding.clCurrentLocation.visibility = View.VISIBLE
-        binding.rvLocation.visibility = View.GONE
-    }
-
-    private fun updateRecyclerView(predictions: ArrayList<PlaceModel>) {
-        adapter.places.clear()
-        adapter.places.addAll(predictions)
-        adapter.notifyDataSetChanged()
-    }
-
-
     private fun getAddressList() {
+        startShimmer(binding.shimmer2, binding.rvAddedLocation)
         val getAddressReq = HomeDataReq(userId = Constant.userId)
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 pvm.getAddressList(getAddressReq).let {
+                    stopShimmer(binding.shimmer2, binding.rvAddedLocation)
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()?.statusCode == 200) {
                             val data = it.body()?.myAddress
@@ -300,10 +264,13 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
 
                                 }
 
+                        } else {
+                            showShortToast(mContext, "Address Not Found")
                         }
                     }
                 }
             } catch (e: Exception) {
+                stopShimmer(binding.shimmer2, binding.rvAddedLocation)
                 e.printStackTrace()
             }
 
@@ -326,11 +293,6 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
                             ).show()
                             getAddressList()
                         } else {
-                            Toast.makeText(
-                                mContext,
-                                it.body()?.message ?: "Something went wrong",
-                                Toast.LENGTH_SHORT
-                            ).show()
                             dialogHelper.showErrorMsgDialog(
                                 it.body()?.message ?: "Something went wrong"
                             ) {}
@@ -355,5 +317,35 @@ class ChooseLocationBottomSheetFragment: BottomSheetDialogFragment() {
         mBehave.isHideable = true
         mBehave.state = BottomSheetBehavior.STATE_HIDDEN
     }
+
+    private fun designVisibility(visibility: Int, visibility2: Int) {
+        binding.clCurrentLocation.visibility = visibility
+        binding.etSearch.visibility = visibility
+        binding.tvText.visibility = visibility
+        binding.btnAddAddress.visibility = visibility2
+    }
+
+    private fun placesVisibility(visibility: Int, visibility2: Int) {
+        binding.tvSavedAdd.visibility = visibility
+        binding.rvAddedLocation.visibility = visibility
+        binding.clCurrentLocation.visibility = visibility
+        binding.rvLocation.visibility = visibility2
+    }
+
+    private fun updateRecyclerView(predictions: ArrayList<PlaceModel>) {
+        adapter.places.clear()
+        adapter.places.addAll(predictions)
+        adapter.notifyDataSetChanged()
+    }
+
+    private val locationSettingsResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                requestLocationUpdates()
+            } else {
+                showShortToast(requireContext(), "Error for getting current location")
+            }
+        }
+
 
 }

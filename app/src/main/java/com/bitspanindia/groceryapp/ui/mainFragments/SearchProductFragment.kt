@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.data.Constant
@@ -52,6 +53,7 @@ class SearchProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.etSearch.addTextChangedListener(object : TextWatcher{
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -70,6 +72,10 @@ class SearchProductFragment : Fragment() {
             }
 
         })
+
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
     }
 
@@ -141,6 +147,9 @@ class SearchProductFragment : Fragment() {
         productDataReq.userId = Constant.userId
         productDataReq.pageno = 1
         productDataReq.productName = productName
+        productDataReq.addedByWeb = Constant.addedByWeb
+        productDataReq.sellerId = Constant.sellerId
+        productDataReq.sellerAutoId = Constant.sellerAutoId
 
         viewLifecycleOwner.lifecycleScope.launch {
             homeVM.getSearchProduct(
@@ -152,7 +161,10 @@ class SearchProductFragment : Fragment() {
     }
 
     private fun setProductAdapter() {
-        adapter = ProductPagingAdapter(requireContext(), ElementType.Grid.type)
+        adapter = ProductPagingAdapter(requireContext(), ElementType.Grid.type){prodId ->
+            val action = SearchProductFragmentDirections.actionGlobalProductDetailsFragment(prodId)
+            findNavController().navigate(action)
+        }
         binding.rvProducts.adapter = adapter
     }
 

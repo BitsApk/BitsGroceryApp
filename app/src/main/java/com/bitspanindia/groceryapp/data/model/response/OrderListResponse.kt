@@ -38,5 +38,9 @@ data class Order(
     @SerializedName("status")
     var status: String? = "",
     @SerializedName("viewdetail")
-    var viewdetail: String? = ""
+    var viewdetail: String? = "",
+    @SerializedName("latitude")
+    var latitude: String? = "",
+    @SerializedName("longitude")
+    var longitude: String? = "",
 )
