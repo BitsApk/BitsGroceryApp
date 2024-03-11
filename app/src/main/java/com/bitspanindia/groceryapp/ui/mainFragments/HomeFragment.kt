@@ -31,7 +31,9 @@ import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.DummyData
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.Viewtype
+import com.bitspanindia.groceryapp.data.model.request.CheckLocalityReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
+import com.bitspanindia.groceryapp.data.model.response.MyAddress
 import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.HomeRecyclerAdapter
@@ -51,8 +53,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -62,13 +62,13 @@ class HomeFragment : Fragment() {
 
     private val homeVM: HomeViewModel by activityViewModels()
     private val cartVM: CartManageViewModel by activityViewModels()
-
     private val addViewModel: AddressViewModel by activityViewModels()
 
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var lDialog : BottomSheetDialog
+    private var isLocationUpdatesStarted = false
 
     @Inject
     lateinit var pref: SharedPreferenceUtil
@@ -83,8 +83,6 @@ class HomeFragment : Fragment() {
         mContext = requireContext()
         mActivity = requireActivity()
         dialogHelper = DialogHelper(mContext, mActivity)
-
-        // Initialize FusedLocationProviderClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         Constant.name = pref.getString(Constant.USER_NAME,"").toString()
@@ -96,18 +94,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        if (checkGpsStatus()&&Constant.userLocation.isEmpty()){
+        if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
             requestLocationUpdates(false)
         }else{
            if (Constant.userLocation.isEmpty()) showLocationDialog()
         }
 
-        binding.locAddressTxt.text = Constant.userLocation
-
         observeAddress()
 
-//        showLocationDialog()
+//        checkLocality()
+
 //        setProducts()
         binding.profImage.setOnClickListener {
 //            cartVM.clearCart()
@@ -126,13 +122,14 @@ class HomeFragment : Fragment() {
         }
 
         binding.markImg.setOnClickListener {
-//            findNavController().navigate(
-//                HomeFragmentDirections.actionHomeFragmentToMapFragment("home")
-//            )
             showManualLocationDialog()
         }
 
-        getHomData()
+        binding.btnChangeLoc.setOnClickListener {
+            showManualLocationDialog()
+        }
+
+//        getHomData()
 
         bindCartTotal()
 
@@ -149,15 +146,15 @@ class HomeFragment : Fragment() {
 //            findNavController().navigate(action)
 //        }
 
-        binding.otherAppList.adapter = HomeTopListAdapter(mContext, DummyData.homeTopDataList)
-
-
-        binding.otherAppList.setOnItemClickListener(){adapterView, view, position, id ->
-
-            Toast.makeText(mContext, "Click on item at $position its item id $id", Toast.LENGTH_LONG).show()
-//            val intent = Intent(mActivity, JobMainActivity::class.java)
-//            startActivity(intent)
-        }
+        //TODO abhi tempery esko comment kr dea hai bad me enable kr sakte hai
+//        binding.otherAppList.adapter = HomeTopListAdapter(mContext, DummyData.homeTopDataList)
+//
+//        binding.otherAppList.setOnItemClickListener(){adapterView, view, position, id ->
+//
+//            Toast.makeText(mContext, "Click on item at $position its item id $id", Toast.LENGTH_LONG).show()
+////            val intent = Intent(mActivity, JobMainActivity::class.java)
+////            startActivity(intent)
+//        }
 
 
     }
@@ -214,8 +211,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getHomData() {
-        val homeDataReq = HomeDataReq("56testing.club")
+    private fun getHomData(sellerAutoId:String= "",sellerId:String="") {
+        val homeDataReq = HomeDataReq("56testing.club",sellerId,sellerAutoId)
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 homeVM.getHomeData(homeDataReq).let {
@@ -268,6 +265,45 @@ class HomeFragment : Fragment() {
         })
     }
 
+
+    private fun checkLocality() {
+        dialogHelper.showProgressDialog()
+
+        val checkLocalityReq = CheckLocalityReq()
+        checkLocalityReq.latitude = Constant.latitude
+        checkLocalityReq.longitude = Constant.longitude
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            homeVM.checkLocality(checkLocalityReq).let {
+                dialogHelper.hideProgressDialog()
+                try {
+                    if (it.body()!=null){
+                        val data = it.body()
+
+                        if (data?.statusCode==200){
+                            Constant.sellerAutoId = data.matchSELLER?.id?:""
+                            Constant.sellerId = data.matchSELLER?.sellerid?:""
+
+                            locationVisibility(visibility = View.VISIBLE, visibility2 = View.GONE)
+                            getHomData(Constant.sellerAutoId,Constant.sellerId)
+                        }else{
+                            locationVisibility(visibility = View.GONE, visibility2 = View.VISIBLE)
+                        }
+                    }else{
+                        dialogHelper.showErrorMsgDialog("Something went wrong"){
+                            findNavController().popBackStack()
+                        }
+                    }
+                } catch (e: Exception) {
+                    dialogHelper.hideProgressDialog()
+                    dialogHelper.showErrorMsgDialog("Something went wrong"){
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        }
+    }
+
     private fun setProducts() {
 
 //        binding.homeRecView.adapter = HomeRecyclerAdapter(
@@ -285,17 +321,11 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun checkGpsStatus():Boolean {
-        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-       return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-    }
-
     private fun showLocationDialog() {
         lDialog = BottomSheetDialog(mContext)
         val bindingDialog = LocationEnableBottomSheetBinding.inflate(layoutInflater)
         lDialog.setCancelable(false)
         lDialog.setContentView(bindingDialog.root)
-
 
         bindingDialog.btnContinue.setOnClickListener {
             AppUtils.gpsPermission(requireContext(), locationSettingsResultLauncher) {
@@ -320,10 +350,8 @@ class HomeFragment : Fragment() {
         modalBottomSheet.isCancelable = false
     }
 
-//    private var isLocationUpdatesStarted = false // Keep track of whether location updates are started
-
     private fun requestLocationUpdates(dismissDialog:Boolean) {
-//        if (isLocationUpdatesStarted) return // Check if location updates are already started
+        if (isLocationUpdatesStarted) return
         dialogHelper.showProgressDialog()
 
         locationRequest = LocationRequest.Builder(1000L).setPriority(Priority.PRIORITY_HIGH_ACCURACY).build()
@@ -332,47 +360,34 @@ class HomeFragment : Fragment() {
             override fun onLocationResult(locationResult: LocationResult) {
                 if (dismissDialog) lDialog.dismiss()
                 locationResult ?: return
+                dialogHelper.hideProgressDialog()
                 for (location in locationResult.locations) {
-                    dialogHelper.hideProgressDialog()
-                    // Handle location updates here
-
-                    Constant.latitude = location.latitude
-                    Constant.longitude = location.longitude
-
-                    Log.e("TAG", "onViewCreatedLatLong: ${Constant.latitude} ${Constant.longitude}")
 
                     val address = AppUtils.getAddressFromLocation(mContext,location.latitude,location.longitude)
+                    Constant.latitude = location.latitude
+                    Constant.longitude = location.longitude
+                    Constant.userLocation = address.getAddressLine(0)
                     binding.locAddressTxt.text = address.getAddressLine(0)
 
+                    addViewModel.myAddress.value = MyAddress(latitude = Constant.latitude.toString(), longitude = Constant.longitude.toString(), permanentAdd = address.getAddressLine(0), city = address.locality, country = address.countryName, zipcode = address.postalCode)
+
                     AppUtils.stopLocationUpdates(fusedLocationClient, locationCallback)
-//                    isLocationUpdatesStarted = false // Update flag to indicate that updates are stopped
+                    isLocationUpdatesStarted = false
 
                     return
                 }
             }
         }
 
-        // Request location updates
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Request location permissions if not granted
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             AppUtils.requestLocationPermissions(mActivity, 1)
             return
         }
 
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.getMainLooper()
-        )
-//        isLocationUpdatesStarted = true // Update flag to indicate that updates are started
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+        isLocationUpdatesStarted = true
     }
+
 
     private val locationSettingsResultLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -388,6 +403,19 @@ class HomeFragment : Fragment() {
             Constant.longitude = address.longitude?.toDouble() ?: 0.0
             Constant.userLocation = address.permanentAdd?:""
             binding.locAddressTxt.text = address.permanentAdd
+            Log.e("TAG", "observeAddress: ${address.latitude} ${address.longitude}", )
+            checkLocality()
+        }
+    }
+
+    private fun locationVisibility(visibility:Int,visibility2: Int){
+        binding.apply {
+            otherAppList.visibility = visibility
+            rHomeSearch.visibility = visibility
+            viewLineOne.visibility = visibility
+            homeRecView.visibility = visibility
+            AppUtils.cartLayoutVisibility(mActivity,visibility)
+            clLocAvailability.visibility = visibility2
         }
     }
 

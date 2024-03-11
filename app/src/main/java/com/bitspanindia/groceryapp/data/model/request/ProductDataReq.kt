@@ -12,6 +12,10 @@ data class ProductDataReq(
     var userId: String? = "",
     @SerializedName("added_by_web")
     var addedByWeb: String? = "",
+    @SerializedName("seller_id")
+    var sellerId: String? = "",
+    @SerializedName("seller_auto_id")
+    var sellerAutoId: String? = "",
 
 
     //for search product

@@ -115,6 +115,9 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()?.statusCode == 200) {
                             addViewModel.myAddress.value = it.body()?.myAddress?.get(0)
+                            Constant.latitude = it.body()?.myAddress?.get(0)?.latitude?.toDouble()?:0.0
+                            Constant.longitude = it.body()?.myAddress?.get(0)?.longitude?.toDouble()?:0.0
+                            Constant.userLocation = it.body()?.myAddress?.get(0)?.permanentAdd?:""
                             showShortToast(mContext, "Address add successfully")
                             findNavController().popBackStack()
                         } else {

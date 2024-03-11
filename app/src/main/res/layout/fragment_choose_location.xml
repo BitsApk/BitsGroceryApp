@@ -58,7 +58,8 @@
                 android:id="@+id/ivLocation"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/icon_location"
+                android:src="@drawable/icon_gps"
+                app:tint="@color/red_500"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,18 +77,6 @@
                 app:layout_constraintStart_toEndOf="@+id/ivLocation"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvCityDetails"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_10"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Using GPS"
-                android:textColor="@color/red_400"
-                android:textSize="@dimen/text_12"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ivLocation"
-                app:layout_constraintTop_toBottomOf="@+id/tvCity" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -130,6 +119,42 @@
             tools:itemCount="4"
             android:paddingBottom="70dp"
             tools:listitem="@layout/item_location" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSavedAdd"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="800">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/shimmer_addresses" />
+
+                <include layout="@layout/shimmer_addresses" />
+
+                <include layout="@layout/shimmer_addresses" />
+
+                <include layout="@layout/shimmer_addresses" />
+
+                <include layout="@layout/shimmer_addresses" />
+
+                <include layout="@layout/shimmer_addresses" />
+
+                <include layout="@layout/shimmer_addresses" />
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddAddress"

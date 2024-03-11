@@ -49,6 +49,10 @@ class OrderDetailsFragment : Fragment() {
 
         getOrderDetails()
 
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
     }
 
     private fun getOrderDetails() {

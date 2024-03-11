@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.enums.ElementType
@@ -64,17 +65,21 @@ class SubCategoryFragment : Fragment() {
             )
         }
 
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
     }
 
     private fun getSubCatData() {
-        startShimmer(binding.shimmer2,binding.rvProducts)
-        startShimmer(binding.shimmer,binding.rvCategory)
+        AppUtils.startShimmer(binding.shimmer2,binding.rvProducts)
+        AppUtils.startShimmer(binding.shimmer,binding.rvCategory)
         val commonDataReq = CommonDataReq(categoryId = args.catId)
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 homeVM.getSubCatList(commonDataReq).let {
-                    stopShimmer(binding.shimmer,binding.rvProducts)
-                    stopShimmer(binding.shimmer2,binding.rvCategory)
+                    AppUtils.stopShimmer(binding.shimmer,binding.rvProducts)
+                    AppUtils.stopShimmer(binding.shimmer2,binding.rvCategory)
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()?.statusCode==200){
                             val data = it.body()?.subCategory
@@ -109,40 +114,30 @@ class SubCategoryFragment : Fragment() {
         adapter.addLoadStateListener {
             if (it.source.refresh is LoadState.NotLoading) {
                 binding.noProduct.clNoProduct.visibility = View.GONE
-                stopShimmer(binding.shimmer,binding.rvProducts)
+                AppUtils.stopShimmer(binding.shimmer,binding.rvProducts)
                 productCount = ProductPagingSource.productCount?:0
                 Log.e("TAG", "setProductsCount: $productCount" )
                 binding.tvProductsCount.text = getString(R.string.two_str,productCount.toString()," Items")
             } else if (it.source.refresh is LoadState.Error) {
                 binding.noProduct.clNoProduct.visibility = View.VISIBLE
-                stopShimmer(binding.shimmer,binding.rvProducts)
+                AppUtils.stopShimmer(binding.shimmer,binding.rvProducts)
             }
         }
 
 
     }
 
-    private fun stopShimmer(shimmer: ShimmerFrameLayout, recyclerView: RecyclerView) {
-        shimmer.stopShimmer()
-        shimmer.visibility = View.GONE
-        recyclerView.visibility = View.VISIBLE
-    }
-
-    private fun startShimmer(shimmer: ShimmerFrameLayout, recyclerView: RecyclerView) {
-        shimmer.startShimmer()
-        shimmer.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
-    }
-
     private fun getProductList() {
         val productDataReq = ProductDataReq()
-        startShimmer(binding.shimmer,binding.rvProducts)
+        AppUtils.startShimmer(binding.shimmer,binding.rvProducts)
         binding.rvProducts.visibility = View.VISIBLE
         binding.noProduct.clNoProduct.visibility = View.GONE
         productDataReq.userId = Constant.userId
         productDataReq.pageno = 1
         productDataReq.subcategoryId = subCatId
         productDataReq.addedByWeb = Constant.addedByWeb
+        productDataReq.sellerId = Constant.sellerId
+        productDataReq.sellerAutoId = Constant.sellerAutoId
 
         viewLifecycleOwner.lifecycleScope.launch {
             homeVM.getSubCatProducts(
@@ -154,7 +149,10 @@ class SubCategoryFragment : Fragment() {
     }
 
     private fun setProductAdapter() {
-        adapter = ProductPagingAdapter(requireContext(), ElementType.Grid.type)
+        adapter = ProductPagingAdapter(requireContext(), ElementType.Grid.type){prodId->
+            val action = SubCategoryFragmentDirections.actionGlobalProductDetailsFragment(prodId)
+            findNavController().navigate(action)
+        }
         binding.rvProducts.adapter = adapter
     }
 

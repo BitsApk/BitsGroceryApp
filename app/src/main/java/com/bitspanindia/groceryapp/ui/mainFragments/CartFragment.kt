@@ -373,21 +373,18 @@ class CartFragment : Fragment() {
                             }
 
                         }else{
-                            dialogHelper.showErrorMsgDialog(it.body()?.message?:"Something went wrong"){
-                                findNavController().popBackStack()
-                            }
+                            binding.clPay.visibility = View.GONE
+                            binding.btnAddAddress.visibility = View.VISIBLE
                         }
                     }
                     else{
-                        dialogHelper.showErrorMsgDialog("Something went wrong"){
-                            findNavController().popBackStack()
-                        }
+                        binding.clPay.visibility = View.VISIBLE
+                        binding.btnAddAddress.visibility = View.GONE
                     }
                 }
             } catch (e: Exception) {
-                    dialogHelper.showErrorMsgDialog("Something went wrong"){
-                        findNavController().popBackStack()
-                    }
+                binding.clPay.visibility = View.VISIBLE
+                binding.btnAddAddress.visibility = View.GONE
             }
 
         }

@@ -104,15 +104,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:selectedDotColor="@color/green_500" />
 
-                <ImageView
-                    android:id="@+id/ivWishlist"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="@dimen/space_16"
-                    android:src="@drawable/unliked"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clPrices"
                     android:layout_width="match_parent"

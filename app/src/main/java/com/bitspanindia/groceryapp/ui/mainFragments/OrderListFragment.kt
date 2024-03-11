@@ -11,18 +11,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils.startShimmer
 import com.bitspanindia.groceryapp.AppUtils.stopShimmer
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
+import com.bitspanindia.groceryapp.data.model.response.Order
 import com.bitspanindia.groceryapp.databinding.FragmentOrderListBinding
 import com.bitspanindia.groceryapp.presentation.adapter.OrderListPagingAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
 @AndroidEntryPoint
 class OrderListFragment : Fragment() {
     private lateinit var binding: FragmentOrderListBinding
@@ -89,11 +88,37 @@ class OrderListFragment : Fragment() {
 
     private fun setOrderAdapter() {
         adapter = OrderListPagingAdapter(requireContext()){data->
-//          findNavController().navigate(OrderListFragmentDirections.actionOrderListFragmentToOrderDetailsFragment(data.orderId?:"",))
-            findNavController().navigate(OrderListFragmentDirections.actionOrderListFragmentToOrderTrackingFragment())
+
+            when(data.orderStatus){
+                "P"->{
+                    navigateToTracking(data)
+                }
+                "PR"->{
+                    navigateToTracking(data)
+                }
+                "S"->{
+                    navigateToTracking(data)
+                }
+                "D"->{
+                    navigateToOrderDetails(data.orderId?:"")
+                }
+                "C","DC"->{
+                    navigateToOrderDetails(data.orderId?:"")
+                }
+
+                else -> {}
+            }
 
         }
         binding.rvOrders.adapter = adapter
+    }
+
+    private fun navigateToTracking(data: Order) {
+        findNavController().navigate(OrderListFragmentDirections.actionOrderListFragmentToOrderTrackingFragment(data.latitude?:"",data.longitude?:"",data.orderId?:""))
+    }
+
+    private fun navigateToOrderDetails(orderId:String) {
+          findNavController().navigate(OrderListFragmentDirections.actionOrderListFragmentToOrderDetailsFragment(orderId))
     }
 
 }

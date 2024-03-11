@@ -63,6 +63,10 @@ class EditProfileFragment : Fragment() {
             }
         }
 
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
     }
 
     private fun updateProfile() {
@@ -98,11 +102,13 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun getProfileDetails() {
+        dialogHelper.showProgressDialog()
         val getProfileReq = HomeDataReq(userId = Constant.userId)
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 pvm.getProfileData(getProfileReq).let {
+                    dialogHelper.hideProgressDialog()
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()?.statusCode == 200) {
                             val data = it.body()

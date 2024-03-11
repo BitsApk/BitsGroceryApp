@@ -9,9 +9,11 @@ import com.bitspanindia.groceryapp.data.model.HomeDataX
 import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.data.model.SearchProductResponse
 import com.bitspanindia.groceryapp.data.model.SubCategoryData
+import com.bitspanindia.groceryapp.data.model.request.CheckLocalityReq
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
+import com.bitspanindia.groceryapp.data.model.response.CheckLocalityResponse
 import com.bitspanindia.groceryapp.data.repositories.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -35,5 +37,10 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     fun getSearchProduct(productDataReq: ProductDataReq): Flow<PagingData<ProductData>> {
         return homeRepository.getSearchProduct(productDataReq).cachedIn(viewModelScope)
     }
+
+    suspend fun checkLocality(checkLocalityReq: CheckLocalityReq): Response<CheckLocalityResponse> {
+        return homeRepository.checkLocality(checkLocalityReq)
+    }
+
 
 }
