@@ -46,19 +46,6 @@ class MainCategoryImageAdapter(
                     binding.view.visibility = View.VISIBLE
                     setData(subCat.subCatName,subCat.subCatImage)
 
-                    // Handle SubCategory here if needed
-//                    if (designType == "subCatPage") {
-//                        if (adapterPosition == 0) {
-//                            binding.ivProduct.background =
-//                                ContextCompat.getDrawable(context, R.drawable.gradient_category)
-//                        } else {
-//                            binding.ivProduct.background =
-//                                ContextCompat.getDrawable(context, R.drawable.white_rounded)
-//                        }
-//                    } else {
-//                        binding.ivProduct.background = ContextCompat.getDrawable(context, R.drawable.gradient_category)
-//                    }
-
                     ContextCompat.getDrawable(context, R.drawable.white_rounded)
                     itemView.setOnClickListener {
                         selectedItem = absoluteAdapterPosition
@@ -71,13 +58,6 @@ class MainCategoryImageAdapter(
                 }
             }
 
-        }
-
-        private fun setImageTextSize() {
-            val layoutParams = binding.ivProduct.layoutParams
-            layoutParams.height = 65
-            binding.ivProduct.layoutParams = layoutParams
-            binding.tvProductName.textSize = 10f
         }
 
         private fun setData(catName: String?, catImage: String?) {

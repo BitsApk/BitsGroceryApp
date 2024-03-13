@@ -100,11 +100,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
-//            requestLocationUpdates(false)
-//        }else{
-//           if (Constant.userLocation.isEmpty()) showLocationDialog()
-//        }
+        if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
+            requestLocationUpdates(false)
+        }else{
+           if (Constant.userLocation.isEmpty()) showLocationDialog()
+        }
 
         observeAddress()
 
