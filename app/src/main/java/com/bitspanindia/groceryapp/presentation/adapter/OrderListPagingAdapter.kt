@@ -3,6 +3,7 @@ package com.bitspanindia.groceryapp.presentation.adapter
 import android.content.Context
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,8 @@ class OrderListPagingAdapter(
                 tvPrice.text = context.getString(R.string.rupee,data.amount)
                 tvPayType.text = context.getString(R.string.pay_type,data.payMode)
 
+                Log.e("TAG", "bind: ${data.orderStatus}")
+
                 when(data.orderStatus){
                     "P"->{
                         ivItem.setImageResource(R.drawable.icon_order_placed)
@@ -48,6 +51,10 @@ class OrderListPagingAdapter(
                     "S"->{
                         ivItem.setImageResource(R.drawable.icon_shipped)
                         backgroundTint(R.color.blue_100)
+                    }
+                    "D"->{
+                        ivItem.setImageResource(R.drawable.icon_order_delivered)
+                        backgroundTint(R.color.orange_100)
                     }
                     "D"->{
                         ivItem.setImageResource(R.drawable.icon_order_delivered)

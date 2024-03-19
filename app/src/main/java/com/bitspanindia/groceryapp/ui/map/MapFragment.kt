@@ -205,17 +205,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         mMap.setOnCameraIdleListener {
             val target = mMap.cameraPosition.target
-            latitude = target.latitude
-            longitude = target.longitude
-            address = AppUtils.getAddressFromLocation(requireContext(), latitude, longitude)
-            setAddress(address)
 
-            checkLocality(latitude, longitude)
+            setAddWithLocality(target)
+        }
 
-            currentLocationMarker?.position = target
+        mMap.setOnMapClickListener { latLng ->
+            setAddWithLocality(latLng)
         }
 
 
+    }
+
+    private fun setAddWithLocality(latLng: LatLng){
+        latitude = latLng.latitude
+        longitude = latLng.longitude
+        address = AppUtils.getAddressFromLocation(requireContext(), latitude, longitude)
+        setAddress(address)
+        currentLocationMarker?.position = latLng
+        checkLocality(latitude,longitude)
     }
 
     private fun searchPlaces() {
@@ -249,16 +256,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun checkLocality(latitude: Double, longitude: Double) {
-        dialogHelper.showProgressDialog()
+        showProgress()
 
         val checkLocalityReq = CheckLocalityReq()
         checkLocalityReq.latitude = latitude
         checkLocalityReq.longitude = longitude
 
         viewLifecycleOwner.lifecycleScope.launch {
-            homeVM.checkLocality(checkLocalityReq).let {
-                dialogHelper.hideProgressDialog()
-                try {
+            try {
+                homeVM.checkLocality(checkLocalityReq).let {
+                    hideProgress()
                     if (it.body() != null) {
                         val data = it.body()
 
@@ -275,15 +282,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             binding.btnContinue.isEnabled = false
                         }
                     } else {
-                        dialogHelper.showErrorMsgDialog("Something went wrong") {
-                            findNavController().popBackStack()
-                        }
-                    }
-                } catch (e: Exception) {
-                    dialogHelper.showErrorMsgDialog("Something went wrong") {
-                        findNavController().popBackStack()
+                        Log.d("TAG", "checkLocality: Something went wrong")
                     }
                 }
+            } catch (e: Exception) {
+                Log.d("TAG", "checkLocality: Something went wrong")
             }
         }
     }
@@ -328,5 +331,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
+
+    private fun showProgress() {
+        binding.apply {
+            progress.visibility = View.VISIBLE
+            tvCity.visibility = View.INVISIBLE
+            tvFullAddress.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun hideProgress() {
+        binding.apply {
+            progress.visibility = View.GONE
+            tvCity.visibility = View.VISIBLE
+            tvFullAddress.visibility = View.VISIBLE
+        }
+    }
 
 }

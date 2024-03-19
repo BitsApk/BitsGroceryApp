@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
+import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.presentation.adapter.ProductSmallImageAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.slider.SliderAdapter
@@ -30,6 +31,8 @@ class ProductImagesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding =  FragmentProductImagesBinding.inflate(inflater, container, false)
+
+        AppUtils.cartLayoutVisibility(requireActivity(),View.GONE)
 
         imagePos = args.position
 

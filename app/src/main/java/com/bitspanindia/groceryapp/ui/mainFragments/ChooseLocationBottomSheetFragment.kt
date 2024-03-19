@@ -138,6 +138,12 @@ class ChooseLocationBottomSheetFragment : BottomSheetDialogFragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        binding.etSearch.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                mBehave.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+
         binding.clCurrentLocation.setOnClickListener {
             if (AppUtils.checkGpsStatus(requireActivity())) {
                 requestLocationUpdates()

@@ -50,27 +50,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:text="Sambhal"
+            android:text="@string/not_available"
             android:layout_marginHorizontal="@dimen/space_16"
             android:layout_marginBottom="@dimen/space_8"
             android:textColor="@color/grey_900"
-            android:textSize="@dimen/text_20"
+            android:textSize="@dimen/text_18"
             app:layout_constraintBottom_toTopOf="@+id/tvFullAddress"
             app:layout_constraintStart_toStartOf="parent" />
-
 
         <TextView
             android:id="@+id/tvFullAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:text="full address"
+            android:text="@string/not_available"
             android:textColor="@color/grey_900"
             android:layout_margin="@dimen/space_16"
-            android:textSize="@dimen/text_14"
+            android:textSize="@dimen/text_12"
             app:layout_constraintBottom_toTopOf="@+id/btnContinue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tvFullAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/map_fragment" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnContinue"
@@ -78,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_16"
             android:background="@drawable/white_rounded"
-            android:backgroundTint="@color/red_500"
+            android:backgroundTint="@color/button_enable_colour"
             android:layout_marginBottom="@dimen/space_30"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/continue_"
@@ -94,17 +103,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_16"
+            android:paddingHorizontal="@dimen/space_16"
             android:background="@drawable/bg_circle_view"
             app:layout_constraintBottom_toBottomOf="@+id/map_fragment"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/imageView4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/icon_gps"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_6"
+                android:fontFamily="@font/roboto_medium_500"
+                android:text="Goto Current Location"
+                android:textColor="@color/green_500"
+                android:textSize="@dimen/text_14"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

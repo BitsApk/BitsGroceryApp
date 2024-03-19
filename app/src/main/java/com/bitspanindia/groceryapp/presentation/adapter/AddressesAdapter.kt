@@ -36,6 +36,8 @@ class AddressesAdapter(
             binding.tvCityDetails.text = context.getString(R.string.my_address,item.permanentAdd,item.city,item.zipcode)
             binding.tvAddressType.text =  item.addressName
 
+            binding.ivDelete.visibility = if (absoluteAdapterPosition==0) View.GONE else View.VISIBLE
+
             binding.ivDelete.setOnClickListener {
                 callBack(item,"del")
             }
