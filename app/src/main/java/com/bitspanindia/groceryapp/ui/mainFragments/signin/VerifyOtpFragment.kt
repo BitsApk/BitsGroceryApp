@@ -22,11 +22,12 @@ import com.bitspanindia.groceryapp.data.model.request.RegisterApiReq
 import com.bitspanindia.groceryapp.databinding.FragmentVerifyOtpBinding
 import com.bitspanindia.groceryapp.presentation.viewmodel.LoginViewModel
 import com.bitspanindia.groceryapp.storage.SharedPreferenceUtil
+import dagger.hilt.android.AndroidEntryPoint
 import `in`.aabhasjindal.otptextview.OTPListener
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class VerifyOtpFragment : Fragment() {
     private lateinit var binding:FragmentVerifyOtpBinding
     private lateinit var mContext: Context
@@ -68,11 +69,11 @@ class VerifyOtpFragment : Fragment() {
 
         if (!fromLogin) {
             binding.apply {
-                textView3.visibility = View.GONE
                 numCodeTxt.visibility = View.GONE
                 signUpMobileEdTxt.visibility = View.GONE
                 btnContinue.visibility = View.GONE
                 startCountdownTimer()
+                textView3.text = loginVM.registerApiReq.phone
                 otpVisibility(View.VISIBLE)
             }
         }
@@ -137,22 +138,23 @@ class VerifyOtpFragment : Fragment() {
                 loginVM.doOtpVerify(otpVerifyReq).let {
                     binding.progBar.visibility = View.GONE
                     if (it.isSuccessful && it.body() != null) {
-                        if (it.body()!!.statusCode == 200) {
-                            pref.putString(Constant.USER_ID, it.body()!!.userId ?: "")
+                        if (it.body()!!.status == "success") {
+                            pref.putString(Constant.USER_ID, it.body()!!.userId ?: "0")
                             pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone ?: "")
                             pref.putString(Constant.USER_NAME, it.body()!!.name ?: "")
-                            Constant.userId = it.body()!!.userId ?: ""
+                            pref.putBoolean(Constant.IS_LOGIN, true)
+                            Constant.userId = it.body()!!.userId ?: "0"
                             navigateToHome()
                         } else {
                             Toast.makeText(mContext, it.body()?.message ?: "Unable to login, please try again later", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        // TODO error dialog
+                        AppUtils.showErrorMsgDialog(mContext, "Something went wrong, please try again later"){}
                     }
                 }
             } catch (e: Exception) {
                 binding.progBar.visibility = View.GONE
-                // TODO error dialog
+                AppUtils.showErrorMsgDialog(mContext, "Something technical error, please try again later"){}
             }
         }
     }
@@ -178,18 +180,19 @@ class VerifyOtpFragment : Fragment() {
                             pref.putString(Constant.USER_ID, it.body()!!.userId.toString())
                             pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone.toString() ?: "")
                             pref.putString(Constant.USER_NAME, it.body()!!.name ?: "")
+                            pref.putBoolean(Constant.IS_LOGIN, true)
                             Constant.userId = it.body()!!.userId.toString()
                             navigateToHome()
                         } else {
                             Toast.makeText(mContext, it.body()?.message ?: "Unable to register user, please try again later", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        // TODO error dialog
+                        AppUtils.showErrorMsgDialog(mContext, "Something went wrong, please try again later"){}
                     }
                 }
             } catch (e: Exception) {
                 binding.progBar.visibility = View.GONE
-                // TODO error dialog
+                AppUtils.showErrorMsgDialog(mContext, "Something technical error, please try again later"){}
             }
         }
     }
@@ -215,7 +218,7 @@ class VerifyOtpFragment : Fragment() {
                         binding.btnContinue.visibility = View.VISIBLE
                         stopCountdownTimer()
                         otpVisibility(View.GONE)
-                        // TODO error dialog
+                        AppUtils.showErrorMsgDialog(mContext, "Unable to send otp, please try again later"){}
                     }
                 }
             } catch (e: Exception) {
@@ -223,7 +226,7 @@ class VerifyOtpFragment : Fragment() {
                 binding.btnContinue.visibility = View.VISIBLE
                 stopCountdownTimer()
                 otpVisibility(View.GONE)
-                // TODO error dialog
+                AppUtils.showErrorMsgDialog(mContext, "Some technical errro while sending otp, please try again later"){}
             }
         }
     }
@@ -231,7 +234,6 @@ class VerifyOtpFragment : Fragment() {
     private fun otpVisibility(visible: Int) {
         binding.timerTextView.visibility = visible
         binding.resendLay.visibility = visible
-        binding.otpView.visibility = visible
     }
 
     private fun sendRegisterOtp() {
@@ -246,13 +248,13 @@ class VerifyOtpFragment : Fragment() {
                             Toast.makeText(mContext, it.body()?.message ?: "Unable to send otp, please try again later", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        // TODO error dialog
+                        AppUtils.showErrorMsgDialog(mContext, "Unable to send otp, please try again later"){}
                     }
                 }
             } catch (e: Exception) {
                 binding.progBar.visibility = View.GONE
                 binding.btnContinue.isEnabled = true
-                // TODO error dialog
+                AppUtils.showErrorMsgDialog(mContext, "Some technical errro while sending otp, please try again later"){}
             }
         }
     }

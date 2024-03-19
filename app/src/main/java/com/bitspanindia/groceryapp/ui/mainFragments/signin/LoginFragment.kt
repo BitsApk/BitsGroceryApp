@@ -79,9 +79,10 @@ class LoginFragment : Fragment() {
             try {
                 loginViewModel.doPassLogin(userRequest).let {
                     if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
-                        pref.putString(Constant.USER_ID, it.body()!!.userId ?: "")
-                        pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone ?: "")
-                        pref.putString(Constant.USER_NAME, it.body()!!.name ?: "")
+                        pref.putString(Constant.USER_ID, it.body()!!.userId ?: "0")
+                        pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone ?: "NA")
+                        pref.putString(Constant.USER_NAME, it.body()!!.name ?: "NA")
+                        pref.putBoolean(Constant.IS_LOGIN, true)
                         Constant.userId = it.body()!!.userId ?: ""
                         navigateToHomePage()
                     } else {
@@ -93,7 +94,8 @@ class LoginFragment : Fragment() {
             }  catch (e: Exception) {
                 binding.signInLogBtn.isEnabled = true
                 binding.signInProgBar.visibility = View.GONE
-                // TODO add error dialog
+                AppUtils.showErrorMsgDialog(mContext, "Something technical error, please try again later"){}
+
             }
         }
     }

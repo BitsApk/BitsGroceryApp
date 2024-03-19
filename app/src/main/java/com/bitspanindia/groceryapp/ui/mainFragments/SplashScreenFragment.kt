@@ -36,10 +36,10 @@ class SplashScreenFragment : Fragment() {
     private var isLogin = false
     private var authFound = false
     private val handler = Handler(Looper.getMainLooper())
+    private var lottieComp = false
 
     @Inject
     lateinit var pref: SharedPreferenceUtil
-
 
 
     override fun onCreateView(
@@ -52,12 +52,9 @@ class SplashScreenFragment : Fragment() {
         AppUtils.cartLayoutVisibility(mActivity, View.GONE)
 
         isLogin = pref.getBoolean(Constant.IS_LOGIN, false)
-        Constant.userId = pref.getString(Constant.USER_ID, "-1") ?: "-1"
+        Constant.userId = pref.getString(Constant.USER_ID, "0") ?: "0"
         binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-
-        }, 3500)
 
         return binding.root
     }
@@ -66,7 +63,6 @@ class SplashScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getAuthDetails()
-        startTimer()
 
         binding.dashLottie.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(p0: Animator) {
@@ -74,9 +70,12 @@ class SplashScreenFragment : Fragment() {
 
             override fun onAnimationEnd(p0: Animator) {
 
-                val direction = SplashScreenFragmentDirections.actionSplashScreenFragmentToLoginFragment()
-                findNavController().navigate(directions = direction)
-//                observeInfo()
+                if (authFound && isLogin) {
+                    navigateToHome()
+                } else if (authFound) {
+                    navigateToLogin()
+                }
+                lottieComp = true
             }
 
             override fun onAnimationCancel(p0: Animator) {
@@ -88,53 +87,43 @@ class SplashScreenFragment : Fragment() {
 
     }
 
-
-
-
-    private fun startTimer() {
-//        handler.postDelayed({
-//            Log.d("Rishabh", "timer end")
-//            authVM.splashUserInfo.removeObservers(viewLifecycleOwner)
-//            CommonUiFunctions.showErrorMsgDialog(mContext, "Error in getting authentication credentials, please try again later") {
-//                mActivity.finish()
-//            }
-//        }, 10000)
+    private fun navigateToHome() {
+        val direction = SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment()
+        findNavController().navigate(directions = direction)
     }
-    fun observeInfo() {
-//        authVM.splashUserInfo.observe(viewLifecycleOwner) {
-//            if (it) {
-//                val direction = if (userLogin) {
-//                    if (userType) SplashFragmentDirections.actionSplashFragmentToHomeFragmentSeeker()
-//                    else SplashFragmentDirections.actionSplashFragmentToRecruiterHomeFragment()
-//                } else if (userId.isNotEmpty()) {
-//                    SplashFragmentDirections.actionSplashFragmentToUserSelectFragment()
-//                } else SplashFragmentDirections.actionSplashFragmentToOnBoardingFragment()
-//                handler.removeCallbacksAndMessages(null)
-//                findNavController().navigate(direction)
-//            }
-//        }
+
+    private fun navigateToLogin() {
+        val direction = SplashScreenFragmentDirections.actionSplashScreenFragmentToLoginFragment()
+        findNavController().navigate(direction)
     }
+
 
     private fun getAuthDetails() {
         viewLifecycleOwner.lifecycleScope.launch {
-
-            authVM.getAuthDetails().let {
-                if (it.isSuccessful && it.body() != null) {
-                    if (it.body()!!.statusCode == 200) {
+            try {
+                authVM.getAuthDetails().let {
+                    if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
                         Constant.AAU = it.body()!!.apiAuth!![0].username!!
                         Constant.AAP = it.body()!!.apiAuth!![0].password!!
                         authFound = true
-                        authVM.setSplashUseInfo(authFound)
-
-
+                        if (lottieComp && isLogin) {
+                            navigateToHome()
+                        } else if (lottieComp) {
+                            navigateToLogin()
+                        }
                     } else {
                         authFound = false
                     }
-                } else {
-                    authFound = false
+                }
+            } catch (e: Exception) {
+                authFound = false
+                AppUtils.showErrorMsgDialog(
+                    mContext,
+                    "Authentication not found, sorry for the inconvienence"
+                ) {
+                    mActivity.finish()
                 }
             }
         }
     }
-
 }

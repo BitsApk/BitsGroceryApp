@@ -63,4 +63,14 @@
     <string name="no_stock">No Stock</string>
     <string name="add">Add</string>
 
+
+    // Dialog error mess
+    <string name="validate_cart_error">Some problem occurred in validating cart</string>
+    <string name="validate_cart_error_tech">Some technical problem occurred while validating cart</string>
+    <string name="payment_not_done">Payment not done or failed</string>
+    <string name="payment_not_done_tech">Some technical problem while doing payment</string>
+    <string name="payment_not_verified">Payment not verified, if payment deducted please contact support</string>
+    <string name="payment_verification_problem">Some problem while verifying payment</string>
+    <string name="payment_technical_problem">Some technical problem while verifying payment</string>
+
 </resources>

@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
@@ -17,9 +19,11 @@ import com.bitspanindia.groceryapp.data.model.request.RegisterApiReq
 import com.bitspanindia.groceryapp.databinding.FragmentLoginBinding
 import com.bitspanindia.groceryapp.databinding.FragmentRegisterBinding
 import com.bitspanindia.groceryapp.presentation.viewmodel.LoginViewModel
+import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
+    private lateinit var mContext: Context
     private val loginVM: LoginViewModel by activityViewModels()
 
 
@@ -29,6 +33,7 @@ class RegisterFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        mContext = requireContext()
         return binding.root
     }
 
@@ -38,12 +43,10 @@ class RegisterFragment : Fragment() {
 
         binding.signUpBtn.setOnClickListener {
             loginVM.registerApiReq = getUserRequest()
-//            binding.progBar.visibility = View.VISIBLE
             binding.signUpBtn.isEnabled = false
             if (checkField()) {
-                navigateToOtp()
+                sendRegisterOtp()
             } else {
-//                binding.progBar.visibility = View.GONE
                 binding.signUpBtn.isEnabled = true
             }
         }
@@ -54,6 +57,36 @@ class RegisterFragment : Fragment() {
         }
 
     }
+
+    private fun sendRegisterOtp() {
+        binding.progBar.visibility = View.VISIBLE
+        binding.signUpBtn.isEnabled = false
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                loginVM.doRegistration(loginVM.registerApiReq).let {
+                    if (it.isSuccessful && it.body() != null) {
+                        if (it.body()!!.statusCode == 200) {
+                            Toast.makeText(mContext, "Otp Sent", Toast.LENGTH_SHORT).show()
+                            navigateToOtp()
+                        } else {
+                            binding.progBar.visibility = View.GONE
+                            binding.signUpBtn.isEnabled = true
+                            Toast.makeText(mContext, it.body()?.message ?: "Unable to send otp, please try again later", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        binding.progBar.visibility = View.GONE
+                        binding.signUpBtn.isEnabled = true
+                        AppUtils.showErrorMsgDialog(mContext, "Unable to send otp, please try again later"){}
+                    }
+                }
+            } catch (e: Exception) {
+                binding.progBar.visibility = View.GONE
+                binding.signUpBtn.isEnabled = true
+                AppUtils.showErrorMsgDialog(mContext, "Some technical errro while sending otp, please try again later"){}
+            }
+        }
+    }
+
 
     private fun navigateToOtp() {
         val direction = RegisterFragmentDirections.actionRegisterFragmentToVerifyOtpFragment(fromLogin = false)

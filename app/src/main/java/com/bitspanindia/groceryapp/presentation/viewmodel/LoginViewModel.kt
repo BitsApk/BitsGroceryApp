@@ -49,7 +49,7 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
     }
 
     suspend fun doRegistrationOtp(registerApiReq: RegisterApiReq): Response<RegisterApiResponse> {
-        return loginRepository.doRegistration(registerApiReq)
+        return loginRepository.doRegistrationOtp(registerApiReq)
     }
 
 

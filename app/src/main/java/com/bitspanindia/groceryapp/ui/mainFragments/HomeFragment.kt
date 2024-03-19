@@ -100,11 +100,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
-//            requestLocationUpdates(false)
-//        }else{
-//           if (Constant.userLocation.isEmpty()) showLocationDialog()
-//        }
+        if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
+            requestLocationUpdates(false)
+        }else{
+           if (Constant.userLocation.isEmpty()) showLocationDialog()
+        }
 
         observeAddress()
 
@@ -112,12 +112,12 @@ class HomeFragment : Fragment() {
 
 //        setProducts()
         binding.profImage.setOnClickListener {
-//            cartVM.clearCart()
+            cartVM.clearCart()
 //            val action = HomeFragmentDirections.actionHomeFragmentToFaceUnlockFragment()
 //            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment("11", "Fruits & Vegetables")
 //            findNavController().navigate(action)
-            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
-            findNavController().navigate(action)
+//            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
+//            findNavController().navigate(action)
         }
         getSavedCart()
 

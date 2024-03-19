@@ -18,6 +18,7 @@ data class MyAddress(
     @SerializedName("locality") var locality: String? = "",
     @SerializedName("permanent_add") var permanentAdd: String? = "",
     @SerializedName("phone") var phone: String? = "",
+    @SerializedName("state") var state: String? = "",
     @SerializedName("zipcode") var zipcode: String? = "",
     @SerializedName("latitude") var latitude: String? = "",
     @SerializedName("longitude") var longitude: String? = ""

@@ -80,8 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
                     android:elevation="6dp"
-                    android:paddingBottom="@dimen/space_16"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/bg_white_top_corners_5"
                     android:backgroundTint="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +128,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/messTxt"
                         tools:itemCount="2"
-                        tools:listitem="@layout/item_cart_product" />
+                        tools:listitem="@layout/item_cart_updated_horiz" />
 
 
 

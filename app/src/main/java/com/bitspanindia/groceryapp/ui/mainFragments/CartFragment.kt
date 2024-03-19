@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitspanindia.DialogHelper
+import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.CartOutOfStockAdapter
 import com.bitspanindia.groceryapp.adapter.CartProductAdapter
@@ -23,8 +24,10 @@ import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.data.model.custom.CartUpdatedProdData
+import com.bitspanindia.groceryapp.data.model.request.AddressData
 import com.bitspanindia.groceryapp.data.model.request.CartValidateData
 import com.bitspanindia.groceryapp.data.model.request.CartValidateReq
+import com.bitspanindia.groceryapp.data.model.request.ConfirmOrderReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentVerifyReq
@@ -63,6 +66,8 @@ class CartFragment : Fragment() {
 
     private lateinit var cartValidateDataList: MutableList<CartValidateData>
 
+    private val addressDataList: MutableList<AddressData> = mutableListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,9 +103,11 @@ class CartFragment : Fragment() {
                 )
             )
         }
-        validateCart(CartValidateReq(cart = cartValidateDataList))
-
-
+        validateCart(CartValidateReq(
+            sellerId = Constant.sellerId,
+            sellerAutoId = Constant.sellerAutoId,
+            cart = cartValidateDataList)
+        )
 
         binding.btnPay.setOnClickListener {
 
@@ -127,9 +134,7 @@ class CartFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 cartVM.validateCart(cartValidateReq).let {
-
-                    if (it.isSuccessful && it.body() != null) {
-                        if (it.body()!!.statusCode == 200) {
+                    if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
                             val outOfStockList = mutableListOf<CartUpdatedProdData>()
                             for (i in it.body()!!.list ?: listOf()) {
                                 if (i.isOutofstock == 1) {
@@ -173,20 +178,17 @@ class CartFragment : Fragment() {
                                     CartOutOfStockAdapter(mContext, outOfStockList)
                             }
                             setCartData()
-                        } else {
-                            // TODO error dialog
-                            Toast.makeText(mContext, "Some error: 3 ", Toast.LENGTH_SHORT).show()
 
-                        }
                     } else {
-                        Toast.makeText(mContext, "Some error: ", Toast.LENGTH_SHORT).show()
-                        // TODO error dialog
+                        AppUtils.showErrorMsgDialog(mContext, getString(R.string.validate_cart_error)) {
+                            findNavController().popBackStack()
+                        }
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(mContext, "Some error: 2", Toast.LENGTH_SHORT).show()
-
-                // TODO error dialog
+                AppUtils.showErrorMsgDialog(mContext, getString(R.string.validate_cart_error_tech)) {
+                    findNavController().popBackStack()
+                }
             }
         }
     }
@@ -264,8 +266,7 @@ class CartFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 cartVM.doPayment(paymentReq).let {
-                    if (it.isSuccessful && it.body() != null) {
-                        if (it.body()!!.statusCode == 200) {
+                    if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
                             if (it.body()!!.isOutOfStock == 0) {
                                 doPaymentVerif(
                                     orderNo = it.body()!!.orderId ?: "",
@@ -273,18 +274,17 @@ class CartFragment : Fragment() {
                                     transId = it.body()!!.mID ?: ""
                                 )
                             }
-                        } else {
 
-                            // TODO error dialog
-                        }
                     } else {
-
-                        // TODO error dialog
+                        AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_not_done)) {
+                            findNavController().popBackStack()
+                        }
                     }
                 }
             } catch (e: Exception) {
-
-                // TODO error dialog
+                AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_not_done)) {
+                    findNavController().popBackStack()
+                }
             }
         }
     }
@@ -305,20 +305,29 @@ class CartFragment : Fragment() {
                         if (it.body()!!.paymentVerify) {
                             doConfirmOrder()
                         } else {
-                            // TODO payment not verify
+                            AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_not_verified)) {
+                                findNavController().popBackStack()
+                            }
                         }
                     } else {
-                        // TODO error dialog
+                        AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_verification_problem)) {
+                            findNavController().popBackStack()
+                        }
                     }
                 }
             } catch (e: Exception) {
-                // TODO error dialog
+                AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_technical_problem)) {
+                    findNavController().popBackStack()
+                }
             }
         }
     }
 
     private fun doConfirmOrder() {
+        val confirmOrderReq = ConfirmOrderReq(
+            addedByWeb = Constant.addedByWeb,
 
+        )
     }
 
     private fun setCartProductList() {
@@ -364,6 +373,23 @@ class CartFragment : Fragment() {
                                     addViewModel.myAddress.value = addressList[0]
                                     binding.tvDeliveryAddress.text = addressList[0].permanentAdd
                                     binding.tvDeliveringTo.text = getString(R.string.delivering_to,addressList[0].addressName)
+                                }
+
+                                for (add in addressList) {
+                                    addressDataList.add(AddressData(
+                                        addressName = add.addressName,
+                                        city = add.city,
+                                        country = add.country,
+                                        landMark = add.landMark,
+                                        locality = add.locality,
+                                        perAdd = add.permanentAdd,
+                                        phone = add.phone,
+                                        state = add.state,
+                                        userId = Constant.userId.toInt(),
+                                        zipcode = add.zipcode
+                                    )
+
+                                    )
                                 }
 
                             }

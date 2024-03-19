@@ -10,7 +10,7 @@ object Constant {
 
     const val PAGE_SIZE = 10
 
-    var userId = "-1"
+    var userId = "0"
     var name = "NA"
     var phoneNo = "NA"
     val addedByWeb = "56testing.club"

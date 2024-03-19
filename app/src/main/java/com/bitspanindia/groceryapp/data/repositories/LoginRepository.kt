@@ -28,7 +28,7 @@ class LoginRepository @Inject constructor(private val loginApiService: LoginApiS
         return loginApiService.doRegistration(registerApiReq)
     }
     suspend fun doRegistrationOtp(registerApiReq: RegisterApiReq): Response<RegisterApiResponse> {
-        return loginApiService.doRegistration(registerApiReq)
+        return loginApiService.doRegistrationOtp(registerApiReq)
     }
 
     suspend fun doOtpVerify(otpVerifyReq: OtpVerifyReq): Response<OtpVerifyResp> {

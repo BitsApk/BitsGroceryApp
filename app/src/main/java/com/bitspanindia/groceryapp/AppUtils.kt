@@ -1,13 +1,18 @@
 package com.bitspanindia.groceryapp
 
 import android.Manifest
+import android.app.Dialog
 import android.content.Context
 import android.content.IntentSender
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.location.LocationManager
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
@@ -15,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.databinding.DialogErrorBinding
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -158,5 +164,27 @@ object AppUtils {
     fun stopLocationUpdates(fusedLocationClient: FusedLocationProviderClient,locationCallback: LocationCallback) {
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
+
+    fun showErrorMsgDialog(context: Context, msg: String, callback: () -> Any) {
+        val pDialog = Dialog(context)
+
+        val binding: DialogErrorBinding = DialogErrorBinding.inflate(LayoutInflater.from(context), null, false)
+        pDialog.setContentView(binding.root)
+        pDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        pDialog.setCanceledOnTouchOutside(false)
+        pDialog.setCancelable(false)
+
+        pDialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+
+        binding.tvError.text = msg
+        binding.btnOk.setOnClickListener {
+            pDialog.dismiss()
+            callback()
+        }
+
+        pDialog.show()
+    }
+
 
 }

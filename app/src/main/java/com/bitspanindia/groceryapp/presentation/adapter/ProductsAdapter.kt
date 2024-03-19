@@ -69,6 +69,7 @@ class ProductsAdapter(
 
 
                 add.setOnClickListener {
+                    Log.d("rishabh", "Quantity::------${product.sizeId} ${countMap[product.id]} ${countMap[product.id]!![product.sizeId]}")
                     countMap[product.id]!![product.sizeId] =
                         countMap[product.id]!![product.sizeId]!! + 1
                     countMap[product.id]!!["-1"] = countMap[product.id]!!["-1"]!! + 1
