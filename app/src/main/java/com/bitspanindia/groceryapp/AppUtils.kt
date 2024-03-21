@@ -1,6 +1,7 @@
 package com.bitspanindia.groceryapp
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.IntentSender
@@ -33,6 +34,9 @@ import com.google.android.gms.location.Priority
 import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.Task
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.time.LocalTime
+import java.util.Calendar
 import java.util.Locale
 import java.util.regex.Pattern
 
@@ -58,6 +62,78 @@ object AppUtils {
         )
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches()
     }
+
+    fun showCalendar(context: Context, showPrev: Boolean = false, callBack: (date: String) -> Unit?) {
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+        val dpd = DatePickerDialog(
+            context,
+            DatePickerDialog.OnDateSetListener { _, selectedYear, monthOfYear, dayOfMonth ->
+                val monthSelected =
+                    if (monthOfYear < 9) "0${monthOfYear + 1}" else "${monthOfYear + 1}"
+                val dateSelected = if (dayOfMonth < 10) "0$dayOfMonth" else "$dayOfMonth"
+                callBack("$selectedYear-$monthSelected-$dateSelected")
+
+            },
+            year,
+            month,
+            day
+        )
+        if (showPrev) dpd.datePicker.maxDate = System.currentTimeMillis() - 1000
+        else dpd.datePicker.minDate = System.currentTimeMillis() - 1000
+        dpd.show()
+    }
+
+    fun getVisibleTimeRanges(): List<Boolean> {
+        val timeRanges = mutableListOf<Boolean>(
+            true,
+            true,
+            true
+        )
+        val rangeStartHours = listOf(7, 12, 17)
+        val rangeEndHours = listOf(10, 15, 21)
+
+        val currentTime = Calendar.getInstance()
+
+        if (currentTime.before(Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, rangeStartHours.first()) })) {
+            return timeRanges
+        }
+
+        for (index in rangeStartHours.indices) {
+            val rangeStart = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, rangeStartHours[index])
+                set(Calendar.MINUTE, 0)
+            }
+
+            val rangeEnd = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, rangeEndHours[index])
+                set(Calendar.MINUTE, 0)
+            }
+
+            if (currentTime.after(rangeStart) && currentTime.before(rangeEnd)) {
+                return timeRanges
+            } else timeRanges[index] = false
+        }
+
+        return timeRanges
+    }
+
+    fun getTodayAndTomorrowDates(): Pair<String, String> {
+        val todayCalendar = Calendar.getInstance()
+        val tomorrowCalendar = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_YEAR, 1)
+        }
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val todayStr = dateFormat.format(todayCalendar.time)
+        val tomorrowStr = dateFormat.format(tomorrowCalendar.time)
+
+        return Pair(todayStr, tomorrowStr)
+    }
+
+
+
 
     fun isValidPinCode(pinCode: String): Boolean {
         val pinCodePattern = Pattern.compile("^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$")

@@ -64,13 +64,27 @@
     <string name="add">Add</string>
 
 
+    <string name="applied_s">Applied: %s</string>
+    <string name="s_discount">%s%% discount applied</string>
+
+    // No data texts
+    <string name="no_coupon_found">No Coupon Found</string>
+    <string name="valid_until_n_s">V A L I D U N T I L \n%s</string>
+    <string name="s_perc">%s%%</string>
+
+
     // Dialog error mess
-    <string name="validate_cart_error">Some problem occurred in validating cart</string>
-    <string name="validate_cart_error_tech">Some technical problem occurred while validating cart</string>
-    <string name="payment_not_done">Payment not done or failed</string>
-    <string name="payment_not_done_tech">Some technical problem while doing payment</string>
-    <string name="payment_not_verified">Payment not verified, if payment deducted please contact support</string>
-    <string name="payment_verification_problem">Some problem while verifying payment</string>
-    <string name="payment_technical_problem">Some technical problem while verifying payment</string>
+    <string name="validate_cart_error">Some problem occurred in validating cart 😅</string>
+    <string name="validate_cart_error_tech">Some technical problem occurred while validating cart 😓</string>
+    <string name="payment_not_done">Payment not done or failed 😅</string>
+    <string name="payment_not_done_tech">Some technical problem while doing payment 😓</string>
+    <string name="payment_not_verified">Payment not verified, if payment deducted please contact support 😓</string>
+    <string name="payment_verification_problem">Some problem while verifying payment 😅</string>
+    <string name="payment_technical_problem">Some technical problem while verifying payment 😓</string>
+    <string name="delivery_charges_error">Some problem while getting delivery charges 😅</string>
+    <string name="delivery_charges_error_tech">Some technical problem while getting delivery charges 😓</string>
+    <string name="coupon_error_tech">Some technical error in fetching coupons 😓</string>
+    <string name="apply_coupon_tech">Some technical issue while applying this coupon 😓</string>
+    <string name="can_t_apply_this_coupon">Can\'t apply this coupon 😅</string>
 
 </resources>

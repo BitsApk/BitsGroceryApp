@@ -13,6 +13,7 @@ object Constant {
     var userId = "0"
     var name = "NA"
     var phoneNo = "NA"
+    var email = "NA"
     val addedByWeb = "56testing.club"
 
 
@@ -20,6 +21,7 @@ object Constant {
     const val USER_ID = "UserId"
     const val USER_NAME = "USER_NAME"
     const val PHONE_NUMBER = "PHONE_NUMBER"
+    const val EMAIL = "Email"
     const val IS_LOGIN = "IsLogin"
 
 

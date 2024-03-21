@@ -142,6 +142,7 @@ class VerifyOtpFragment : Fragment() {
                             pref.putString(Constant.USER_ID, it.body()!!.userId ?: "0")
                             pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone ?: "")
                             pref.putString(Constant.USER_NAME, it.body()!!.name ?: "")
+                            pref.putString(Constant.EMAIL, it.body()!!.email ?: "")
                             pref.putBoolean(Constant.IS_LOGIN, true)
                             Constant.userId = it.body()!!.userId ?: "0"
                             navigateToHome()
@@ -180,6 +181,7 @@ class VerifyOtpFragment : Fragment() {
                             pref.putString(Constant.USER_ID, it.body()!!.userId.toString())
                             pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone.toString() ?: "")
                             pref.putString(Constant.USER_NAME, it.body()!!.name ?: "")
+                            pref.putString(Constant.EMAIL, it.body()!!.email ?: "")
                             pref.putBoolean(Constant.IS_LOGIN, true)
                             Constant.userId = it.body()!!.userId.toString()
                             navigateToHome()

@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -30,7 +29,6 @@ import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.AppUtils.showShortToast
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
-import com.bitspanindia.groceryapp.data.DummyData
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.Viewtype
 import com.bitspanindia.groceryapp.data.model.request.CheckLocalityReq
@@ -39,7 +37,6 @@ import com.bitspanindia.groceryapp.data.model.response.MyAddress
 import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.HomeRecyclerAdapter
-import com.bitspanindia.groceryapp.presentation.adapter.HomeTopListAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.AddressViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
@@ -93,6 +90,7 @@ class HomeFragment : Fragment() {
 
         Constant.name = pref.getString(Constant.USER_NAME,"").toString()
         Constant.phoneNo = pref.getString(Constant.PHONE_NUMBER,"").toString()
+        Constant.email = pref.getString(Constant.EMAIL,"").toString()
 
         return binding.root
     }

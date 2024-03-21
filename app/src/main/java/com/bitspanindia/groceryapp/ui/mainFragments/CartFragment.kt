@@ -1,14 +1,12 @@
 package com.bitspanindia.groceryapp.ui.mainFragments
 
 import android.content.Context
-import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -17,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
+import com.bitspanindia.groceryapp.AppUtils.getTodayAndTomorrowDates
+import com.bitspanindia.groceryapp.AppUtils.getVisibleTimeRanges
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.CartOutOfStockAdapter
 import com.bitspanindia.groceryapp.adapter.CartProductAdapter
@@ -25,21 +25,22 @@ import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.data.model.custom.CartUpdatedProdData
 import com.bitspanindia.groceryapp.data.model.request.AddressData
+import com.bitspanindia.groceryapp.data.model.request.Cart
 import com.bitspanindia.groceryapp.data.model.request.CartValidateData
 import com.bitspanindia.groceryapp.data.model.request.CartValidateReq
+import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.ConfirmOrderReq
-import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentVerifyReq
 import com.bitspanindia.groceryapp.data.model.response.CartProdBackendData
 import com.bitspanindia.groceryapp.databinding.FragmentCartBinding
 import com.bitspanindia.groceryapp.datalist.CustomList
-import com.bitspanindia.groceryapp.presentation.adapter.AddressesAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.AddressViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.ProfileViewModel
+import com.bitspanindia.groceryapp.ui.bottomsheets.CouponBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -55,18 +56,27 @@ class CartFragment : Fragment() {
     private val cartManageVM: CartManageViewModel by activityViewModels()
     private val cartVM: CartViewModel by viewModels()
 
+
     private lateinit var cartData: MutableList<ProductData>
 
     private lateinit var dialogHelper: DialogHelper
+    private var paymentMode: String = "online"
 
     private var cartTotal = 0.0
     private var delPartCharge = 20.0
+    private var couponAmount = 0.0
     private var platFormCharge = 3.0
     private var tipDeliveryCharge = 0.0
+    private var convCharge: Double = 0.0
+    private var grandTotal: Double = 0.0
+    private var slotTime: String = ""
+    private var slotDate: String? = null
 
     private lateinit var cartValidateDataList: MutableList<CartValidateData>
+    private lateinit var cartValidateListResponse: List<CartProdBackendData>
 
     private val addressDataList: MutableList<AddressData> = mutableListOf()
+    private var addressId: Int = 0
 
 
     override fun onCreateView(
@@ -86,8 +96,7 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 //        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
-
-        getAddressList()
+        setAddress()
         observeAddress()
 
 
@@ -103,31 +112,112 @@ class CartFragment : Fragment() {
                 )
             )
         }
-        validateCart(CartValidateReq(
-            sellerId = Constant.sellerId,
-            sellerAutoId = Constant.sellerAutoId,
-            cart = cartValidateDataList)
+        validateCart(
+            CartValidateReq(
+                sellerId = Constant.sellerId,
+                sellerAutoId = Constant.sellerAutoId,
+                cart = cartValidateDataList
+            )
         )
 
-        binding.btnPay.setOnClickListener {
+        binding.apply {
+            btnPay.setOnClickListener {
+                if (checkFields()) {
+                    doPayment()
+                } else {
+                    cartScrollView.post {
+                        var targetViewTop = dayRadGr.top
+                        var parent = dayRadGr.parent
+                        while (parent is ViewGroup && parent != cartScrollView) {
+                            targetViewTop += (parent as View).top
+                            parent = parent.parent
+                        }
+                        cartScrollView.smoothScrollTo(0, targetViewTop)
+                    }
+                    Toast.makeText(mContext, "Please provide delivery date \uD83D\uDE05", Toast.LENGTH_SHORT).show()
+                }
+            }
+            tvChangeAddress.setOnClickListener {
+                showAddressDialog()
+            }
+            deliveryEdTxt.setOnClickListener {
+                AppUtils.showCalendar(mContext, false) {
+                    slotDate = it
+                    deliveryEdTxt.setText(it)
+                }
+            }
 
-            doPayment()
+            val visList = getVisibleTimeRanges()
+            setTodayTime(visList)
+            dayRadGr.setOnCheckedChangeListener { radioGroup, i ->
+                when (i) {
+                    R.id.todayRadB -> {
+                        setSlotTimeVisible()
+                        setTodayTime(visList)
+                    }
+                    R.id.tommorowRadB -> {
+                        setSlotTimeVisible()
+                        setRadTimeEnable()
+                        time710RB.isChecked = true
+                    }
+                    R.id.customizeRadB -> {
+                        setSlotTimeVisible(View.GONE, View.VISIBLE)
+                    }
+                }
+            }
 
-//            val action = CartFragmentDirections.actionCartFragmentToOrderSuccessFragment()
-//            findNavController().navigate(action)
+            tvCouponDetails.setOnClickListener {
+                val couponSheet = CouponBottomSheetFragment() {amt, name, disc ->
+                    tvCouponTitle.text = getString(R.string.applied_s, name)
+                    subCouponTxtView.text = getString(R.string.s_discount, disc)
+                    couponAmount = amt
+
+                }
+                couponSheet.show(childFragmentManager, CouponBottomSheetFragment.TAG)
+            }
+
         }
+    }
 
-        binding.tvChangeAddress.setOnClickListener {
-            showAddressDialog()
+    private fun setSlotTimeVisible(slotTime: Int = View.VISIBLE, date: Int = View.GONE) {
+        binding.slotTimeRadGr.visibility = slotTime
+        binding.deliveryEdInput.visibility = date
+    }
+
+    private fun checkFields(): Boolean {
+        if (binding.dayRadGr.checkedRadioButtonId == R.id.customizeRadB) {
+            return !slotDate.isNullOrEmpty()
         }
+        return true
 
-        binding.btnAddAddress.setOnClickListener {
-            val action = CartFragmentDirections.actionGlobalMapFragment("addAddress","0.0","0.0")
-            findNavController().navigate(action)
+    }
+
+    private fun setTodayTime(visList: List<Boolean>) {
+        setRadTimeEnable(visList[0], visList[1], visList[2])
+        binding.apply {
+            if (time710RB.isEnabled) setRadTimeCheck(true)
+            else if (time123RB.isEnabled) setRadTimeCheck(b2 = true)
+            else if (time59RB.isEnabled) setRadTimeCheck(b3 = true)
+            else setRadTimeCheck()
         }
+    }
 
-        setInstructionData()
 
+    private fun setRadTimeEnable(b1: Boolean = true, b2: Boolean = true, b3: Boolean = true) {
+        binding.apply {
+            time710RB.isEnabled = b1
+            time123RB.isEnabled = b2
+            time59RB.isEnabled = b3
+        }
+    }
+
+
+    private fun setRadTimeCheck(b1: Boolean = false, b2: Boolean = false, b3: Boolean = false) {
+        binding.apply {
+            time710RB.isChecked = b1
+            time123RB.isChecked = b2
+            time59RB.isChecked = b3
+        }
     }
 
     private fun validateCart(cartValidateReq: CartValidateReq) {
@@ -135,58 +225,65 @@ class CartFragment : Fragment() {
             try {
                 cartVM.validateCart(cartValidateReq).let {
                     if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
-                            val outOfStockList = mutableListOf<CartUpdatedProdData>()
-                            for (i in it.body()!!.list ?: listOf()) {
-                                if (i.isOutofstock == 1) {
-                                    val indexInCartList = findIndex(i)
-                                    val prevPrice = cartData[indexInCartList].discountedPrice
-                                    cartData[indexInCartList].let { prod ->
-                                        outOfStockList.add(
-                                            CartUpdatedProdData(
-                                                id = prod.id,
-                                                image = prod.image,
-                                                productName = prod.productName,
-                                                rating = prod.rating,
-                                                weight = prod.weight,
-                                                discountedPrice = prod.discountedPrice,
-                                                stockChange = Pair(prod.count, i.qty ?: 0)
-                                            )
+                        val outOfStockList = mutableListOf<CartUpdatedProdData>()
+                        cartValidateListResponse = it.body()!!.list ?: listOf()
+                        for (i in it.body()!!.list ?: listOf()) {
+                            if (i.isOutofstock == 1) {
+                                val indexInCartList = findIndex(i)
+                                val prevPrice = cartData[indexInCartList].discountedPrice
+                                cartData[indexInCartList].let { prod ->
+                                    outOfStockList.add(
+                                        CartUpdatedProdData(
+                                            id = prod.id,
+                                            image = prod.image,
+                                            productName = prod.productName,
+                                            rating = prod.rating,
+                                            weight = prod.weight,
+                                            discountedPrice = prod.discountedPrice,
+                                            stockChange = Pair(prod.count, i.qty ?: 0)
                                         )
-                                    }
-                                    cartData[indexInCartList].apply {
-                                        count = i.qty ?: 0
-                                        discountedPrice = i.netprice
-                                        discount = i.discount.toString()
-                                        stock = i.stock
-                                    }
-                                    cartManageVM.updateProductInCart(cartData[indexInCartList])
+                                    )
+                                }
+                                cartData[indexInCartList].apply {
+                                    count = i.qty ?: 0
+                                    discountedPrice = i.netprice
+                                    discount = i.discount.toString()
+                                    stock = i.stock
+                                }
+                                cartManageVM.updateProductInCart(cartData[indexInCartList])
 
-                                    if (prevPrice != i.discountedPrice) {
-                                        cartData[indexInCartList].priceChange =
-                                            Pair(prevPrice ?: 0.0, i.discountedPrice ?: 0.00)
-                                    }
+                                if (prevPrice != i.discountedPrice) {
+                                    cartData[indexInCartList].priceChange =
+                                        Pair(prevPrice ?: 0.0, i.discountedPrice ?: 0.00)
                                 }
                             }
+                        }
 
-                            if (outOfStockList.size > 0) {
-                                binding.exceptionLay.visibility = View.VISIBLE
-                                binding.messTxt.text = getString(
-                                    R.string._d_items_in_your_cart_are_in_stock,
-                                    outOfStockList.size
-                                )
-                                binding.defectRecView.adapter =
-                                    CartOutOfStockAdapter(mContext, outOfStockList)
-                            }
-                            setCartData()
+                        if (outOfStockList.size > 0) {
+                            binding.exceptionLay.visibility = View.VISIBLE
+                            binding.messTxt.text = getString(
+                                R.string._d_items_in_your_cart_are_in_stock,
+                                outOfStockList.size
+                            )
+                            binding.defectRecView.adapter =
+                                CartOutOfStockAdapter(mContext, outOfStockList)
+                        }
+                        setCartData()
 
                     } else {
-                        AppUtils.showErrorMsgDialog(mContext, getString(R.string.validate_cart_error)) {
+                        AppUtils.showErrorMsgDialog(
+                            mContext,
+                            getString(R.string.validate_cart_error)
+                        ) {
                             findNavController().popBackStack()
                         }
                     }
                 }
             } catch (e: Exception) {
-                AppUtils.showErrorMsgDialog(mContext, getString(R.string.validate_cart_error_tech)) {
+                AppUtils.showErrorMsgDialog(
+                    mContext,
+                    getString(R.string.validate_cart_error_tech)
+                ) {
                     findNavController().popBackStack()
                 }
             }
@@ -232,18 +329,47 @@ class CartFragment : Fragment() {
             }
     }
 
+    private fun getDeliveryCharges(cartTotal: Double) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                cartVM.getDeliveryCharges(CommonDataReq(totalCartAmount = cartTotal)).let {
+                    if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
+                        delPartCharge = it.body()!!.deliveryCharge ?: 0.0
+                        convCharge = it.body()!!.convCharge ?: 0.0
+                        setGrandTotal()
+                    } else {
+                        AppUtils.showErrorMsgDialog(
+                            mContext,
+                            getString(R.string.delivery_charges_error)
+                        ) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                AppUtils.showErrorMsgDialog(
+                    mContext,
+                    getString(R.string.delivery_charges_error_tech)
+                ) {
+                    findNavController().popBackStack()
+                }
+            }
+        }
+    }
+
     private fun bindTotalPriceObserver() {
         cartManageVM.cartTotalPrice.observe(viewLifecycleOwner) {
             binding.tvItemPrice.text = it.toString()
             cartTotal = it
-            setGrandTotal()
+            if (it != 0.0) getDeliveryCharges(it)
         }
     }
 
     private fun setGrandTotal() {
-        val total = cartTotal + delPartCharge + tipDeliveryCharge + platFormCharge
-        binding.tvGrandTotal.text = getString(R.string.rs_f, total)
-        binding.tvTotalPayAmount.text = getString(R.string.rs_f, total)
+        grandTotal =
+            cartTotal + delPartCharge + if (paymentMode == "online") convCharge else 0.0 - couponAmount
+        binding.tvGrandTotal.text = getString(R.string.rs_f, grandTotal)
+        binding.tvTotalPayAmount.text = getString(R.string.rs_f, grandTotal)
     }
 
 
@@ -258,7 +384,7 @@ class CartFragment : Fragment() {
         val paymentReq = PaymentReq(
             userId = Constant.userId.toInt(),
             addedByWeb = Constant.addedByWeb,
-            paymenttype = "online", //online,cod  // Todo change after payment gateway
+            paymenttype = paymentMode, //online,cod  // Todo change after payment gateway
             totalPayble = binding.grandTotal.text.toString().toDouble(),
             convCharge = cartManageVM.convCharge,        // Todo change after payment gateway,
             cart = cartValidateDataList
@@ -267,16 +393,19 @@ class CartFragment : Fragment() {
             try {
                 cartVM.doPayment(paymentReq).let {
                     if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
-                            if (it.body()!!.isOutOfStock == 0) {
-                                doPaymentVerif(
-                                    orderNo = it.body()!!.orderId ?: "",
-                                    txnAmount = it.body()!!.tXNAMOUNT ?: 0.0,
-                                    transId = it.body()!!.mID ?: ""
-                                )
-                            }
+                        if (it.body()!!.isOutOfStock == 0) {
+                            doPaymentVerif(
+                                orderNo = it.body()!!.orderId ?: "",
+                                txnAmount = it.body()!!.tXNAMOUNT ?: 0.0,
+                                transId = it.body()!!.mID ?: ""
+                            )
+                        }
 
                     } else {
-                        AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_not_done)) {
+                        AppUtils.showErrorMsgDialog(
+                            mContext,
+                            getString(R.string.payment_not_done)
+                        ) {
                             findNavController().popBackStack()
                         }
                     }
@@ -293,7 +422,7 @@ class CartFragment : Fragment() {
         val payVerifyReq = PaymentVerifyReq(
             userId = Constant.userId.toInt(),
             convCharge = cartManageVM.convCharge,
-            orderno = orderNo, //online,cod  // Todo change after payment gateway
+            orderno = orderNo,
             tXNAMOUNT = txnAmount,
             transId = transId
 
@@ -303,30 +432,92 @@ class CartFragment : Fragment() {
                 cartVM.doPaymentVerification(payVerifyReq).let {
                     if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
                         if (it.body()!!.paymentVerify) {
-                            doConfirmOrder()
+                            doConfirmOrder(orderNo, txnAmount, transId)
                         } else {
-                            AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_not_verified)) {
+                            AppUtils.showErrorMsgDialog(
+                                mContext,
+                                getString(R.string.payment_not_verified)
+                            ) {
                                 findNavController().popBackStack()
                             }
                         }
                     } else {
-                        AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_verification_problem)) {
+                        AppUtils.showErrorMsgDialog(
+                            mContext,
+                            getString(R.string.payment_verification_problem)
+                        ) {
                             findNavController().popBackStack()
                         }
                     }
                 }
             } catch (e: Exception) {
-                AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_technical_problem)) {
+                AppUtils.showErrorMsgDialog(
+                    mContext,
+                    getString(R.string.payment_technical_problem)
+                ) {
                     findNavController().popBackStack()
                 }
             }
         }
     }
 
-    private fun doConfirmOrder() {
+    private fun doConfirmOrder(orderNo: String, txnAmount: Double, transId: String) {
+
+        val lastCartProductList = cartManageVM.getCartList()
+        val confirmCart = mutableListOf<Cart>()
+
+        for (prod in lastCartProductList) {
+            for (validateProd in cartValidateListResponse) {
+                if (prod.id == validateProd.id && prod.sizeId == validateProd.sizeid) {
+                    confirmCart.add(
+                        Cart(
+                            discount = prod.discount?.toDouble() ?: 0.0,
+                            netprice = prod.discountedPrice,
+                            price = prod.price?.toDouble() ?: 0.0,
+                            productId = prod.id.toIntOrNull(),
+                            productImage = prod.image,
+                            productName = prod.productName,
+                            qty = prod.count,
+                            sizeId = prod.sizeId.toInt(),
+                            totalAmount = prod.discountedPrice?.times(prod.count),
+                            weight = prod.weight,
+                            sellerAutoId = validateProd.sellerAutoId,
+                            sellerCreditAmount = validateProd.sellerCreditAmount,
+                            sellerId = validateProd.sellerId,
+                            adminProfit = validateProd.adminProfit,
+                        )
+                    )
+                    break
+                }
+            }
+        }
+
         val confirmOrderReq = ConfirmOrderReq(
             addedByWeb = Constant.addedByWeb,
-
+            addressData = addressDataList,
+            addressId = addressId,
+            cart = confirmCart,
+            convCharge = convCharge,
+            deliveryCharge = delPartCharge,
+            email = Constant.email,
+            grandTotal = grandTotal,
+            orderId = orderNo,
+            paymentMode = paymentMode,
+            phone = Constant.phoneNo,
+            totalAmount = cartTotal,
+            transId = transId,
+            txnAmount = txnAmount,
+            slotdeliveryDate = when (binding.dayRadGr.checkedRadioButtonId) {
+                R.id.todayRadB -> getTodayAndTomorrowDates().first
+                R.id.tommorowRadB -> getTodayAndTomorrowDates().second
+                else -> slotDate
+            },
+            slotdeliveryTime = when (binding.slotTimeRadGr.checkedRadioButtonId) {
+                R.id.time7_10RB -> binding.time710RB.text.toString()
+                R.id.time12_3RB -> binding.time123RB.text.toString()
+                else -> if (slotDate.isNullOrEmpty()) binding.time59RB.text.toString() else ""
+            },
+            userId = Constant.userId.toInt()
         )
     }
 
@@ -335,82 +526,41 @@ class CartFragment : Fragment() {
     }
 
 
-    private fun setInstructionData() {
-        binding.apply {
-            avoidCalling.tvInstruction.text = "Avoid calling"
-            avoidCalling.ivDontCall.setImageResource(R.drawable.icon_no_call)
-            dnotRingBell.tvInstruction.text = "Don't ring the bell"
-            dnotRingBell.ivDontCall.setImageResource(R.drawable.icon_notification_off)
-            leaveWithGuard.tvInstruction.text = "Leave with guard"
-            leaveWithGuard.ivDontCall.setImageResource(R.drawable.icon_guard)
-            leaveAtDoor.tvInstruction.text = "Leave at door"
-            leaveAtDoor.ivDontCall.setImageResource(R.drawable.icon_door)
-        }
-    }
 
 //    override fun onDestroyView() {
 //        super.onDestroyView()
 //        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.green_500)
 //    }
 
-    private fun getAddressList() {
-        val getAddressReq = HomeDataReq(userId = Constant.userId)
+    private fun setAddress() {
+        binding.tvDeliveryAddress.text = addViewModel.myAddress.value?.permanentAdd
+        binding.tvDeliveringTo.text =
+            getString(R.string.delivering_to, addViewModel.myAddress.value?.addressName)
+        checkAddress()
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                pvm.getAddressList(getAddressReq).let {
-                    if (it.isSuccessful && it.body() != null) {
-                        if (it.body()?.statusCode == 200) {
-                            val addressList = it.body()?.myAddress
-
-                            if (addressList.isNullOrEmpty()){
-                                binding.clPay.visibility = View.GONE
-                                binding.btnAddAddress.visibility = View.VISIBLE
-                            }else{
-                                binding.clPay.visibility = View.VISIBLE
-                                binding.btnAddAddress.visibility = View.GONE
-                                if (addViewModel.myAddress.value?.latitude==null && addViewModel.myAddress.value?.longitude==null){
-                                    addViewModel.myAddress.value = addressList[0]
-                                    binding.tvDeliveryAddress.text = addressList[0].permanentAdd
-                                    binding.tvDeliveringTo.text = getString(R.string.delivering_to,addressList[0].addressName)
-                                }
-
-                                for (add in addressList) {
-                                    addressDataList.add(AddressData(
-                                        addressName = add.addressName,
-                                        city = add.city,
-                                        country = add.country,
-                                        landMark = add.landMark,
-                                        locality = add.locality,
-                                        perAdd = add.permanentAdd,
-                                        phone = add.phone,
-                                        state = add.state,
-                                        userId = Constant.userId.toInt(),
-                                        zipcode = add.zipcode
-                                    )
-
-                                    )
-                                }
-
-                            }
-
-                        }else{
-                            binding.clPay.visibility = View.GONE
-                            binding.btnAddAddress.visibility = View.VISIBLE
-                        }
-                    }
-                    else{
-                        binding.clPay.visibility = View.VISIBLE
-                        binding.btnAddAddress.visibility = View.GONE
-                    }
-                }
-            } catch (e: Exception) {
-                binding.clPay.visibility = View.VISIBLE
-                binding.btnAddAddress.visibility = View.GONE
+    private fun checkAddress() {
+        if (addViewModel.myAddress.value?.id.isNullOrEmpty()) {
+            addViewModel.myAddress.value?.apply {
+                addressDataList.add(
+                    AddressData(
+                        addressName = addressName,
+                        city = city,
+                        country = country,
+                        landMark = landMark,
+                        locality = locality,
+                        perAdd = permanentAdd,
+                        phone = phone,
+                        state = state,
+                        userId = Constant.userId.toInt(),
+                        zipcode = zipcode
+                    )
+                )
             }
-
+            addressId = 0
+        } else {
+            addressId = (addViewModel.myAddress.value?.id ?: "0").toInt()
         }
-
     }
 
     private fun showAddressDialog() {
@@ -424,10 +574,9 @@ class CartFragment : Fragment() {
         modalBottomSheet.isCancelable = true
     }
 
-    private fun observeAddress(){
-        addViewModel.myAddress.observe(viewLifecycleOwner){address->
-            binding.tvDeliveryAddress.text = address.permanentAdd
-            binding.tvDeliveringTo.text = getString(R.string.delivering_to,address.addressName)
+    private fun observeAddress() {
+        addViewModel.myAddress.observe(viewLifecycleOwner) {
+            setAddress()
         }
     }
 

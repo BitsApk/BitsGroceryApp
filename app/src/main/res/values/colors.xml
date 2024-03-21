@@ -62,4 +62,8 @@
     <color name="layout_background">#F2F2F2</color>
     <color name="login_blue">#0A3159</color>
 
+    <color name="coupon_light_yellow">#FFF9EB</color>
+    <color name="coupon_yellow">#dcad39</color>
+    <color name="coupon_dark_yellow">#9F791C</color>
+
 </resources>

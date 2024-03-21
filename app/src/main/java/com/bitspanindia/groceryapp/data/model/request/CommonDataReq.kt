@@ -21,5 +21,7 @@ data class CommonDataReq(
     //for orderDetail api
     @SerializedName("order_id") var orderId: String? = null,
 
+    @SerializedName("total_cart_amount") var totalCartAmount: Double? = null,
+
 
     )

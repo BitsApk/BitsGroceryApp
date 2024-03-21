@@ -63,6 +63,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/cartScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
@@ -134,7 +135,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <LinearLayout
                     android:id="@+id/saveAmtLay"
                     android:layout_width="0dp"
@@ -176,7 +176,6 @@
 
                 </LinearLayout>
 
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvCartItems"
                     android:layout_width="match_parent"
@@ -190,9 +189,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/saveAmtLay"
-                    tools:itemCount="2"
+                    tools:itemCount="0"
                     tools:listitem="@layout/item_horizontal_product" />
-
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -228,7 +226,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvDeliveryText"
-                        tools:itemCount="2"
+                        tools:itemCount="0"
                         tools:listitem="@layout/item_cart_product" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -286,6 +284,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:rotation="-180"
+                        android:paddingHorizontal="@dimen/space_16"
+                        android:paddingVertical="@dimen/space_4"
                         android:src="@drawable/icon_back2"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -547,119 +547,125 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <HorizontalScrollView
-                        android:layout_width="wrap_content"
+                    <RadioGroup
+                        android:id="@+id/dayRadGr"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:scrollbars="none"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/space_8"
+                        app:layout_constraintTop_toBottomOf="@id/textView5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView5">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        >
 
-                        <LinearLayout
+                        <RadioButton
+                            android:id="@+id/todayRadB"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Today"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:textSize="@dimen/text_14"/>
+
+                        <RadioButton
+                            android:id="@+id/tommorowRadB"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tommorrow"
+                            android:layout_weight="1"
+                            android:textSize="@dimen/text_14"/>
+
+                        <RadioButton
+                            android:id="@+id/customizeRadB"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Customize"
+                            android:layout_weight="1"
+                            android:textSize="@dimen/text_14"/>
+
+                    </RadioGroup>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/deliveryEdInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Delivery date"
+                        app:boxBackgroundColor="@color/white"
+                        android:visibility="gone"
+                        app:hintAnimationEnabled="false"
+                        app:layout_constraintTop_toBottomOf="@id/dayRadGr"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:startIconCheckable="true"
+                        app:startIconDrawable="@drawable/icon_calendar"
+                        app:startIconTint="@null">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/deliveryEdTxt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_button_border_corner"
+                            android:backgroundTint="#F4F6F8"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:textSize="@dimen/text_16" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <HorizontalScrollView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:scrollbars="none"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@id/dayRadGr"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+
+                        <RadioGroup
+                            android:id="@+id/slotTimeRadGr"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView5">
+                            >
 
-                            <include
-                                android:id="@+id/avoidCalling"
-                                layout="@layout/item_delivery_instructions" />
-                            <include
-                                android:id="@+id/dnotRingBell"
-                                layout="@layout/item_delivery_instructions" />
-
-                            <include
-                                android:id="@+id/leaveWithGuard"
-                                layout="@layout/item_delivery_instructions" />
-
-                            <include
-                                android:id="@+id/leaveAtDoor"
-                                layout="@layout/item_delivery_instructions" />
-
-
-                        </LinearLayout>
-
-                    </HorizontalScrollView>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clTip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_16"
-                    android:background="@color/white"
-                    android:layout_marginBottom="@dimen/space_16"
-                    android:paddingTop="@dimen/space_16"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clDeliveryInstructions">
-
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/space_8"
-                        android:fontFamily="@font/roboto_medium_600"
-                        android:text="Delivery Partner Tip"
-                        android:textColor="@color/grey_900"
-                        android:textSize="@dimen/text_16"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_10"
-                        android:scrollbars="none"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView6">
-
-                        <com.google.android.material.chip.ChipGroup
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginHorizontal="@dimen/space_8">
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chipCpp"
+                            <RadioButton
+                                android:id="@+id/time7_10RB"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/white_rounded"
-                                android:text="😃 Rs 20" />
+                                android:text="7:00 - 10:00 AM"
+                                android:paddingStart="@dimen/space_8"
+                                android:textSize="@dimen/text_14"/>
 
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip30"
+                            <RadioButton
+                                android:id="@+id/time12_3RB"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/white_rounded"
-                                android:text="🤩 Rs 30" />
+                                android:layout_marginStart="@dimen/space_16"
+                                android:paddingStart="@dimen/space_8"
+                                android:text="12:00 - 3:00 PM"
+                                android:textSize="@dimen/text_14" />
 
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip50"
+                            <RadioButton
+                                android:id="@+id/time5_9RB"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/white_rounded"
-                                android:text="🥰 Rs 50" />
+                                android:text="5:00 - 9:00 PM"
+                                android:layout_marginStart="@dimen/space_16"
+                                android:paddingStart="@dimen/space_8"
+                                android:textSize="@dimen/text_14"/>
 
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chipCustom"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/white_rounded"
-                                android:text="🤩 Custom" />
-
-                        </com.google.android.material.chip.ChipGroup>
-
+                        </RadioGroup>
 
                     </HorizontalScrollView>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -733,14 +739,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvDeliveryAddress" />
 
             <TextView
-                android:id="@+id/textview10"
+                android:id="@+id/numItemTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_medium_600"
                 android:layout_marginTop="@dimen/space_10"
-                android:text="To Pay"
+                android:text="@string/d_items"
                 android:textColor="@color/grey_700"
-                android:textSize="@dimen/text_10"
+                android:textSize="@dimen/text_12"
+                android:layout_marginStart="@dimen/space_16"
                 app:layout_constraintStart_toStartOf="@+id/imageView5"
                 app:layout_constraintTop_toBottomOf="@+id/view3" />
 
@@ -752,46 +759,48 @@
                 android:text="@string/rs_00"
                 android:textColor="@color/grey_900"
                 android:textSize="@dimen/text_14"
+                android:layout_marginStart="@dimen/space_16"
                 app:layout_constraintStart_toStartOf="@+id/imageView5"
-                app:layout_constraintTop_toBottomOf="@+id/textview10" />
+                app:layout_constraintTop_toBottomOf="@+id/numItemTxt" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnPay"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/space_16"
+                android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginBottom="@dimen/space_10"
+                android:layout_marginStart="@dimen/space_36"
                 android:background="@drawable/white_rounded"
                 android:backgroundTint="@color/green_500"
                 android:fontFamily="@font/roboto_bold"
                 android:paddingHorizontal="@dimen/space_20"
-                android:text="Pay by Cash/UPI on delivery"
+                android:text="Pay Now: UPI / Cash"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvTotalPayAmount"
-                app:layout_constraintTop_toTopOf="@+id/textview10" />
+                app:layout_constraintStart_toEndOf="@id/tvTotalPayAmount"
+                app:layout_constraintTop_toTopOf="@+id/numItemTxt" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnAddAddress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_16"
-            android:layout_marginBottom="@dimen/space_16"
-            android:background="@drawable/white_rounded"
-            android:backgroundTint="@color/green_500"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/add_address"
-            android:visibility="gone"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_16"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/btnAddAddress"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="@dimen/space_16"-->
+<!--            android:layout_marginBottom="@dimen/space_16"-->
+<!--            android:background="@drawable/white_rounded"-->
+<!--            android:backgroundTint="@color/green_500"-->
+<!--            android:fontFamily="@font/roboto_bold"-->
+<!--            android:text="@string/add_address"-->
+<!--            android:visibility="gone"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/text_16"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

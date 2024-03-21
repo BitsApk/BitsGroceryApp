@@ -82,6 +82,7 @@ class LoginFragment : Fragment() {
                         pref.putString(Constant.USER_ID, it.body()!!.userId ?: "0")
                         pref.putString(Constant.PHONE_NUMBER, it.body()!!.phone ?: "NA")
                         pref.putString(Constant.USER_NAME, it.body()!!.name ?: "NA")
+                        pref.putString(Constant.EMAIL, it.body()!!.email ?: "NA")
                         pref.putBoolean(Constant.IS_LOGIN, true)
                         Constant.userId = it.body()!!.userId ?: ""
                         navigateToHomePage()

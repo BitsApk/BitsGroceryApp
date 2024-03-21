@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@drawable/view_coupon_edge"
+        android:layout_margin="@dimen/space_16"
+        >
+
+        <View
+            android:id="@+id/desBg"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:background="@drawable/bg_coupon_description"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/percBg"/>
+
+        <View
+            android:id="@+id/percBg"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:background="@drawable/img_coupon_per"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/desBg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <View
+            android:id="@+id/viewBottom"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@drawable/bg_coupon_semi_circle"
+            app:layout_constraintStart_toEndOf="@id/desBg"
+            app:layout_constraintEnd_toStartOf="@id/percBg"
+            app:layout_constraintBottom_toBottomOf="@id/desBg"
+            />
+
+        <View
+            android:id="@+id/viewTop"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:rotationX="180"
+            android:background="@drawable/bg_coupon_semi_circle"
+            app:layout_constraintStart_toEndOf="@id/desBg"
+            app:layout_constraintEnd_toStartOf="@id/percBg"
+            app:layout_constraintTop_toTopOf="@id/desBg"
+            />
+
+        <ImageView
+            android:id="@+id/desPercImg"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/space_16"
+            android:src="@drawable/coupon_six"
+            app:layout_constraintStart_toStartOf="@id/desBg"
+            app:layout_constraintTop_toTopOf="@id/desBg"
+            />
+
+        <TextView
+            android:id="@+id/couponCodeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CDWDF012"
+            android:textColor="#13563b"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/space_16"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/desBg"
+            app:layout_constraintEnd_toEndOf="@id/desBg"
+            />
+
+
+        <TextView
+            android:id="@+id/validTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/valid_until_n_s"
+            android:textColor="#13563b"
+            android:textSize="10sp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/space_8"
+            app:layout_constraintTop_toBottomOf="@id/couponCodeTxt"
+            app:layout_constraintStart_toStartOf="@id/desBg"
+            app:layout_constraintEnd_toEndOf="@id/desBg"
+            />
+
+
+
+        <TextView
+            android:id="@+id/descriptionTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="20% flat off on all product "
+            android:textColor="#13563b"
+            android:textSize="12sp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:paddingHorizontal="@dimen/space_10"
+            android:layout_marginTop="@dimen/space_8"
+            app:layout_constraintTop_toBottomOf="@id/validTxt"
+            app:layout_constraintStart_toStartOf="@id/desBg"
+            app:layout_constraintEnd_toEndOf="@id/desBg"
+            />
+
+
+        <TextView
+            android:id="@+id/percTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s_perc"
+            android:textColor="#dcad39"
+            android:textSize="40sp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="@dimen/space_10"
+            app:layout_constraintVertical_bias="0.15"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/percBg"
+            app:layout_constraintEnd_toEndOf="@id/percBg"
+            />
+
+        <TextView
+            android:id="@+id/offTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Off"
+            android:textColor="#dcad39"
+            android:textSize="16sp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:layout_marginTop="-4dp"
+            android:paddingHorizontal="@dimen/space_10"
+            app:layout_constraintTop_toBottomOf="@id/percTxt"
+            app:layout_constraintStart_toStartOf="@id/percBg"
+            app:layout_constraintEnd_toEndOf="@id/percBg"
+            />
+
+        <TextView
+            android:id="@+id/applyTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apply"
+            android:textColor="@color/coupon_yellow"
+            android:paddingHorizontal="@dimen/space_12"
+            android:paddingVertical="@dimen/space_2"
+            android:textSize="@dimen/text_12"
+            android:layout_marginTop="@dimen/space_8"
+            android:background="@drawable/bg_apply_coupon"
+            app:layout_constraintTop_toBottomOf="@id/offTxt"
+            app:layout_constraintStart_toStartOf="@id/percBg"
+            app:layout_constraintEnd_toEndOf="@id/percBg"
+            />
+
+        <TextView
+            android:id="@+id/errorTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Can't apply this coupon sdfsd fsdf sfs df ssdf "
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/space_4"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:includeFontPadding="false"
+            app:layout_constraintTop_toBottomOf="@id/desBg"
+            app:layout_constraintStart_toStartOf="@id/desBg"
+            app:layout_constraintEnd_toEndOf="@id/percBg"
+            />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
