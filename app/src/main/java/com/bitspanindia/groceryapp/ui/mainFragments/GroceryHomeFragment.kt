@@ -27,6 +27,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.AppUtils.showShortToast
+import com.bitspanindia.groceryapp.AppUtils.startShimmer
+import com.bitspanindia.groceryapp.AppUtils.stopShimmer
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.enums.CartAction
@@ -34,7 +36,7 @@ import com.bitspanindia.groceryapp.data.model.Viewtype
 import com.bitspanindia.groceryapp.data.model.request.CheckLocalityReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
 import com.bitspanindia.groceryapp.data.model.response.MyAddress
-import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
+import com.bitspanindia.groceryapp.databinding.FragmentHomeGroceryBinding
 import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.presentation.adapter.HomeRecyclerAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
@@ -53,8 +55,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
+class GroceryHomeFragment : Fragment() {
+    private lateinit var binding: FragmentHomeGroceryBinding
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
     private lateinit var dialogHelper: DialogHelper
@@ -73,15 +75,26 @@ class HomeFragment : Fragment() {
     lateinit var pref: SharedPreferenceUtil
 
     private lateinit var homeDataViewList: List<Viewtype>
+    private lateinit var homeAdapter: HomeRecyclerAdapter
+    private lateinit var itemDecorator: DividerItemDecoration
 
     private var player: ExoPlayer? = null
+
+    private var firstTime = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        firstTime = true
+
+    }
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeGroceryBinding.inflate(inflater, container, false)
 
         mContext = requireContext()
         mActivity = requireActivity()
@@ -98,30 +111,32 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
-            requestLocationUpdates(false)
-        }else{
-           if (Constant.userLocation.isEmpty()) showLocationDialog()
+
+        if (firstTime) {
+            startShimmer(binding.shimmer, binding.homeRecView)
+            getSavedCart()
+
+//            if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
+//                requestLocationUpdates(false)
+//            } else {
+//                if (Constant.userLocation.isEmpty()) showLocationDialog()
+//            }
+//            observeAddress()
+            firstTime = false
+        } else {
+            binding.homeRecView.addItemDecoration(itemDecorator)
+            binding.homeRecView.adapter = homeAdapter
+            binding.topDataLay.visibility = View.VISIBLE
         }
-
-        observeAddress()
-
-//        checkLocality()
-
-//        setProducts()
         binding.profImage.setOnClickListener {
-            cartVM.clearCart()
-//            val action = HomeFragmentDirections.actionHomeFragmentToFaceUnlockFragment()
-//            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment("11", "Fruits & Vegetables")
-//            findNavController().navigate(action)
-//            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
-//            findNavController().navigate(action)
+//            cartVM.clearCart()
+            val action = GroceryHomeFragmentDirections.actionHomeFragmentToProfileFragment()
+            findNavController().navigate(action)
         }
-        getSavedCart()
 
         binding.rHomeSearch.setOnClickListener {
             findNavController().navigate(
-                HomeFragmentDirections.actionGlobalSearchProductFragment()
+                GroceryHomeFragmentDirections.actionGlobalSearchProductFragment()
             )
         }
 
@@ -133,33 +148,7 @@ class HomeFragment : Fragment() {
             showManualLocationDialog()
         }
 
-//        getHomData()
-
         refreshHomeProduct()
-
-//        val images = listOf(R.drawable.banner_1, R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_4,  R.drawable.banner_2, R.drawable.banner_3, R.drawable.banner_1)
-//
-//        binding.banner.bannerRecView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
-//        binding.banner.bannerRecView.adapter = BannerImageAdapter(images)
-//
-//        val snapHelper = PagerSnapHelper()
-//        snapHelper.attachToRecyclerView(binding.banner.bannerRecView)
-
-//        binding.tvProductDetails.setOnClickListener {
-//            val action = HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment()
-//            findNavController().navigate(action)
-//        }
-
-        //TODO abhi tempery esko comment kr dea hai bad me enable kr sakte hai
-//        binding.otherAppList.adapter = HomeTopListAdapter(mContext, DummyData.homeTopDataList)
-//
-//        binding.otherAppList.setOnItemClickListener(){adapterView, view, position, id ->
-//
-//            Toast.makeText(mContext, "Click on item at $position its item id $id", Toast.LENGTH_LONG).show()
-////            val intent = Intent(mActivity, JobMainActivity::class.java)
-////            startActivity(intent)
-//        }
-
 
     }
 
@@ -239,8 +228,6 @@ class HomeFragment : Fragment() {
                     cartVM.setCartTotal(total)
                 }
                 cartVM.setCart(it)
-
-
             }
         }
     }
@@ -252,22 +239,29 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 homeVM.getHomeData(homeDataReq).let {
+                    stopShimmer(binding.shimmer, binding.homeRecView)
                     if (it.isSuccessful && it.body() != null) {
+                        binding.topDataLay.visibility = View.VISIBLE
                         homeDataViewList = it.body()!!.viewtypeList ?: listOf()
                         setHomeAdapter()
                     } else {
-                        Toast.makeText(mContext, "Error", Toast.LENGTH_SHORT).show()
+                        AppUtils.showErrorMsgDialog(mContext, getString(R.string.home_page_error)) {
+                            mActivity.finish()
+                        }
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(mContext, "Error two", Toast.LENGTH_SHORT).show()
+                stopShimmer(binding.shimmer, binding.homeRecView)
+                AppUtils.showErrorMsgDialog(mContext, getString(R.string.home_page_error_tech)) {
+                    mActivity.finish()
+                }
             }
         }
     }
 
     private fun setHomeAdapter() {
         initializePlayer()
-        val itemDecorator = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        itemDecorator = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         itemDecorator.setDrawable(
             ContextCompat.getDrawable(
                 mContext,
@@ -275,32 +269,31 @@ class HomeFragment : Fragment() {
             )!!
         )
         binding.homeRecView.addItemDecoration(itemDecorator)
-        binding.homeRecView.adapter = HomeRecyclerAdapter(homeDataViewList, player, mContext, cartVM.countMap, {prod, action ->
+        homeAdapter = HomeRecyclerAdapter(homeDataViewList, player, mContext, cartVM.countMap, {prod, action ->
 
             val cartTotalItem = cartVM.cartTotalItem.value
             when (action) {
                 CartAction.Add -> {
-                    Log.d("Rishabh", "Cart action add clicked")
                     cartVM.setCartTotal((cartTotalItem ?: 0) + 1)
                     cartVM.addItemToCart(prod)
                 }
                 CartAction.Minus -> {
                     cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
                     cartVM.decreaseCountOfItem(prod)
-                    Log.d("Rishabh", "count map HF after minus ${cartVM.countMap}")
 
                 }
 
                 CartAction.ItemClick -> {
-                    val action = HomeFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
-                    findNavController().navigate(action)
+                    val direction = GroceryHomeFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+                    findNavController().navigate(direction)
                 }
 
             }
         },{catId, catName ->
-            val action = HomeFragmentDirections.actionHomeFragmentToSubCategoryFragment(catId,catName)
+            val action = GroceryHomeFragmentDirections.actionHomeFragmentToSubCategoryFragment(catId,catName)
             findNavController().navigate(action)
         })
+        binding.homeRecView.adapter = homeAdapter
     }
 
 
@@ -323,16 +316,19 @@ class HomeFragment : Fragment() {
                             Constant.sellerId = data.matchSELLER?.sellerid?:""
 
                             locationVisibility(visibility = View.VISIBLE, visibility2 = View.GONE)
-                            getHomData()
-                        }else{
+                            getSavedCart()
+                        } else {
+                            stopShimmer(binding.shimmer, binding.homeRecView)
                             locationVisibility(visibility = View.GONE, visibility2 = View.VISIBLE)
                         }
                     }else{
+                        stopShimmer(binding.shimmer, binding.homeRecView)
                         dialogHelper.showErrorMsgDialog("Something went wrong"){
                             findNavController().popBackStack()
                         }
                     }
                 } catch (e: Exception) {
+                    stopShimmer(binding.shimmer, binding.homeRecView)
                     dialogHelper.hideProgressDialog()
                     dialogHelper.showErrorMsgDialog("Something went wrong"){
                         findNavController().popBackStack()
@@ -342,28 +338,14 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setProducts() {
-
-//        binding.homeRecView.adapter = HomeRecyclerAdapter(
-//            listOf(
-//                HomeData("twoRowProduct", "Recommended Products", DummyData.data),
-//                HomeData("mainCategoryGrid", "Famous Category", DummyData.mainCategory),
-//                HomeData("oneRowProduct", "How about Snacks", DummyData.data),
-//                HomeData("bannerRecView", "Banner", DummyData.bannerData),
-//                HomeData("oneRowProduct", "How about Snacks", DummyData.data),
-//                HomeData("bannerRecView", "Banner", DummyData.bannerData),
-//                HomeData("mainCategoryGrid", "Famous Category", DummyData.mainCategory),
-//            ),
-//            mContext
-//        )
-
-    }
 
     private fun showLocationDialog() {
         lDialog = BottomSheetDialog(mContext)
         val bindingDialog = LocationEnableBottomSheetBinding.inflate(layoutInflater)
         lDialog.setCancelable(false)
         lDialog.setContentView(bindingDialog.root)
+
+        stopShimmer(binding.shimmer, binding.homeRecView)
 
         bindingDialog.btnContinue.setOnClickListener {
             AppUtils.gpsPermission(requireContext(), locationSettingsResultLauncher) {
@@ -421,7 +403,7 @@ class HomeFragment : Fragment() {
             AppUtils.requestLocationPermissions(mActivity, 1)
             return
         }
-
+        stopShimmer(binding.shimmer, binding.homeRecView)
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
         isLocationUpdatesStarted = true
     }
@@ -441,20 +423,23 @@ class HomeFragment : Fragment() {
             Constant.longitude = address.longitude?.toDouble() ?: 0.0
             Constant.userLocation = address.permanentAdd?:""
             binding.locAddressTxt.text = address.permanentAdd
-            Log.e("TAG", "observeAddress: ${address.latitude} ${address.longitude}", )
             checkLocality()
         }
     }
 
     private fun locationVisibility(visibility:Int,visibility2: Int){
         binding.apply {
-            otherAppList.visibility = visibility
             rHomeSearch.visibility = visibility
             viewLineOne.visibility = visibility
             homeRecView.visibility = visibility
-            AppUtils.cartLayoutVisibility(mActivity,visibility)
             clLocAvailability.visibility = visibility2
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        addViewModel.myAddress.removeObservers(viewLifecycleOwner)
+        cartVM.cartTotalItem.removeObservers(viewLifecycleOwner)
     }
 
 }

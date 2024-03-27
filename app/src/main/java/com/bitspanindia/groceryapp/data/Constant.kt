@@ -30,8 +30,8 @@ object Constant {
     var latitude = 0.0
     var longitude = 0.0
     var pinCode = ""
-    var sellerId = ""
-    var sellerAutoId = ""
+    var sellerId = "SELLER70"
+    var sellerAutoId = "2"
 
 
     var AAU = ""

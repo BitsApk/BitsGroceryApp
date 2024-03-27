@@ -117,7 +117,7 @@ class ChooseLocationBottomSheetFragment : BottomSheetDialogFragment() {
         adapter = PlaceAdapter(ArrayList()) { latitude, longitude ->
             hideBottomSheet()
             findNavController().navigate(
-                HomeFragmentDirections.actionGlobalMapFragment("home", latitude, longitude)
+                GroceryHomeFragmentDirections.actionGlobalMapFragment("home", latitude, longitude)
             )
         }
 
@@ -177,7 +177,7 @@ class ChooseLocationBottomSheetFragment : BottomSheetDialogFragment() {
                 stopLocationUpdates(fusedLocationClient, locationCallback)
 
                 findNavController().navigate(
-                    HomeFragmentDirections.actionGlobalMapFragment(
+                    GroceryHomeFragmentDirections.actionGlobalMapFragment(
                         "home", locationResult.locations[0].latitude.toString(),
                         locationResult.locations[0].longitude.toString()
                     )

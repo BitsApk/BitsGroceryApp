@@ -78,8 +78,8 @@ dependencies {
     }
     kapt ("com.github.bumptech.glide:compiler:4.16.0")
 
-    //loading shimmer
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+    //loading shimmer
 
     // For phone num otp
     implementation ("com.github.aabhasr1:OtpView:v1.1.2-ktx")

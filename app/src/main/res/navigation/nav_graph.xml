@@ -67,9 +67,9 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.bitspanindia.groceryapp.ui.mainFragments.HomeFragment"
+        android:name="com.bitspanindia.groceryapp.ui.mainFragments.GroceryHomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_home_grocery">
         <action
             android:id="@+id/action_homeFragment_to_chooseLocationFragment"
             app:destination="@id/chooseLocationFragment"

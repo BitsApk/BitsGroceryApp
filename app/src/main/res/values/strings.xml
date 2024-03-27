@@ -86,5 +86,7 @@
     <string name="coupon_error_tech">Some technical error in fetching coupons 😓</string>
     <string name="apply_coupon_tech">Some technical issue while applying this coupon 😓</string>
     <string name="can_t_apply_this_coupon">Can\'t apply this coupon 😅</string>
+    <string name="home_page_error_tech">Some technical error occur while fetching product data 😓</string>
+    <string name="home_page_error">Some error occur while fetching product data 😅</string>
 
 </resources>

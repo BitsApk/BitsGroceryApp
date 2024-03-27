@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.bitspanindia.groceryapp.AppUtils.showShortToast
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
 
-        val navBuilder = NavOptions.Builder().setEnterAnim(R.anim.nav_enter_anim).setExitAnim(R.anim.nav_exit_anim).setPopEnterAnim(R.anim.nav_pop_enter_anim)
+        val navBuilder = NavOptions.Builder().setEnterAnim(R.anim.nav_enter_anim)
+            .setExitAnim(R.anim.nav_exit_anim).setPopEnterAnim(R.anim.nav_pop_enter_anim)
             .setPopExitAnim(R.anim.nav_pop_exit_anim).build()
 
         binding.arrowImg.setOnClickListener {
@@ -56,11 +58,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.cartBtn.setOnClickListener {
-            navController.navigate(R.id.cartFragment, null , navBuilder)
-            binding.cartLay.visibility = View.GONE
+            navController.navigate(R.id.cartFragment, null, navBuilder)
         }
 
         bindCartTotal()
+
+        cartLayFragmentManage()
 
     }
 
@@ -71,7 +74,10 @@ class MainActivity : AppCompatActivity() {
     private fun bindCartTotal() {
         cartVM.cartTotalItem.observe(this) {
             binding.countTxt.text = getString(R.string.d_items, it)
-            if (it == 0) {
+            if (it == 0 ||
+                navController.currentDestination?.id == R.id.cartFragment
+                || navController.currentDestination?.id == R.id.profileFragment
+            ) {
                 cartVisibility(View.GONE)
             } else if (!binding.cartLay.isVisible) {
                 cartVisibility(View.VISIBLE)
@@ -79,7 +85,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun cartVisibility(visible: Int) {
+    private fun cartLayFragmentManage() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.cartFragment, R.id.profileFragment -> cartVisibility(View.GONE)
+                else -> {
+                    if ((cartVM.cartTotalItem.value ?: 0) > 0 && !binding.cartLay.isVisible) {
+                        cartVisibility(View.VISIBLE)
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    private fun cartVisibility(visible: Int) {
         if (visible == View.VISIBLE) {
             val animation: Animation =
                 AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_start)
@@ -105,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun bottomCartVisibility(visibility: Int){
+    fun bottomCartVisibility(visibility: Int) {
         binding.cartLay.visibility = visibility
     }
 
@@ -130,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                 permissionsToRationale.forEach { permission ->
                     if (shouldShowRequestPermissionRationale(permission)) {
                         // TODO: Display rationale for each permission
-                        showShortToast(this,"Rationale needed for $permission")
+                        showShortToast(this, "Rationale needed for $permission")
                     }
                 }
             } else {
@@ -162,7 +183,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 // Permission denied, handle accordingly
                 // Inform user that the app will not show notifications or read videos
-                showShortToast(this,"Permission denied for $permission")
+                showShortToast(this, "Permission denied for $permission")
             }
         }
     }

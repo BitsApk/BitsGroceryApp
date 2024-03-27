@@ -192,7 +192,7 @@ class ProductDetailsFragment : Fragment() {
                 }
 
                 CartAction.ItemClick -> {
-                    val action = HomeFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+                    val action = GroceryHomeFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
                     findNavController().navigate(action)
                 }
 

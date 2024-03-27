@@ -9,15 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.databinding.FragmentFaceUnlockBinding
-import com.bitspanindia.groceryapp.databinding.FragmentHomeBinding
 
 class FaceUnlockFragment : Fragment() {
 

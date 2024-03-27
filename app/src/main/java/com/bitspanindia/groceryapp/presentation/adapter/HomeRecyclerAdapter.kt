@@ -30,7 +30,7 @@ class HomeRecyclerAdapter(
     private val exoplayer: ExoPlayer?,
     private val context: Context,
     private val countMap: MutableMap<String, MutableMap<String, Int>>,
-    private val prodCallback: (prod: ProductData, action: CartAction) -> Any,
+    private val prodCallback: (prod: ProductData, action: CartAction) -> Unit,
     private val callBackCat: (catId:String,catName:String) -> Any
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

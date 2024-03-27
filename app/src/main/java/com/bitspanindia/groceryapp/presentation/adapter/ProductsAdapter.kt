@@ -69,14 +69,17 @@ class ProductsAdapter(
 
 
                 add.setOnClickListener {
-                    Log.d("rishabh", "Quantity::------${product.sizeId} ${countMap[product.id]} ${countMap[product.id]!![product.sizeId]}")
                     countMap[product.id]!![product.sizeId] =
                         countMap[product.id]!![product.sizeId]!! + 1
                     countMap[product.id]!!["-1"] = countMap[product.id]!!["-1"]!! + 1
                     count.text = countMap[product.id]!!["-1"].toString()
                     callback(product, CartAction.Add)
-                }
 
+                    if (countMap[product.id]!![product.sizeId] == (product.stock ?: "0").toInt()) {
+                        binding.add.isEnabled = false
+                        binding.add.setColorFilter(ContextCompat.getColor(context, R.color.grey_700))
+                    }
+                }
                 minus.setOnClickListener {
                     if (countMap[product.id]!!["-1"] == 1) {
                         countMap.remove(product.id)
@@ -92,6 +95,10 @@ class ProductsAdapter(
                         count.text = countMap[product.id]!!["-1"].toString()
                     }
                     callback(product, CartAction.Minus)
+                    if (!binding.add.isEnabled) {
+                        binding.add.isEnabled = true
+                        binding.add.setColorFilter(ContextCompat.getColor(context, R.color.white))
+                    }
                 }
                 binding.ivProduct.setOnClickListener {
                     callback(product, CartAction.ItemClick)
