@@ -14,12 +14,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
+import com.bitspanindia.groceryapp.data.model.response.GetProductDetailsResponse
 import com.bitspanindia.groceryapp.data.model.response.MultiImg
 import com.bitspanindia.groceryapp.data.model.response.MultiWeight
 import com.bitspanindia.groceryapp.databinding.FragmentProductDetailsBinding
@@ -40,6 +44,10 @@ class ProductDetailsFragment : Fragment() {
     private val pvm: ProductViewModel by activityViewModels()
     private val args: ProductDetailsFragmentArgs by navArgs()
     private val cartVM: CartManageViewModel by activityViewModels()
+
+    private lateinit var selectedItem : MultiWeight
+    private lateinit var prodData: GetProductDetailsResponse
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,7 +81,47 @@ class ProductDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        binding.btnAdd.setOnClickListener {
+            if (cartVM.countMap[args.proId].isNullOrEmpty()) {
+                cartVM.countMap[args.proId] = mutableMapOf(Pair(selectedItem.sizeId ?: "-1", 1), Pair("-1", 1))
+            } else {
+                cartVM.countMap[args.proId]!![selectedItem.sizeId ?: "-1"] = 1
+                cartVM.countMap[args.proId]!!["-1"] = cartVM.countMap[args.proId]!!["-1"]!! + 1
+            }
+            val cartTotalItem = cartVM.cartTotalItem.value
+            cartVM.setCartTotal((cartTotalItem ?: 0) + 1)
+            val product = ProductData(
+                discount = selectedItem.discount,
+                discountedPrice = selectedItem.discountedPrice,
+                id = args.proId,
+                image = prodData.multiimg?.get(0)?.image,
+                price = selectedItem.price,
+                productName = prodData.productName,
+                rating = prodData.rating,
+                stock = prodData.stock,
+                weight = selectedItem.weight,
+                sizeId = selectedItem.sizeId ?: "-1",
+                returnable = "No",  // Todo ask for parameter in api response
+            )
+            cartVM.addItemToCart(product)
+            checkCart(selectedItem)
+        }
+
+        refreshOnCartChange()
+
     }
+
+
+    private fun refreshOnCartChange() {
+        cartVM.cartTotalItem.observe(viewLifecycleOwner) {
+            if (cartVM.isCartVisible) {
+                checkCart(selectedItem)
+                binding.rvProducts.adapter!!.notifyDataSetChanged()
+            }
+
+        }
+    }
+
 
     private fun getProductDetails() {
         val commonDataReq = CommonDataReq()
@@ -87,19 +135,36 @@ class ProductDetailsFragment : Fragment() {
                 pvm.getProductDetails(commonDataReq).let {
                     if (it.isSuccessful && it.body() != null) {
                         stopProgress()
-                        val data = it.body()
-                        if (data?.statusCode == 200) {
+                        prodData = it.body() ?: GetProductDetailsResponse()
+                        if (prodData.statusCode == 200) {
                             binding.apply {
-                                tvProductName.text = data.productName
-                                pvm.prodImageList = data.multiimg ?: listOf<MultiImg>()
-                                setProductPrice(data.multiweight?.get(0) ?: MultiWeight())
-                                setProducts(data.related ?: mutableListOf())
-                                setViewpagerSlider(data.multiimg)
-                                setProductDetails(data.description ?: "")
+                                tvProductName.text = prodData.productName
+                                pvm.prodImageList = prodData.multiimg ?: listOf<MultiImg>()
+
+                                var selectedPos = -1
+                                for (index in 0 until prodData.multiweight?.size!!) {
+                                    val weight = prodData.multiweight!![index]
+                                    if (weight.stock > 0) {
+                                        selectedPos = index
+                                        selectedItem = weight
+                                        setProductPrice(weight)
+                                        checkCart(weight)
+                                        break
+                                    }
+                                }
+
+                                if (selectedPos == -1) setAddBtn(getString(R.string.no_stock), false)
+                                setProducts(prodData.related ?: mutableListOf())
+                                setViewpagerSlider(prodData.multiimg)
+                                setProductDetails(prodData.description ?: "")
                                 rvUnit.adapter = UnitAdapter(
                                     mContext,
-                                    data.multiweight ?: listOf()
-                                ) { setProductPrice(it) }
+                                    selectedPos,
+                                    prodData.multiweight ?: listOf()
+                                ) { item ->
+                                    selectedItem = item
+                                    checkCart(item)
+                                }
                             }
                         } else {
                             dialogHelper.showErrorMsgDialog(
@@ -108,17 +173,35 @@ class ProductDetailsFragment : Fragment() {
                         }
                     } else {
                         dialogHelper.showErrorMsgDialog(
-                            "Something went wrong"
+                            getString(R.string.prod_page_error)
                         ) { findNavController().popBackStack() }
                     }
                 }
             } catch (e: Exception) {
                 dialogHelper.showErrorMsgDialog(
-                    "Something went wrong"
+                    getString(R.string.prod_page_error_tech)
                 ) { findNavController().popBackStack() }
             }
         }
 
+    }
+
+    private fun checkCart(item: MultiWeight) {
+        setProductPrice(item)
+        if (item.stock <= 0) {
+            setAddBtn(getString(R.string.no_stock), false)
+        } else if (!cartVM.countMap[args.proId].isNullOrEmpty() && cartVM.countMap[args.proId]!![item.sizeId] != null) {
+            setAddBtn(getString(R.string.added), false)
+        } else {
+            setAddBtn(getString(R.string.add), true)
+        }
+    }
+
+    private fun setAddBtn(textt: String, enable: Boolean) {
+        binding.btnAdd.apply {
+            text = textt
+            isEnabled = enable
+        }
     }
 
     private fun setViewpagerSlider(multiImg: List<MultiImg>?) {
@@ -197,8 +280,12 @@ class ProductDetailsFragment : Fragment() {
                 }
 
             }
-
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cartVM.cartTotalItem.removeObservers(viewLifecycleOwner)
     }
 
 }

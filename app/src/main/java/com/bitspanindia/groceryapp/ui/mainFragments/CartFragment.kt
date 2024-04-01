@@ -19,7 +19,6 @@ import com.bitspanindia.groceryapp.AppUtils.getTodayAndTomorrowDates
 import com.bitspanindia.groceryapp.AppUtils.getVisibleTimeRanges
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.adapter.CartOutOfStockAdapter
-import com.bitspanindia.groceryapp.adapter.CartProductAdapter
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.model.ProductData
@@ -34,7 +33,6 @@ import com.bitspanindia.groceryapp.data.model.request.PaymentReq
 import com.bitspanindia.groceryapp.data.model.request.PaymentVerifyReq
 import com.bitspanindia.groceryapp.data.model.response.CartProdBackendData
 import com.bitspanindia.groceryapp.databinding.FragmentCartBinding
-import com.bitspanindia.groceryapp.datalist.CustomList
 import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.AddressViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
@@ -519,10 +517,6 @@ class CartFragment : Fragment() {
             },
             userId = Constant.userId.toInt()
         )
-    }
-
-    private fun setCartProductList() {
-        binding.rvCartItems.adapter = CartProductAdapter(CustomList(mContext).dataListProduct2)
     }
 
 

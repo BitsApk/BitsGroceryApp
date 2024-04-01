@@ -258,73 +258,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/space_16"
-                        android:background="@drawable/rouned_border"
-                        android:backgroundTint="@color/red_500"
+                        android:background="@drawable/bg_border_violet_corner_10"
                         android:fontFamily="@font/roboto_bold"
                         android:paddingHorizontal="@dimen/space_24"
                         android:paddingVertical="@dimen/space_8"
-                        android:text="Add"
-                        android:textColor="@color/white"
+                        android:text="@string/added"
+                        android:enabled="false"
+                        android:textColor="@color/text_enable_violet_colour"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tvWeight" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/clAddDel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space_16"
-                        android:background="@drawable/rouned_border"
-                        android:backgroundTint="@color/red_500"
-                        android:paddingHorizontal="@dimen/space_8"
-                        android:paddingVertical="4dp"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvWeight"
-                        tools:layout_editor_absoluteY="8dp">
-
-                        <ImageView
-                            android:id="@+id/ivMinus"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/icon_minus"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/tvQuan"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/white" />
-
-
-                        <TextView
-                            android:id="@+id/tvQuan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/space_8"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="1"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_14"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/ivPlus"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/ivMinus"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/ivPlus"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/icon_add"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/tvQuan"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/white" />
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
                         android:id="@+id/view7"

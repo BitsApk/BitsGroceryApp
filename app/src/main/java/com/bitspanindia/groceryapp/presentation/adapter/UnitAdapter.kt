@@ -1,14 +1,12 @@
 package com.bitspanindia.groceryapp.presentation.adapter
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.R
@@ -17,15 +15,15 @@ import com.bitspanindia.groceryapp.databinding.ItemUnitBinding
 
 class UnitAdapter(
     private val context:Context,
+    private val selectPos: Int,
     private val unitList: List<MultiWeight>,
     private var callBack:(data:MultiWeight)->Any
 ): RecyclerView.Adapter<UnitAdapter.ViewHolder>() {
 
-    private var selectedItem = 0
+    private var selectedItem = selectPos
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemUnitBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
         return ViewHolder(binding)
     }
 
@@ -42,15 +40,22 @@ class UnitAdapter(
             binding.tvDiscount.text = context.getString(R.string.rupee,item.price.toString())
             binding.tvDiscount.paintFlags = binding.tvDiscount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
+
+
             itemView.setOnClickListener {
-                selectedItem = absoluteAdapterPosition
-                notifyDataSetChanged()
-                callBack(item)
+                if (item.stock > 0) {
+                    notifyItemChanged(selectedItem)
+                    selectedItem = absoluteAdapterPosition
+                    notifyItemChanged(absoluteAdapterPosition)
+                    callBack(item)
+                } else {
+                    Toast.makeText(context, "Stock not available", Toast.LENGTH_SHORT).show()
+                }
             }
 
             if (selectedItem==absoluteAdapterPosition){
                 changeDrawableColor(ContextCompat.getColor(context,R.color.red_400),ContextCompat.getColor(context,R.color.green_50))
-            }else{
+            } else {
                 changeDrawableColor(context.getColor(R.color.grey_700),ContextCompat.getColor(context,R.color.white))
             }
 

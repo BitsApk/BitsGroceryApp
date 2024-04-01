@@ -128,7 +128,7 @@ class ProductsAdapter(
                 .into(binding.ivProduct)
             binding.apply {
                 tvProductName.text = product.productName
-                tvQuantity.text = product.stock
+                tvQuantity.text = product.weight
                 tvPrice.text = product.discountedPrice.toString()
 
                 priceInfo.visibility = if (product.priceChange == null) View.GONE
