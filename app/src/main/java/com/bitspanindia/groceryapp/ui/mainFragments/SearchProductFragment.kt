@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.data.Constant
+import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
@@ -32,7 +33,6 @@ import kotlinx.coroutines.launch
 class SearchProductFragment : Fragment() {
     private lateinit var binding:FragmentSearchProductBinding
     private lateinit var mContext: Context
-    private lateinit var mActivity: FragmentActivity
     private lateinit var adapter: ProductPagingAdapter
     private val homeVM: HomeViewModel by activityViewModels()
     private val cartVM: CartManageViewModel by activityViewModels()
@@ -44,7 +44,6 @@ class SearchProductFragment : Fragment() {
         binding = FragmentSearchProductBinding.inflate(inflater, container, false)
 
         mContext = requireContext()
-        mActivity = requireActivity()
 
         return binding.root
     }
@@ -53,9 +52,7 @@ class SearchProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.etSearch.addTextChangedListener(object : TextWatcher{
-
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -68,7 +65,6 @@ class SearchProductFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-
             }
 
         })
@@ -79,38 +75,6 @@ class SearchProductFragment : Fragment() {
 
     }
 
-//    private fun getSearchProduct(searchValue: String) {
-////        startShimmer(binding.shimmer2,binding.rvProducts)
-//        val commonDataReq = CommonDataReq()
-//        commonDataReq.userId = Constant.userId
-//        commonDataReq.productName = searchValue
-//
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            try {
-//                homeVM.searchProduct(commonDataReq).let {
-////                    stopShimmer(binding.shimmer,binding.rvProducts)
-//                    if (it.isSuccessful && it.body() != null) {
-//                        if (it.body()?.statusCode==200){
-//                            val data = it.body()?.searchProduct
-//                            binding.rvProducts.adapter = ProductsAdapter(data?: mutableListOf(),mContext, cartVM.countMap, 0) {prod, action ->
-//
-//                            }
-//                        }else{
-////                            findNavController().popBackStack()
-//                            Toast.makeText(mContext,"Something went wrong", Toast.LENGTH_SHORT).show()
-//                        }
-//                    } else {
-////                        findNavController().popBackStack()
-//                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            } catch (e: Exception) {
-//
-//            }
-//
-//        }
-//
-//    }
 
     private fun setProducts(productName: String) {
         setProductAdapter()
@@ -161,9 +125,29 @@ class SearchProductFragment : Fragment() {
     }
 
     private fun setProductAdapter() {
-        adapter = ProductPagingAdapter(requireContext(), ElementType.Grid.type){prodId ->
-            val action = SearchProductFragmentDirections.actionGlobalProductDetailsFragment(prodId)
-            findNavController().navigate(action)
+        adapter = ProductPagingAdapter(mContext,  ElementType.Grid.type, cartVM.countMap){ prod, action ->
+
+            val cartTotalItem = cartVM.cartTotalItem.value
+            when (action) {
+                CartAction.Add -> {
+                    cartVM.setCartTotal((cartTotalItem ?: 0) + 1)
+
+                    cartVM.updateToTotalPrice(prod.discountedPrice ?: 0.0)
+                    cartVM.addItemToCart(prod)
+                }
+
+                CartAction.Minus -> {
+                    cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
+                    cartVM.updateToTotalPrice(-(prod.discountedPrice ?: 0.0))
+                    cartVM.decreaseCountOfItem(prod)
+                }
+
+                CartAction.ItemClick -> {
+                    val direction =
+                        SearchProductFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+                    findNavController().navigate(direction)
+                }
+            }
         }
         binding.rvProducts.adapter = adapter
     }

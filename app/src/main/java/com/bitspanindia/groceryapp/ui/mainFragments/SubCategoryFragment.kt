@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
+import com.bitspanindia.groceryapp.data.enums.CartAction
 import com.bitspanindia.groceryapp.data.enums.ElementType
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.ProductDataReq
@@ -25,6 +26,7 @@ import com.bitspanindia.groceryapp.data.pagingSource.ProductPagingSource
 import com.bitspanindia.groceryapp.databinding.FragmentSubCategoryBinding
 import com.bitspanindia.groceryapp.presentation.adapter.MainCategoryImageAdapter
 import com.bitspanindia.groceryapp.presentation.adapter.ProductPagingAdapter
+import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.HomeViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +43,9 @@ class SubCategoryFragment : Fragment() {
     private var subCatId = ""
 
     private val homeVM: HomeViewModel by activityViewModels()
+    private val cartVM: CartManageViewModel by activityViewModels()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -116,7 +121,6 @@ class SubCategoryFragment : Fragment() {
                 binding.noProduct.clNoProduct.visibility = View.GONE
                 AppUtils.stopShimmer(binding.shimmer,binding.rvProducts)
                 productCount = ProductPagingSource.productCount?:0
-                Log.e("TAG", "setProductsCount: $productCount" )
                 binding.tvProductsCount.text = getString(R.string.two_str,productCount.toString()," Items")
             } else if (it.source.refresh is LoadState.Error) {
                 binding.noProduct.clNoProduct.visibility = View.VISIBLE
@@ -149,9 +153,29 @@ class SubCategoryFragment : Fragment() {
     }
 
     private fun setProductAdapter() {
-        adapter = ProductPagingAdapter(requireContext(), ElementType.Grid.type){prodId->
-            val action = SubCategoryFragmentDirections.actionGlobalProductDetailsFragment(prodId)
-            findNavController().navigate(action)
+        adapter = ProductPagingAdapter(mContext,  ElementType.Grid.type, cartVM.countMap){ prod, action ->
+
+            val cartTotalItem = cartVM.cartTotalItem.value
+            when (action) {
+                CartAction.Add -> {
+                    cartVM.setCartTotal((cartTotalItem ?: 0) + 1)
+
+                    cartVM.updateToTotalPrice(prod.discountedPrice ?: 0.0)
+                    cartVM.addItemToCart(prod)
+                }
+
+                CartAction.Minus -> {
+                    cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
+                    cartVM.updateToTotalPrice(-(prod.discountedPrice ?: 0.0))
+                    cartVM.decreaseCountOfItem(prod)
+                }
+
+                CartAction.ItemClick -> {
+                    val direction =
+                        SubCategoryFragmentDirections.actionGlobalProductDetailsFragment(prod.id)
+                    findNavController().navigate(direction)
+                }
+            }
         }
         binding.rvProducts.adapter = adapter
     }

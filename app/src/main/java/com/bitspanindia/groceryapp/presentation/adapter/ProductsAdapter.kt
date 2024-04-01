@@ -38,6 +38,7 @@ class ProductsAdapter(
             Glide.with(context)
                 .load(product.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.product_placeholder)
                 .into(binding.ivProduct)
             binding.apply {
                 tvProductName.text = product.productName
@@ -125,6 +126,7 @@ class ProductsAdapter(
             Glide.with(context)
                 .load(product.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.product_placeholder)
                 .into(binding.ivProduct)
             binding.apply {
                 tvProductName.text = product.productName
