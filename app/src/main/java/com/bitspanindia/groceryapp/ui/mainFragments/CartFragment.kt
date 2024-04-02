@@ -307,7 +307,6 @@ class CartFragment : Fragment() {
                 when (action) {
                     CartAction.Add -> {
                         cartManageVM.setCartTotal((cartTotalItem ?: 0) + 1)
-
                         cartManageVM.updateToTotalPrice(prod.discountedPrice ?: 0.0)
                         cartManageVM.addItemToCart(prod)
                     }

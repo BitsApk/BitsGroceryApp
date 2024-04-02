@@ -116,12 +116,12 @@ class GroceryHomeFragment : Fragment() {
             startShimmer(binding.shimmer, binding.homeRecView)
             getSavedCart()
 
-//            if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
-//                requestLocationUpdates(false)
-//            } else {
-//                if (Constant.userLocation.isEmpty()) showLocationDialog()
-//            }
-//            observeAddress()
+            if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
+                requestLocationUpdates(false)
+            } else {
+                if (Constant.userLocation.isEmpty()) showLocationDialog()
+            }
+            observeAddress()
             firstTime = false
         } else {
             binding.homeRecView.addItemDecoration(itemDecorator)

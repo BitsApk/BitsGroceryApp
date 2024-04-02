@@ -67,6 +67,11 @@
     <string name="applied_s">Applied: %s</string>
     <string name="s_discount">%s%% discount applied</string>
 
+
+    <string name="confirm_logout">Confirm Logout?</string>
+    <string name="sure_about_logout">Are you sure you want to logout 😅?</string>
+
+
     // No data texts
     <string name="no_coupon_found">No Coupon Found</string>
     <string name="valid_until_n_s">V A L I D U N T I L \n%s</string>

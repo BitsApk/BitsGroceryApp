@@ -10,20 +10,29 @@ import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
+import com.bitspanindia.groceryapp.DialogHelper.showLogoutDialog
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.presentation.adapter.ProfileSettingAdapter
 import com.bitspanindia.groceryapp.databinding.FragmentProfileBinding
 import com.bitspanindia.groceryapp.data.model.ProfileSettingItemModel
-import com.bitspanindia.groceryapp.databinding.LocationEnableBottomSheetBinding
 import com.bitspanindia.groceryapp.databinding.SuggestProductBottomSheetBinding
+import com.bitspanindia.groceryapp.storage.SharedPreferenceUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import javax.inject.Inject
+
 
 class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
     private lateinit var mContext:Context
     private lateinit var mActivity: FragmentActivity
     private lateinit var dialogHelper: DialogHelper
+
+
+    @Inject
+    lateinit var pref: SharedPreferenceUtil
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,39 +73,36 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setSettingItem(){
-        val settingItemList = listOf<ProfileSettingItemModel>(
-//            ProfileSettingItemModel(
-//                "Wallet",R.drawable.icon_wallet
-//            ),
+        val settingItemList = listOf(
             ProfileSettingItemModel(
+                0,
                 "Your Orders",R.drawable.icon_shopping
             ),
             ProfileSettingItemModel(
+                1,
                 "Addresses",R.drawable.icon_location_svg
             ),
-//            ProfileSettingItemModel(
-//                "Refund",R.drawable.icon_shopping
-//            ),
-//            ProfileSettingItemModel(
-//                "Suggest Product",R.drawable.icon_new
-//            ),
             ProfileSettingItemModel(
+                2,
                 "Share the app",R.drawable.icon_share
             ),
             ProfileSettingItemModel(
+                3,
                 "About Us",R.drawable.icon_about
             ),
             ProfileSettingItemModel(
+                4,
                 "Rate Us",R.drawable.icon_start
             ),
             ProfileSettingItemModel(
+                5,
                 "Logout",R.drawable.icon_logout
             ),
         )
 
         binding.rvItems.adapter = ProfileSettingAdapter(settingItemList){pos->
             when(pos){
-                0->{
+                0 -> {
                     if (Constant.userId=="0"){
                         dialogHelper.showErrorMsgDialog("Please login before seeing orders"){}
                     }else{
@@ -105,7 +111,7 @@ class ProfileFragment : Fragment() {
                     }
 
                 }
-                1->{
+                1 -> {
                     if (Constant.userId=="0"){
                         dialogHelper.showErrorMsgDialog("Please login before seeing your addresses"){}
                     }else{
@@ -113,9 +119,17 @@ class ProfileFragment : Fragment() {
                         findNavController().navigate(action)
                     }
                 }
-//                4->{
-//                    showSuggestProductBottomSheet()
-//                }
+                5 -> {
+                    showLogoutDialog(mContext) {
+                        pref.deletePreferences()
+                        Constant.userId = ""
+                        Constant.name = ""
+                        Constant.phoneNo = ""
+                        Constant.email = ""
+                        val directions = ProfileFragmentDirections.actionProfileFragmentToLoginFragment()
+                        findNavController().navigate(directions)
+                    }
+                }
             }
         }
 

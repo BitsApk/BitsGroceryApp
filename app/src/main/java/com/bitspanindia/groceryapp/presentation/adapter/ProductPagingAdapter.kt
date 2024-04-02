@@ -31,7 +31,7 @@ class ProductPagingAdapter(
                 tvWeight.text = product.weight
                 tvPrice.text = context.getString(R.string.rupee, product.discountedPrice.toString())
                 offeredField.visibility =
-                    if (product.price.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
+                    if (product.price.toString().isEmpty()) View.GONE else View.VISIBLE
                 offeredField.text = context.getString(R.string.rupee, product.price.toString())
                 offeredField.paintFlags =
                     binding.offeredField.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

@@ -177,7 +177,7 @@
             android:text="Can't apply this coupon sdfsd fsdf sfs df ssdf "
             android:textColor="@color/red"
             android:textSize="14sp"
-            android:maxLines="1"
+            android:maxLines="2"
             android:ellipsize="end"
             android:layout_marginTop="@dimen/space_4"
             android:textAlignment="center"

@@ -6,13 +6,42 @@ import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.LayoutInflater
 import androidx.core.content.res.ResourcesCompat
+import com.bitspanindia.groceryapp.databinding.DialogLogoutBinding
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 object DialogHelper {
+
+    fun showLogoutDialog(context: Context, callBack: () -> Unit) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_logout)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val dBinding = DialogLogoutBinding.inflate(LayoutInflater.from(context), null, false)
+
+
+        dBinding.apply {
+            yesBtn.setOnClickListener {
+                callBack()
+            }
+
+            noBtn.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            closeImg.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
+    }
+
+
 //
 //    fun showOtpDialog(context: Context, title: CharSequence?): Dialog {
 //        binding =ProgressDialogeBinding.inflate(LayoutInflater.from(context),null,false)

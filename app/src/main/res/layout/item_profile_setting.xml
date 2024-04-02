@@ -43,7 +43,7 @@
             android:layout_marginStart="@dimen/space_16"
             android:fontFamily="@font/roboto_medium_500"
             android:text="Your Order"
-            android:textColor="@color/grey_700"
+            android:textColor="@color/text_black"
             android:textSize="@dimen/text_14"
             app:layout_constraintBottom_toBottomOf="@+id/iconOrder"
             app:layout_constraintEnd_toStartOf="@+id/ivPrivacyArrow"
