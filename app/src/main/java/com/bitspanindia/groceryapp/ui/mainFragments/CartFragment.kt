@@ -2,6 +2,7 @@ package com.bitspanindia.groceryapp.ui.mainFragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -87,6 +88,8 @@ class CartFragment : Fragment() {
 
         dialogHelper = DialogHelper(mContext, mActivity)
 
+        Log.d("Rishabh", "User id at cart: ${Constant.userId} name: ${Constant.name}")
+
         return binding.root
     }
 
@@ -121,7 +124,9 @@ class CartFragment : Fragment() {
         binding.apply {
             btnPay.setOnClickListener {
                 if (checkFields()) {
-                    doPayment()
+                    if (Constant.userId == "0") {
+                        navigateToLogin()
+                    } else doPayment()
                 } else {
                     cartScrollView.post {
                         var targetViewTop = dayRadGr.top
@@ -175,6 +180,11 @@ class CartFragment : Fragment() {
             }
 
         }
+    }
+
+    private fun navigateToLogin() {
+        val direction = CartFragmentDirections.actionCartFragmentToLoginFragment(true)
+        findNavController().navigate(direction)
     }
 
     private fun setSlotTimeVisible(slotTime: Int = View.VISIBLE, date: Int = View.GONE) {
@@ -333,6 +343,8 @@ class CartFragment : Fragment() {
                     if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
                         delPartCharge = it.body()!!.deliveryCharge ?: 0.0
                         convCharge = it.body()!!.convCharge ?: 0.0
+                        binding.tvDelCharge.text = if (delPartCharge == 0.0) "Free" else getString(R.string.rs_f, delPartCharge)
+                        binding.convChargeTxt.text = if (convCharge == 0.0) "Free" else getString(R.string.rs_f, convCharge)
                         setGrandTotal()
                     } else {
                         AppUtils.showErrorMsgDialog(
@@ -382,7 +394,7 @@ class CartFragment : Fragment() {
             userId = Constant.userId.toInt(),
             addedByWeb = Constant.addedByWeb,
             paymenttype = paymentMode, //online,cod  // Todo change after payment gateway
-            totalPayble = binding.grandTotal.text.toString().toDouble(),
+            totalPayble = binding.tvGrandTotal.text.toString().toDouble(),
             convCharge = cartManageVM.convCharge,        // Todo change after payment gateway,
             cart = cartValidateDataList
         )
@@ -516,6 +528,43 @@ class CartFragment : Fragment() {
             },
             userId = Constant.userId.toInt()
         )
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                cartVM.doConfirmOrder(confirmOrderReq).let {
+                    if (it.isSuccessful && it.body() != null) {
+                        if (it.body()!!.statusCode == 200) {
+                            cartManageVM.clearCart()
+                            cartManageVM.countMap.clear()
+                            Toast.makeText(mContext, "Order placed", Toast.LENGTH_SHORT).show()
+                        } else {
+                            AppUtils.showErrorMsgDialog(
+                                mContext,
+                                getString(R.string.payment_technical_problem)
+                            ) {
+                                findNavController().popBackStack()
+                            }
+                        }
+                    } else {
+                        AppUtils.showErrorMsgDialog(
+                            mContext,
+                            getString(R.string.payment_technical_problem)
+                        ) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                AppUtils.showErrorMsgDialog(
+                    mContext,
+                    getString(R.string.payment_technical_problem)
+                ) {
+                    findNavController().popBackStack()
+                }
+            }
+
+        }
+
     }
 
 

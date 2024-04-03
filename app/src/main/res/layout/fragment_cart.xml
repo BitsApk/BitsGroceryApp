@@ -140,6 +140,7 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:elevation="6dp"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/exceptionLay"
@@ -201,7 +202,7 @@
                     android:elevation="1dp"
                     android:background="@color/white"
                     android:padding="@dimen/space_8"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rvCartItems">
@@ -338,7 +339,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Rs 381"
+                        android:text="@string/rs_00"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_14"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -363,9 +364,8 @@
                         android:id="@+id/tvDelCharge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space_8"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Rs 15"
+                        android:text="@string/rs_00"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_14"
                         app:layout_constraintEnd_toStartOf="@+id/tvFree"
@@ -377,6 +377,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         android:text="FREE"
+                        android:visibility="gone"
                         android:textColor="@color/green_500"
                         android:textSize="@dimen/text_14"
                         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
@@ -390,18 +391,18 @@
                         android:background="@drawable/bg_dashed_line"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvFree"
+                        app:layout_constraintTop_toBottomOf="@+id/tvDelCharge"
                         />
 
 
                     <TextView
-                        android:id="@+id/tipDeliveryPartner"
+                        android:id="@+id/convChargeField"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_16"
                         android:drawablePadding="@dimen/space_8"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Tip for delivery partner"
+                        android:text="Convenience Charge"
                         android:textColor="@color/grey_700"
                         android:textSize="@dimen/text_14"
                         app:drawableStartCompat="@drawable/icon_delivery_tip"
@@ -409,33 +410,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/dashLine" />
 
                     <TextView
-                        android:id="@+id/tvTipDeliveryPartner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Rs 20"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/text_14"
-                        app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
-                        app:layout_constraintTop_toTopOf="@id/tipDeliveryPartner" />
-
-
-                    <TextView
-                        android:id="@+id/platformFeeField"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_6"
-                        android:drawablePadding="@dimen/space_8"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Platform service fee"
-                        android:textColor="@color/grey_700"
-                        android:textSize="@dimen/text_14"
-                        app:drawableStartCompat="@drawable/icon_namaste"
-                        app:layout_constraintStart_toStartOf="@+id/itemTotal"
-                        app:layout_constraintTop_toBottomOf="@+id/tipDeliveryPartner" />
-
-                    <TextView
-                        android:id="@+id/platformFeeTxt"
+                        android:id="@+id/convChargeTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
@@ -443,7 +418,8 @@
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_14"
                         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
-                        app:layout_constraintTop_toTopOf="@id/platformFeeField" />
+                        app:layout_constraintTop_toTopOf="@id/convChargeField" />
+
 
 
                     <TextView
@@ -456,7 +432,7 @@
                         android:textColor="@color/grey_900"
                         android:textSize="@dimen/text_16"
                         app:layout_constraintStart_toStartOf="@+id/itemDeliveryCharge"
-                        app:layout_constraintTop_toBottomOf="@+id/platformFeeField" />
+                        app:layout_constraintTop_toBottomOf="@+id/convChargeField" />
 
                     <TextView
                         android:id="@+id/tvGrandTotal"
@@ -477,7 +453,7 @@
                         android:background="@color/red_50"
                         android:paddingHorizontal="@dimen/space_16"
                         android:paddingVertical="@dimen/space_8"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:layout_constraintTop_toBottomOf="@+id/tvGrandTotal">
 
                         <TextView

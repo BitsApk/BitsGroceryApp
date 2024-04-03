@@ -12,7 +12,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
@@ -30,6 +32,9 @@ class LoginFragment : Fragment() {
     private lateinit var mContext: Context
     private val loginViewModel: LoginViewModel by activityViewModels()
 
+    private val args: LoginFragmentArgs by navArgs()
+
+
     @Inject
     lateinit var pref: SharedPreferenceUtil
 
@@ -45,6 +50,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.skipLogin.visibility = if(args.fromCart) View.GONE else View.VISIBLE
+
         binding.signInLogBtn.setOnClickListener {
             binding.signInLogBtn.isEnabled = false
             binding.signInProgBar.visibility = View.VISIBLE
@@ -59,12 +67,12 @@ class LoginFragment : Fragment() {
         }
 
         binding.signInMobileTxt.setOnClickListener {
-            val direction = LoginFragmentDirections.actionLoginFragmentToVerifyOtpFragment(fromLogin = true)
+            val direction = LoginFragmentDirections.actionLoginFragmentToVerifyOtpFragment(fromLogin = true, fromCart = args.fromCart)
             findNavController().navigate(direction)
         }
 
         binding.signInRegisterTxt.setOnClickListener {
-            val direction = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+            val direction = LoginFragmentDirections.actionLoginFragmentToRegisterFragment(fromCart = args.fromCart)
             findNavController().navigate(direction)
         }
 
@@ -85,7 +93,10 @@ class LoginFragment : Fragment() {
                         pref.putString(Constant.EMAIL, it.body()!!.email ?: "NA")
                         pref.putBoolean(Constant.IS_LOGIN, true)
                         Constant.userId = it.body()!!.userId ?: ""
-                        navigateToHomePage()
+                        Constant.name = it.body()!!.name ?: ""
+                        Constant.phoneNo = it.body()!!.phone ?: ""
+                        Constant.email = it.body()!!.email ?: ""
+                        if (args.fromCart) findNavController().popBackStack() else navigateToHomePage()
                     } else {
                         binding.signInLogBtn.isEnabled = true
                         binding.signInProgBar.visibility = View.GONE

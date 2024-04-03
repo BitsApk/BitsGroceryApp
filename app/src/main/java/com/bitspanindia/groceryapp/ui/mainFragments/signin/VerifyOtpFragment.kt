@@ -145,7 +145,10 @@ class VerifyOtpFragment : Fragment() {
                             pref.putString(Constant.EMAIL, it.body()!!.email ?: "")
                             pref.putBoolean(Constant.IS_LOGIN, true)
                             Constant.userId = it.body()!!.userId ?: "0"
-                            navigateToHome()
+                            Constant.name = it.body()!!.name ?: ""
+                            Constant.phoneNo = it.body()!!.phone ?: ""
+                            Constant.email = it.body()!!.email ?: ""
+                            if (otpArgs.fromCart) findNavController().popBackStack(R.id.loginFragment, true) else navigateToHome()
                         } else {
                             Toast.makeText(mContext, it.body()?.message ?: "Unable to login, please try again later", Toast.LENGTH_SHORT).show()
                         }
@@ -184,7 +187,10 @@ class VerifyOtpFragment : Fragment() {
                             pref.putString(Constant.EMAIL, it.body()!!.email ?: "")
                             pref.putBoolean(Constant.IS_LOGIN, true)
                             Constant.userId = it.body()!!.userId.toString()
-                            navigateToHome()
+                            Constant.name = it.body()!!.name ?: ""
+                            Constant.phoneNo = it.body()!!.phone ?: ""
+                            Constant.email = it.body()!!.email ?: ""
+                            if (otpArgs.fromCart) findNavController().popBackStack(R.id.loginFragment, true) else navigateToHome()
                         } else {
                             Toast.makeText(mContext, it.body()?.message ?: "Unable to register user, please try again later", Toast.LENGTH_SHORT).show()
                         }
@@ -236,6 +242,7 @@ class VerifyOtpFragment : Fragment() {
     private fun otpVisibility(visible: Int) {
         binding.timerTextView.visibility = visible
         binding.resendLay.visibility = visible
+        binding.otpLay.visibility = visible
     }
 
     private fun sendRegisterOtp() {

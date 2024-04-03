@@ -101,10 +101,7 @@ class GroceryHomeFragment : Fragment() {
         dialogHelper = DialogHelper(mContext, mActivity)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        Constant.name = pref.getString(Constant.USER_NAME,"").toString()
-        Constant.phoneNo = pref.getString(Constant.PHONE_NUMBER,"").toString()
-        Constant.email = pref.getString(Constant.EMAIL,"").toString()
-
+        Log.d("Rishabh", "User id: ${Constant.userId}, name: ${Constant.name}")
         return binding.root
     }
 
@@ -114,20 +111,21 @@ class GroceryHomeFragment : Fragment() {
 
         if (firstTime) {
             startShimmer(binding.shimmer, binding.homeRecView)
-            getSavedCart()
+//            getSavedCart()
 
-            if (AppUtils.checkGpsStatus(mActivity)&&Constant.userLocation.isEmpty()){
+            if (AppUtils.checkGpsStatus(mActivity) && Constant.userLocation.isEmpty()){
                 requestLocationUpdates(false)
-            } else {
-                if (Constant.userLocation.isEmpty()) showLocationDialog()
-            }
-            observeAddress()
-            firstTime = false
+            } else if (Constant.userLocation.isEmpty()) showLocationDialog()
+            else firstTime = false
+
         } else {
             binding.homeRecView.addItemDecoration(itemDecorator)
             binding.homeRecView.adapter = homeAdapter
             binding.topDataLay.visibility = View.VISIBLE
         }
+
+        observeAddress()
+
         binding.profImage.setOnClickListener {
 //            cartVM.clearCart()
             val action = GroceryHomeFragmentDirections.actionHomeFragmentToProfileFragment()

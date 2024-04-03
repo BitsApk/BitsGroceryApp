@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
@@ -25,6 +26,8 @@ class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var mContext: Context
     private val loginVM: LoginViewModel by activityViewModels()
+
+    private val args: RegisterFragmentArgs by navArgs()
 
 
     override fun onCreateView(
@@ -89,7 +92,7 @@ class RegisterFragment : Fragment() {
 
 
     private fun navigateToOtp() {
-        val direction = RegisterFragmentDirections.actionRegisterFragmentToVerifyOtpFragment(fromLogin = false)
+        val direction = RegisterFragmentDirections.actionRegisterFragmentToVerifyOtpFragment(fromLogin = false, fromCart = args.fromCart)
         findNavController().navigate(direction)
     }
 

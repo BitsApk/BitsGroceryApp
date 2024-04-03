@@ -118,24 +118,34 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <in.aabhasjindal.otptextview.OtpTextView
-            android:id="@+id/otpView"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/otpLay"
+            android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_16"
-            android:textColor="@color/grey_900"
-            app:otp_box_background="@drawable/white_rounded"
-            app:height="45dp"
-            app:bar_enabled="false"
-            app:bar_height="2dp"
-            app:length="6"
-            android:visibility="visible"
-            app:otp_text_size="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/signUpMobileEdTxt"
-            />
+            >
+
+
+            <in.aabhasjindal.otptextview.OtpTextView
+                android:id="@+id/otpView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:textColor="@color/grey_900"
+                app:otp_box_background="@drawable/white_rounded"
+                app:height="45dp"
+                app:bar_enabled="false"
+                app:bar_height="2dp"
+                app:length="6"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible"
+                app:otp_text_size="24dp"
+                />
+
+        </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnContinue"
@@ -150,7 +160,7 @@
             android:backgroundTint="@color/button_enable_colour"
             android:textColor="@color/white"
             android:layout_marginTop="@dimen/space_30"
-            app:layout_constraintTop_toBottomOf="@+id/otpView"/>
+            app:layout_constraintTop_toBottomOf="@+id/otpLay"/>
 
         <TextView
             android:id="@+id/timerTextView"
