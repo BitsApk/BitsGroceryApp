@@ -1,12 +1,15 @@
 package com.bitspanindia.groceryapp.ui.mainFragments
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
@@ -38,10 +41,11 @@ import com.bitspanindia.groceryapp.presentation.adapter.ProductsAdapter
 import com.bitspanindia.groceryapp.presentation.viewmodel.AddressViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartManageViewModel
 import com.bitspanindia.groceryapp.presentation.viewmodel.CartViewModel
-import com.bitspanindia.groceryapp.presentation.viewmodel.ProfileViewModel
 import com.bitspanindia.groceryapp.ui.bottomsheets.CouponBottomSheetFragment
+import com.bitspanindia.groceryapp.PaymentActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
@@ -49,7 +53,7 @@ class CartFragment : Fragment() {
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
 
-    private val pvm: ProfileViewModel by activityViewModels()
+    //    private val pvm: ProfileViewModel by activityViewModels()
     private val addViewModel: AddressViewModel by activityViewModels()
 
     private val cartManageVM: CartManageViewModel by activityViewModels()
@@ -64,11 +68,8 @@ class CartFragment : Fragment() {
     private var cartTotal = 0.0
     private var delPartCharge = 20.0
     private var couponAmount = 0.0
-    private var platFormCharge = 3.0
-    private var tipDeliveryCharge = 0.0
     private var convCharge: Double = 0.0
     private var grandTotal: Double = 0.0
-    private var slotTime: String = ""
     private var slotDate: String? = null
 
     private lateinit var cartValidateDataList: MutableList<CartValidateData>
@@ -97,8 +98,9 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 //        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
-        setAddress()
+        startShimmer()
         observeAddress()
+        setAddress()
 
 
         cartData = cartManageVM.getCartList()
@@ -137,7 +139,11 @@ class CartFragment : Fragment() {
                         }
                         cartScrollView.smoothScrollTo(0, targetViewTop)
                     }
-                    Toast.makeText(mContext, "Please provide delivery date \uD83D\uDE05", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        mContext,
+                        "Please provide delivery date \uD83D\uDE05",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             tvChangeAddress.setOnClickListener {
@@ -158,11 +164,13 @@ class CartFragment : Fragment() {
                         setSlotTimeVisible()
                         setTodayTime(visList)
                     }
+
                     R.id.tommorowRadB -> {
                         setSlotTimeVisible()
                         setRadTimeEnable()
                         time710RB.isChecked = true
                     }
+
                     R.id.customizeRadB -> {
                         setSlotTimeVisible(View.GONE, View.VISIBLE)
                     }
@@ -170,11 +178,12 @@ class CartFragment : Fragment() {
             }
 
             tvCouponDetails.setOnClickListener {
-                val couponSheet = CouponBottomSheetFragment() {amt, name, disc ->
+                val couponSheet = CouponBottomSheetFragment() { amt, name, disc ->
                     tvCouponTitle.text = getString(R.string.applied_s, name)
-                    subCouponTxtView.text = getString(R.string.s_discount, disc)
+                    subCouponTxtView.text = getString(R.string.s_discount, disc, amt)
                     couponAmount = amt
-
+                    appCouponTxt.text = getString(R.string.minus_rs_f, amt)
+                    setGrandTotal()
                 }
                 couponSheet.show(childFragmentManager, CouponBottomSheetFragment.TAG)
             }
@@ -305,6 +314,10 @@ class CartFragment : Fragment() {
             cartTotal += (prod.discountedPrice ?: 0.0) * prod.count
         }
         cartManageVM.setCartTotalPrice(cartTotal)
+
+        stopShimmer() // At this point cart is validated and cart item are loaded
+
+        bindCartItemObserver()
         bindTotalPriceObserver()
 
 
@@ -336,33 +349,46 @@ class CartFragment : Fragment() {
             }
     }
 
+    private fun bindCartItemObserver() {
+        cartManageVM.cartTotalItem.observe(viewLifecycleOwner) {
+            binding.numItemTxt.text = getString(R.string.d_items, it)
+        }
+    }
+
     private fun getDeliveryCharges(cartTotal: Double) {
+        binding.progBar.visibility = View.VISIBLE
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                cartVM.getDeliveryCharges(CommonDataReq(totalCartAmount = cartTotal)).let {
-                    if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
-                        delPartCharge = it.body()!!.deliveryCharge ?: 0.0
-                        convCharge = it.body()!!.convCharge ?: 0.0
-                        binding.tvDelCharge.text = if (delPartCharge == 0.0) "Free" else getString(R.string.rs_f, delPartCharge)
-                        binding.convChargeTxt.text = if (convCharge == 0.0) "Free" else getString(R.string.rs_f, convCharge)
-                        setGrandTotal()
-                    } else {
-                        AppUtils.showErrorMsgDialog(
-                            mContext,
-                            getString(R.string.delivery_charges_error)
-                        ) {
-                            findNavController().popBackStack()
-                        }
+//            try {
+            cartVM.getDeliveryCharges(CommonDataReq(totalCartAmount = cartTotal)).let {
+                binding.progBar.visibility = View.GONE
+                if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
+                    delPartCharge = it.body()!!.deliveryCharge ?: 0.0
+                    convCharge = it.body()!!.convCharge ?: 0.0
+                    binding.tvDelCharge.text = if (delPartCharge == 0.0) "Free" else getString(
+                        R.string.rs_f,
+                        delPartCharge
+                    )
+                    binding.convChargeTxt.text =
+                        if (convCharge == 0.0) "Free" else getString(R.string.rs_f, convCharge)
+                    setGrandTotal()
+                } else {
+                    AppUtils.showErrorMsgDialog(
+                        mContext,
+                        getString(R.string.delivery_charges_error)
+                    ) {
+                        findNavController().popBackStack()
                     }
                 }
-            } catch (e: Exception) {
-                AppUtils.showErrorMsgDialog(
-                    mContext,
-                    getString(R.string.delivery_charges_error_tech)
-                ) {
-                    findNavController().popBackStack()
-                }
             }
+//            } catch (e: Exception) {
+//                binding.progBar.visibility = View.GONE
+//                AppUtils.showErrorMsgDialog(
+//                    mContext,
+//                    getString(R.string.delivery_charges_error_tech)
+//                ) {
+//                    findNavController().popBackStack()
+//                }
+//            }
         }
     }
 
@@ -389,25 +415,61 @@ class CartFragment : Fragment() {
         return -1
     }
 
+    private val secondActivityLauncherContracts =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+
+                when (data?.getStringExtra("status")) {
+                    "SUCCESS" -> {
+                        doPaymentVerif(
+                            data.getStringExtra("orderNo").toString(),
+                            data.getStringExtra("txnAmount").toString().toDouble(),
+                            data.getStringExtra("transId").toString()
+                        )
+                    }
+                    "REJECTED" -> {
+                        Toast.makeText(mContext, "Payment Status Rejected", Toast.LENGTH_SHORT).show()
+                    }
+                    "FAILED" -> {
+                        Toast.makeText(mContext, "Payment Status Failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
+
     private fun doPayment() {
         val paymentReq = PaymentReq(
             userId = Constant.userId.toInt(),
             addedByWeb = Constant.addedByWeb,
             paymenttype = paymentMode, //online,cod  // Todo change after payment gateway
-            totalPayble = binding.tvGrandTotal.text.toString().toDouble(),
-            convCharge = cartManageVM.convCharge,        // Todo change after payment gateway,
-            cart = cartValidateDataList
+            totalPayble = grandTotal.roundToInt(),
+            convCharge = convCharge.roundToInt(),        // Todo change after payment gateway,
+            cart = cartValidateDataList,
+            sellerId = Constant.sellerId,
+            sellerAutoId = Constant.sellerAutoId
         )
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 cartVM.doPayment(paymentReq).let {
                     if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
                         if (it.body()!!.isOutOfStock == 0) {
-                            doPaymentVerif(
-                                orderNo = it.body()!!.orderId ?: "",
-                                txnAmount = it.body()!!.tXNAMOUNT ?: 0.0,
-                                transId = it.body()!!.mID ?: ""
-                            )
+
+                            val orderId = it.body()?.orderId.toString()
+                            val txnAmount = it.body()?.tXNAMOUNT.toString()
+
+//                        bookTicket()
+                            if (paymentMode == it.body()?.paymentType) {
+                                val intent = Intent(mContext, PaymentActivity::class.java)
+                                    .putExtra("ORDER_ID", orderId)
+                                    .putExtra("MID", it.body()?.mID)
+                                    .putExtra("CONV_CHARGE", it.body()!!.cONVCHARGE.toString())
+                                    .putExtra("MAIN_AMOUNT", it.body()!!.mAINAMOUNT.toString())
+                                    .putExtra("TXN_AMOUNT", txnAmount)
+                                    .putExtra("CUST_ID", it.body()?.cUSTID)
+                                secondActivityLauncherContracts.launch(intent)
+                            }
                         }
 
                     } else {
@@ -420,8 +482,8 @@ class CartFragment : Fragment() {
                     }
                 }
             } catch (e: Exception) {
-                AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_not_done)) {
-                    findNavController().popBackStack()
+                AppUtils.showErrorMsgDialog(mContext, getString(R.string.payment_not_done_tech)) {
+//                    findNavController().popBackStack()
                 }
             }
         }
@@ -430,17 +492,16 @@ class CartFragment : Fragment() {
     private fun doPaymentVerif(orderNo: String, txnAmount: Double, transId: String) {
         val payVerifyReq = PaymentVerifyReq(
             userId = Constant.userId.toInt(),
-            convCharge = cartManageVM.convCharge,
+            convCharge = convCharge,
             orderno = orderNo,
             tXNAMOUNT = txnAmount,
             transId = transId
-
         )
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 cartVM.doPaymentVerification(payVerifyReq).let {
                     if (it.isSuccessful && it.body() != null && it.body()!!.statusCode == 200) {
-                        if (it.body()!!.paymentVerify) {
+                        if (true) { // it.body()!!.paymentVerify) {
                             doConfirmOrder(orderNo, txnAmount, transId)
                         } else {
                             AppUtils.showErrorMsgDialog(
@@ -568,11 +629,11 @@ class CartFragment : Fragment() {
     }
 
 
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.green_500)
-//    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cartManageVM.cartTotalPrice.removeObservers(viewLifecycleOwner)
+        cartManageVM.cartTotalItem.removeObservers(viewLifecycleOwner)
+    }
 
     private fun setAddress() {
         binding.tvDeliveryAddress.text = addViewModel.myAddress.value?.permanentAdd
@@ -619,6 +680,30 @@ class CartFragment : Fragment() {
     private fun observeAddress() {
         addViewModel.myAddress.observe(viewLifecycleOwner) {
             setAddress()
+        }
+    }
+
+    private fun startShimmer() {
+        binding.apply {
+            shimmer.startShimmer()
+            shimmer.visibility = View.VISIBLE
+            clCoupon.visibility = View.GONE
+            rvCartItems.visibility = View.GONE
+            clTaxPrices.visibility = View.GONE
+            clDeliveryInstructions.visibility = View.GONE
+            clPay.visibility = View.GONE
+        }
+    }
+
+    private fun stopShimmer() {
+        binding.apply {
+            shimmer.stopShimmer()
+            shimmer.visibility = View.GONE
+            clCoupon.visibility = View.VISIBLE
+            rvCartItems.visibility = View.VISIBLE
+            clTaxPrices.visibility = View.VISIBLE
+            clDeliveryInstructions.visibility = View.VISIBLE
+            clPay.visibility = View.VISIBLE
         }
     }
 

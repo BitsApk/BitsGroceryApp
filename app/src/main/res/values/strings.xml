@@ -56,6 +56,7 @@
     <string name="_d_items_in_your_cart_are_in_stock">%d items adjusted based on available quantity</string>
     <string name="rs_00">Rs 00</string>
     <string name="rs_f">Rs %.2f</string>
+    <string name="minus_rs_f">- Rs %.2f</string>
     <string name="reduce_quantity_from_d_to_d">Reduce quantity from %d to %d</string>
     <string name="change_price_from_2f_to_2f">Change price from %.2f to %.2f</string>
     <string name="delivering_to">Delivering to <font color="#0000"> %s </font></string>
@@ -65,7 +66,7 @@
 
 
     <string name="applied_s">Applied: %s</string>
-    <string name="s_discount">%s%% discount applied</string>
+    <string name="s_discount">%s%% discount applied value: %.2f</string>
 
 
     <string name="confirm_logout">Confirm Logout?</string>
@@ -76,6 +77,12 @@
     <string name="no_coupon_found">No Coupon Found</string>
     <string name="valid_until_n_s">V A L I D U N T I L \n%s</string>
     <string name="s_perc">%s%%</string>
+
+
+
+    <string name="payment_live_url">https://bits-panindia.com/WL-CNT/main/index.php/homepage/pay24Response_android</string>
+    <string name="live_pay_url">https://pay-24.in/qw/main/index.php/onlinepayment/paynow</string>
+    <string name="testing_pay_url">https://pay-24.in/qw/main/index.php/Onlinepayment/paynow_bits/</string>
 
 
     // Dialog error mess

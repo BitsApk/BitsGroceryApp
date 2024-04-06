@@ -13,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
@@ -36,8 +37,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+//        setContentView(binding.root)
 
         askForPermissions()
 
@@ -74,12 +75,13 @@ class MainActivity : AppCompatActivity() {
     private fun bindCartTotal() {
         cartVM.cartTotalItem.observe(this) {
             binding.countTxt.text = getString(R.string.d_items, it)
-            if (it == 0 ||
+            if ((it == 0 ||
                 navController.currentDestination?.id == R.id.cartFragment
-                || navController.currentDestination?.id == R.id.profileFragment
+                || navController.currentDestination?.id == R.id.profileFragment) && binding.cartLay.isVisible
             ) {
                 cartVisibility(View.GONE)
-            } else if (!binding.cartLay.isVisible) {
+            } else if (it != 0 && !binding.cartLay.isVisible && !(navController.currentDestination?.id == R.id.cartFragment
+                        || navController.currentDestination?.id == R.id.profileFragment)) {
                 cartVisibility(View.VISIBLE)
             }
         }

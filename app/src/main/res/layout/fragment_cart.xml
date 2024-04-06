@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.mainFragments.CartFragment">
 
-    <data></data>
+    <data />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:elevation="6dp"
-            android:padding="8dp"
+            android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -53,6 +53,7 @@
                 android:text="Delivery in 11 minutes"
                 android:textColor="@color/green_500"
                 android:textSize="@dimen/text_12"
+                android:visibility="gone"
                 android:textAlignment="center"
                 app:layout_constraintTop_toBottomOf="@id/tvText"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -74,6 +75,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/grey_100">
+
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/exceptionLay"
@@ -185,7 +188,7 @@
                     android:background="@color/white"
                     android:elevation="6dp"
                     android:paddingBottom="@dimen/space_8"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -239,6 +242,7 @@
                     android:layout_marginTop="@dimen/space_8"
                     android:background="@color/white"
                     android:elevation="6dp"
+                    android:visibility="visible"
                     android:paddingHorizontal="@dimen/space_16"
                     android:paddingVertical="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -383,6 +387,35 @@
                         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
                         app:layout_constraintTop_toTopOf="@id/itemDeliveryCharge" />
 
+
+                    <TextView
+                        android:id="@+id/appliedCouponField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_6"
+                        android:drawablePadding="@dimen/space_8"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Coupon discount"
+                        android:textColor="@color/grey_700"
+                        android:textSize="@dimen/text_14"
+                        app:drawableStartCompat="@drawable/icon_coupon_discount"
+                        app:layout_constraintStart_toStartOf="@+id/itemTotal"
+                        app:layout_constraintTop_toBottomOf="@+id/itemDeliveryCharge" />
+
+                    <TextView
+                        android:id="@+id/appCouponTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/rs_00"
+                        android:textColor="@color/green_500"
+                        android:textSize="@dimen/text_14"
+                        app:layout_constraintEnd_toStartOf="@+id/tvFree"
+                        app:layout_constraintTop_toTopOf="@id/appliedCouponField" />
+
+
+
+
                     <View
                         android:id="@+id/dashLine"
                         android:layout_width="0dp"
@@ -391,7 +424,7 @@
                         android:background="@drawable/bg_dashed_line"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvDelCharge"
+                        app:layout_constraintTop_toBottomOf="@+id/appliedCouponField"
                         />
 
 
@@ -499,6 +532,36 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="800">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/shimmer_product_horizontal" />
+                        <include layout="@layout/shimmer_product_horizontal" />
+                        <include layout="@layout/shimmer_product_horizontal" />
+                        <include layout="@layout/shimmer_product_horizontal" />
+                        <include layout="@layout/shimmer_cart_bill" />
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clDeliveryInstructions"
                     android:layout_width="match_parent"
@@ -507,6 +570,7 @@
                     android:background="@color/white"
                     android:elevation="1dp"
                     android:padding="@dimen/space_16"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clTaxPrices">
@@ -642,6 +706,18 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <ProgressBar
+                    android:id="@+id/progBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/space_6"
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/green_500"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

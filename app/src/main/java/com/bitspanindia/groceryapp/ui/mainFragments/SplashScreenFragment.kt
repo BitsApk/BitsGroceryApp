@@ -53,6 +53,9 @@ class SplashScreenFragment : Fragment() {
 
         isLogin = pref.getBoolean(Constant.IS_LOGIN, false)
         Constant.userId = pref.getString(Constant.USER_ID, "0") ?: "0"
+        Constant.name = pref.getString(Constant.USER_NAME, "NA") ?: "NA"
+        Constant.phoneNo = pref.getString(Constant.PHONE_NUMBER, "NA") ?: "NA"
+        Constant.email = pref.getString(Constant.EMAIL, "NA") ?: "NA"
         binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
 
 
