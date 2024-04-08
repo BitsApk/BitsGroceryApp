@@ -21,6 +21,8 @@ data class OrderDetailsResponse(
     @SerializedName("pay_mode") var payMode: String? = "",
     @SerializedName("phone") var phone: String? = "",
     @SerializedName("preamount") var preamount: String? = "",
+    @SerializedName("latitude") var latitude: String? = "",
+    @SerializedName("longitude") var longitude: String? = "",
     @SerializedName("product_order") var productOrder: List<ProductOrder>? = listOf(),
     @SerializedName("status") var status: String? = "",
     @SerializedName("statusCode") var statusCode: Int? = 0

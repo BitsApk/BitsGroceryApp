@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.bitspanindia.groceryapp.data.model.ProductData
 import com.bitspanindia.groceryapp.data.model.request.AddAddressReq
 import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.data.model.request.HomeDataReq
@@ -42,6 +41,7 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     suspend fun getOrderDetails(commonDataReq: CommonDataReq): Response<OrderDetailsResponse> {
         return profileRepository.getOrderDetails(commonDataReq)
     }
+
     suspend fun addAddress(addressReq: AddAddressReq): Response<CommonResponse> {
         return profileRepository.addAddress(addressReq)
     }

@@ -2,6 +2,8 @@ package com.bitspanindia.groceryapp.ui.mainFragments
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,9 @@ class OrderDetailsFragment : Fragment() {
     private lateinit var mActivity: FragmentActivity
     private lateinit var dialogHelper: DialogHelper
     private val args: OrderDetailsFragmentArgs by navArgs()
+    private val handler = Handler(Looper.getMainLooper())
+    private var runnable: Runnable? = null
+    private var apiCallCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +52,7 @@ class OrderDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getOrderDetails()
+        callOrderDetailsApi()
 
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
@@ -55,15 +60,35 @@ class OrderDetailsFragment : Fragment() {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        stopOrderDetailsApiCall()
+    }
+
+    private fun callOrderDetailsApi() {
+        runnable = object : Runnable {
+            override fun run() {
+                handler.post {
+                    apiCallCount++
+                    getOrderDetails()
+                }
+                handler.postDelayed(this, 15000)
+            }
+        }
+        handler.post(runnable!!)
+    }
+
+    private fun stopOrderDetailsApiCall() {
+        handler.removeCallbacks(runnable!!)
+    }
+
     private fun getOrderDetails() {
         val orderDetailReq = CommonDataReq(userId = Constant.userId, orderId = args.orderId)
-        binding.progress.visibility = View.VISIBLE
-        binding.nestedScrollView.visibility = View.GONE
+        if (apiCallCount <= 1) showProgress()
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 pvm.getOrderDetails(orderDetailReq).let {
-                    binding.progress.visibility = View.GONE
-                    binding.nestedScrollView.visibility = View.VISIBLE
+                    if (apiCallCount <= 1) hideProgress()
                     if (it.isSuccessful && it.body() != null) {
                         if (it.body()?.statusCode == 200) {
                             val data = it.body()
@@ -125,6 +150,11 @@ class OrderDetailsFragment : Fragment() {
                 "S" -> {
                     tvOrderStatus.text = getString(R.string.one_str, "Order Shipped")
                     setLottieAnim("order_shipped.json")
+                    navigateToOrderTracking(
+                        data.latitude ?: "",
+                        data.longitude ?: "",
+                        data.orderId ?: ""
+                    )
                 }
 
                 "D" -> {
@@ -132,7 +162,7 @@ class OrderDetailsFragment : Fragment() {
                     setLottieAnim("order_delivered.json")
                 }
 
-                "C"  -> {
+                "C" -> {
                     tvOrderStatus.text = getString(R.string.one_str, "Order Cancelled")
                     setLottieAnim("order_cancel.json")
                 }
@@ -146,9 +176,29 @@ class OrderDetailsFragment : Fragment() {
         }
     }
 
+    private fun navigateToOrderTracking(latitude: String, longitude: String, orderId: String) {
+        val action =
+            OrderDetailsFragmentDirections.actionOrderDetailsFragmentToOrderTrackingFragment(
+                latitude,
+                longitude,
+                orderId
+            )
+        findNavController().navigate(action)
+    }
+
     private fun setLottieAnim(lottieName: String) {
         binding.orderStatusLottie.setAnimation(lottieName)
         binding.orderStatusLottie.playAnimation()
+    }
+
+    private fun showProgress() {
+        binding.progress.visibility = View.VISIBLE
+        binding.nestedScrollView.visibility = View.GONE
+    }
+
+    private fun hideProgress() {
+        binding.progress.visibility = View.GONE
+        binding.nestedScrollView.visibility = View.VISIBLE
     }
 
 }

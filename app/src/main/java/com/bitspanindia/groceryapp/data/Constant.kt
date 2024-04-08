@@ -6,7 +6,7 @@ object Constant {
     //    const val BASE_URL = "https://grossry.56testing.club/"
     const val BASE_URL = "https://56testing.club/"
 
-    const val PREFERENCE_NAME = "SHARED_PREF_NAME"
+    const val PREFERENCE_NAME = "SHARED_PREF_NAME_GROCERY"
 
     const val PAGE_SIZE = 10
 
@@ -22,7 +22,7 @@ object Constant {
     const val USER_NAME = "USER_NAME"
     const val PHONE_NUMBER = "PHONE_NUMBER"
     const val EMAIL = "Email"
-    const val IS_LOGIN = "IsLogin"
+    const val IS_LOGIN = "IsLoginGrocery"
 
 
     //stored data

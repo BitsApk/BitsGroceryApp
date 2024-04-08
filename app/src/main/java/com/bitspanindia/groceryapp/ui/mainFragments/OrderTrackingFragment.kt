@@ -6,6 +6,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +15,17 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
 import com.bitspanindia.groceryapp.R
+import com.bitspanindia.groceryapp.data.Constant
+import com.bitspanindia.groceryapp.data.model.request.CommonDataReq
 import com.bitspanindia.groceryapp.databinding.FragmentOrderTrackingBinding
+import com.bitspanindia.groceryapp.presentation.viewmodel.ProfileViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -37,13 +44,17 @@ import com.google.maps.DirectionsApiRequest
 import com.google.maps.GeoApiContext
 import com.google.maps.model.DirectionsResult
 import com.google.maps.model.TravelMode
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+
+@AndroidEntryPoint
 class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentOrderTrackingBinding
     private lateinit var dialogHelper: DialogHelper
     private lateinit var mMap: GoogleMap
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
-    private val args:OrderTrackingFragmentArgs by navArgs()
+    private val args: OrderTrackingFragmentArgs by navArgs()
     private var userLatitude = 28.592654196068896
     private var userLongitude = 78.574333584813
 
@@ -52,6 +63,10 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
     private var deliveryBoyLocationListener: ListenerRegistration? = null
     private var polyline: Polyline? = null
 
+    private val pvm: ProfileViewModel by activityViewModels()
+    private var runnable: Runnable? = null
+    private val handler = Handler(Looper.getMainLooper())
+
 
     override fun onStart() {
         super.onStart()
@@ -59,7 +74,16 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
         userLatitude = args.latitude.toDouble()
         userLongitude = args.longitude.toDouble()
 
-        Log.e("TAG", "onStart: $userLatitude \n $userLongitude \n ${AppUtils.getAddressFromLocation(requireContext(),userLatitude,userLongitude)}")
+        Log.e(
+            "TAG",
+            "onStart: $userLatitude \n $userLongitude \n ${
+                AppUtils.getAddressFromLocation(
+                    requireContext(),
+                    userLatitude,
+                    userLongitude
+                )
+            }"
+        )
 
     }
 
@@ -78,6 +102,7 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
         return binding.root
     }
 
+
     private fun setupLocationOnMap() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -86,16 +111,74 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvDeliveryAddVal.text = AppUtils.getAddressFromLocation(mContext,userLatitude,userLongitude).getAddressLine(0)
+        binding.tvDeliveryAddVal.text = AppUtils.getAddressFromLocation(mContext, userLatitude, userLongitude).getAddressLine(0)
 
+        callOrderDetailsApi()
         trackDeliveryBoyLoc()
 
-        binding.btnTrackOrder.setOnClickListener {
-            navigateToOrderDetails()
-        }
+//        binding.btnTrackOrder.setOnClickListener {
+//            navigateToOrderDetails()
+//        }
 
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        stopOrderDetailsApiCall()
+    }
+
+    private fun callOrderDetailsApi() {
+        runnable = object : Runnable {
+            override fun run() {
+                handler.post {
+                    getOrderDetails()
+                }
+                handler.postDelayed(this, 15000)
+            }
+        }
+        handler.post(runnable!!)
+    }
+
+    private fun stopOrderDetailsApiCall() {
+        handler.removeCallbacks(runnable!!)
+    }
+
+    private fun getOrderDetails() {
+        val orderDetailReq = CommonDataReq(userId = Constant.userId, orderId = args.orderId)
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                pvm.getOrderDetails(orderDetailReq).let {
+                    if (it.isSuccessful && it.body() != null) {
+                        if (it.body()?.statusCode == 200) {
+                            when (it.body()?.orderStatus) {
+                                "S" -> {}
+                                else -> {
+                                    navigateToOrderDetails(it.body()?.orderId ?: "")
+                                }
+                            }
+                        } else {
+                            dialogHelper.showErrorMsgDialog(
+                                it.body()?.message ?: "Something went wrong"
+                            ) {
+                                findNavController().popBackStack()
+                            }
+                        }
+                    } else {
+                        dialogHelper.showErrorMsgDialog("Something went wrong") {
+                            findNavController().popBackStack()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                dialogHelper.showErrorMsgDialog("Something went wrong") {
+                    findNavController().popBackStack()
+                }
+            }
+
         }
 
     }
@@ -127,7 +210,12 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
             if (deliveryBoyMarker != null) {
                 deliveryBoyMarker!!.position = latLng
                 deliveryBoyMarker!!.title = locationName
-                deliveryBoyMarker!!.setIcon(bitmapFromVector(requireContext(), R.drawable.icon_bike))
+                deliveryBoyMarker!!.setIcon(
+                    bitmapFromVector(
+                        requireContext(),
+                        R.drawable.icon_bike
+                    )
+                )
             } else {
                 // Otherwise, create a new delivery boy marker
                 deliveryBoyMarker = mMap.addMarker(
@@ -176,12 +264,19 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
             .apiKey(getString(R.string.google_maps_key))
             .build()
 
-        val directionsApiRequest: DirectionsApiRequest = com.google.maps.DirectionsApi.newRequest(geoApiContext)
+        val directionsApiRequest: DirectionsApiRequest =
+            com.google.maps.DirectionsApi.newRequest(geoApiContext)
         directionsApiRequest.mode(TravelMode.DRIVING)
         directionsApiRequest.origin(com.google.maps.model.LatLng(origin.latitude, origin.longitude))
-        directionsApiRequest.destination(com.google.maps.model.LatLng(destination.latitude, destination.longitude))
+        directionsApiRequest.destination(
+            com.google.maps.model.LatLng(
+                destination.latitude,
+                destination.longitude
+            )
+        )
 
-        directionsApiRequest.setCallback(object : com.google.maps.PendingResult.Callback<DirectionsResult?> {
+        directionsApiRequest.setCallback(object :
+            com.google.maps.PendingResult.Callback<DirectionsResult?> {
             override fun onResult(result: DirectionsResult?) {
 
                 activity?.runOnUiThread {
@@ -207,13 +302,16 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
                     // Adjust the camera position to focus on midpoint with bearing
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(midpoint, 20f))
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(midpoint, 20f), 2000, null)
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-                        CameraPosition.Builder()
-                        .target(midpoint)
-                        .zoom(20f)
-                        .bearing(bearing) // Set bearing
-                        .tilt(45f) // Optionally set tilt
-                        .build()), 2000, null)
+                    mMap.animateCamera(
+                        CameraUpdateFactory.newCameraPosition(
+                            CameraPosition.Builder()
+                                .target(midpoint)
+                                .zoom(20f)
+                                .bearing(bearing) // Set bearing
+                                .tilt(45f) // Optionally set tilt
+                                .build()
+                        ), 2000, null
+                    )
 
                 }
             }
@@ -249,6 +347,7 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
 
         return polylineOptions
     }
+
     private fun bitmapFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
         vectorDrawable!!.setBounds(
@@ -282,8 +381,12 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
         return startLocation.bearingTo(endLocation)
     }
 
-    private fun navigateToOrderDetails() {
-        findNavController().navigate(OrderTrackingFragmentDirections.actionOrderTrackingFragmentToOrderDetailsFragment(args.orderId))
+    private fun navigateToOrderDetails(orderId: String) {
+        findNavController().navigate(
+            OrderTrackingFragmentDirections.actionOrderTrackingFragmentToOrderDetailsFragment(
+                orderId
+            )
+        )
     }
 
 }
