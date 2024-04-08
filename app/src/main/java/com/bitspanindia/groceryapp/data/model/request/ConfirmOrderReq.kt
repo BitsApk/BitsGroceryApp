@@ -59,5 +59,7 @@ data class AddressData(
     @SerializedName("phone") val phone: String? = "",
     @SerializedName("state") val state: String? = "",
     @SerializedName("user_id") val userId: Int? = 0,
-    @SerializedName("zipcode") val zipcode: String? = ""
+    @SerializedName("zipcode") val zipcode: String? = "",
+    @SerializedName("latitude") var latitude: String? = "",
+    @SerializedName("longitude") var longitude: String? = ""
 )

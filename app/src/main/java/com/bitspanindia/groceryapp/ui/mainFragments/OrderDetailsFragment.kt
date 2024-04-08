@@ -117,7 +117,7 @@ class OrderDetailsFragment : Fragment() {
                     setLottieAnim("order_placed.json")
                 }
 
-                "PR" -> {
+                "PR", "PCK" -> {
                     tvOrderStatus.text = getString(R.string.one_str, "Order Packed")
                     setLottieAnim("order_packed.json")
                 }
@@ -132,10 +132,16 @@ class OrderDetailsFragment : Fragment() {
                     setLottieAnim("order_delivered.json")
                 }
 
-                "C", "DC" -> {
+                "C"  -> {
                     tvOrderStatus.text = getString(R.string.one_str, "Order Cancelled")
                     setLottieAnim("order_cancel.json")
                 }
+
+                "DC" -> {
+                    tvOrderStatus.text = getString(R.string.one_str, data.orderStatusMess)
+                    setLottieAnim("order_cancel.json")
+                }
+
             }
         }
     }

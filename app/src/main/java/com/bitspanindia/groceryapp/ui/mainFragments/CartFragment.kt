@@ -669,7 +669,9 @@ class CartFragment : Fragment() {
                         phone = phone,
                         state = state,
                         userId = Constant.userId.toInt(),
-                        zipcode = zipcode
+                        zipcode = zipcode,
+                        longitude = longitude,
+                        latitude = latitude
                     )
                 )
             }

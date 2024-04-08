@@ -90,23 +90,12 @@ class OrderListFragment : Fragment() {
         adapter = OrderListPagingAdapter(requireContext()){data->
 
             when(data.orderStatus){
-                "P"->{
+                "S" -> {
                     navigateToTracking(data)
                 }
-                "PR"->{
-                    navigateToTracking(data)
-                }
-                "S"->{
-                    navigateToTracking(data)
-                }
-                "D"->{
+                else -> {
                     navigateToOrderDetails(data.orderId?:"")
                 }
-                "C","DC"->{
-                    navigateToOrderDetails(data.orderId?:"")
-                }
-
-                else -> {}
             }
 
         }
