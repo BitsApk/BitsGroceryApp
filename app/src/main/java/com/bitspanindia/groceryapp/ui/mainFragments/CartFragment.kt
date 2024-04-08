@@ -402,7 +402,7 @@ class CartFragment : Fragment() {
 
     private fun setGrandTotal() {
         grandTotal =
-            cartTotal + delPartCharge + if (paymentMode == "online") convCharge else 0.0 - couponAmount
+            cartTotal + delPartCharge - couponAmount + (if (paymentMode == "online") convCharge else 0.0)
         binding.tvGrandTotal.text = getString(R.string.rs_f, grandTotal)
         binding.tvTotalPayAmount.text = getString(R.string.rs_f, grandTotal)
     }
@@ -576,6 +576,8 @@ class CartFragment : Fragment() {
             phone = Constant.phoneNo,
             totalAmount = cartTotal,
             transId = transId,
+            sellerAutoId = Constant.sellerAutoId.toInt(),
+            sellerId = Constant.sellerId,
             txnAmount = txnAmount,
             slotdeliveryDate = when (binding.dayRadGr.checkedRadioButtonId) {
                 R.id.todayRadB -> getTodayAndTomorrowDates().first
@@ -597,6 +599,9 @@ class CartFragment : Fragment() {
                         if (it.body()!!.statusCode == 200) {
                             cartManageVM.clearCart()
                             cartManageVM.countMap.clear()
+
+                            navigateToOrderTrack()
+
                             Toast.makeText(mContext, "Order placed", Toast.LENGTH_SHORT).show()
                         } else {
                             AppUtils.showErrorMsgDialog(
@@ -628,6 +633,11 @@ class CartFragment : Fragment() {
 
     }
 
+    private fun navigateToOrderTrack() {
+        val direction = CartFragmentDirections.actionCartFragmentToOrderTrackingFragment()
+        findNavController().navigate(direction)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -645,6 +655,9 @@ class CartFragment : Fragment() {
     private fun checkAddress() {
         if (addViewModel.myAddress.value?.id.isNullOrEmpty()) {
             addViewModel.myAddress.value?.apply {
+                if (addressDataList.size != 0) {
+                    addressDataList.clear()
+                }
                 addressDataList.add(
                     AddressData(
                         addressName = addressName,

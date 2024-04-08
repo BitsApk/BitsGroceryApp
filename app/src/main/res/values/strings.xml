@@ -91,8 +91,8 @@
     <string name="payment_not_done">Payment not done or failed 😅</string>
     <string name="payment_not_done_tech">Some technical problem while doing payment 😓</string>
     <string name="payment_not_verified">Payment not verified, if payment deducted please contact support 😓</string>
-    <string name="payment_verification_problem">Some problem while verifying payment 😅</string>
-    <string name="payment_technical_problem">Some technical problem while verifying payment 😓</string>
+    <string name="payment_verification_problem">Some problem while confirming order, If payment deducted please contact support 😅</string>
+    <string name="payment_technical_problem">Some technical problem while confirming order, If payment deducted please contact support 😓</string>
     <string name="delivery_charges_error">Some problem while getting delivery charges 😅</string>
     <string name="delivery_charges_error_tech">Some technical problem while getting delivery charges 😓</string>
     <string name="coupon_error_tech">Some technical error in fetching coupons 😓</string>

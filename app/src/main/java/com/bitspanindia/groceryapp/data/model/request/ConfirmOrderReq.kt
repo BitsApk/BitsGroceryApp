@@ -19,6 +19,8 @@ data class ConfirmOrderReq(
     @SerializedName("order_id") val orderId: String? = "",
     @SerializedName("payment_mode") val paymentMode: String? = "",
     @SerializedName("phone") val phone: String? = "",
+    @SerializedName("seller_auto_id") val sellerAutoId: Int? = 0,
+    @SerializedName("seller_id") val sellerId: String? = "",
     @SerializedName("slotdelivery_date") val slotdeliveryDate: String? = "",
     @SerializedName("slotdelivery_time") val slotdeliveryTime: String? = "",
     @SerializedName("total_amount") val totalAmount: Double? = 0.0,
@@ -39,8 +41,8 @@ data class Cart(
     @SerializedName("size_id") val sizeId: Int? = 0,
     @SerializedName("total_amount") val totalAmount: Double? = 0.0,
     @SerializedName("weight") val weight: String? = "",
-    @SerializedName("seller_auto_id") val sellerAutoId: Int? = 0,
     @SerializedName("seller_credit_amount") val sellerCreditAmount: Double? = 0.0,
+    @SerializedName("seller_auto_id") val sellerAutoId: Int? = 0,
     @SerializedName("seller_id") val sellerId: String? = "",
     @SerializedName("admin_profit") val adminProfit: String? = ""
 )

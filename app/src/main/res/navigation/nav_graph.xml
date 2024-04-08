@@ -301,10 +301,26 @@
             app:enterAnim="@anim/nav_enter_anim"
             app:exitAnim="@anim/nav_exit_anim"
             app:popEnterAnim="@anim/nav_pop_enter_anim"
-            app:popExitAnim="@anim/nav_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_pop_exit_anim"
+            app:popUpTo="@id/cartFragment"
+            app:popUpToInclusive="true"
+            />
         <action
             android:id="@+id/action_cartFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim" />
+        <action
+            android:id="@+id/action_cartFragment_to_orderTrackingFragment"
+            app:destination="@id/orderTrackingFragment"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim"
+            app:popUpTo="@id/cartFragment"
+            app:popUpToInclusive="true" />
 
     </fragment>
     <fragment
