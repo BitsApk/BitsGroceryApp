@@ -177,12 +177,7 @@ class OrderDetailsFragment : Fragment() {
     }
 
     private fun navigateToOrderTracking(latitude: String, longitude: String, orderId: String) {
-        val action =
-            OrderDetailsFragmentDirections.actionOrderDetailsFragmentToOrderTrackingFragment(
-                latitude,
-                longitude,
-                orderId
-            )
+        val action = OrderDetailsFragmentDirections.actionOrderDetailsFragmentToOrderTrackingFragment(latitude, longitude, orderId)
         findNavController().navigate(action)
     }
 

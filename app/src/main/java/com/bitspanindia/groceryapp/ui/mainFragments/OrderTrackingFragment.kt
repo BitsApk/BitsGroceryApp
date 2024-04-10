@@ -55,8 +55,8 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mContext: Context
     private lateinit var mActivity: FragmentActivity
     private val args: OrderTrackingFragmentArgs by navArgs()
-    private var userLatitude = 28.592654196068896
-    private var userLongitude = 78.574333584813
+    private var userLatitude = 0.0
+    private var userLongitude = 0.0
 
     // Define marker and polyline variables
     private var deliveryBoyMarker: Marker? = null
@@ -234,8 +234,8 @@ class OrderTrackingFragment : Fragment(), OnMapReadyCallback {
 
     private fun trackDeliveryBoyLoc() {
         val db = FirebaseFirestore.getInstance()
-//        val orderRef = db.collection("orders").document(args.orderId)
-        val orderRef = db.collection("orders").document("order123")
+        val orderRef = db.collection("orders").document(args.orderId)
+//        val orderRef = db.collection("orders").document("order123")
 
         // Listen for changes in the delivery boy's location in real-time
         deliveryBoyLocationListener = orderRef.addSnapshotListener { snapshot, e ->
