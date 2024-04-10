@@ -398,12 +398,24 @@ class GroceryHomeFragment : Fragment() {
         }
 
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            AppUtils.requestLocationPermissions(mActivity, 1)
-            return
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        } else {
+            stopShimmer(binding.shimmer, binding.homeRecView)
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+            isLocationUpdatesStarted = true
         }
-        stopShimmer(binding.shimmer, binding.homeRecView)
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
-        isLocationUpdatesStarted = true
+
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            requestLocationUpdates(false)
+        } else {
+            // Permission denied
+            Toast.makeText(mContext, "Permission denied", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

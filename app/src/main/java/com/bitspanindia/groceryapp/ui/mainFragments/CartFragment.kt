@@ -600,7 +600,7 @@ class CartFragment : Fragment() {
                             cartManageVM.clearCart()
                             cartManageVM.countMap.clear()
 
-                            navigateToOrderTrack()
+                            navigateToOrderDetail(it.body()!!.orderId)
 
                             Toast.makeText(mContext, "Order placed", Toast.LENGTH_SHORT).show()
                         } else {
@@ -633,9 +633,13 @@ class CartFragment : Fragment() {
 
     }
 
-    private fun navigateToOrderTrack() {
-        val direction = CartFragmentDirections.actionCartFragmentToOrderTrackingFragment()
-        findNavController().navigate(direction)
+    private fun navigateToOrderDetail(orderId: String?) {
+        if (orderId.isNullOrEmpty()) {
+            Toast.makeText(mContext, "Order Id not found", Toast.LENGTH_SHORT).show()
+        } else {
+            val direction = CartFragmentDirections.actionCartFragmentToOrderDetailsFragment(orderId)
+            findNavController().navigate(direction)
+        }
     }
 
 
