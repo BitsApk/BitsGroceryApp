@@ -87,7 +87,6 @@ class SubCategoryFragment : Fragment() {
                 val layMang = binding.rvProducts.layoutManager
                 if (layMang is GridLayoutManager) {
                     val firstVisiblePosition = layMang.findFirstVisibleItemPosition()
-                    Log.d("Rishabh", "First visible pos: $firstVisiblePosition, last: ${layMang.findLastVisibleItemPosition()}")
                     adapter.notifyItemRangeChanged(firstVisiblePosition - 4, 14)
                 }
             }
