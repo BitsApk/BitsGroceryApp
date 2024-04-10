@@ -69,6 +69,7 @@ class CartBottomSheetFragment : BottomSheetDialogFragment() {
                 CartAction.Minus -> {
                     cartVM.setCartTotal((cartTotalItem ?: 0) - 1)
                     cartVM.decreaseCountOfItem(prod)
+                    if (cartTotalItem == 0) dismiss()
 
                     Log.d("Rishabh", "count map CBF after minus ${cartVM.countMap}")
                 }

@@ -7,7 +7,7 @@ import android.util.Log
 import com.bitspanindia.groceryapp.data.Constant
 
 
-class SharedPreferenceUtil constructor(val context: Context) {
+class SharedPreferenceUtil(val context: Context) {
     val TAG = SharedPreferenceUtil::class.java.simpleName
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE)

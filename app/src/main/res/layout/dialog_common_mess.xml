@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_16"
+        android:layout_gravity="center_horizontal"
+        android:elevation="@dimen/space_6"
+        android:background="@drawable/bg_white_corner_10">
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icon_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/helpDeskTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Not Login"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_18"
+            android:fontFamily="@font/roboto_medium_600"
+            android:textColor="@color/text_black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/close"
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableStartCompat="@drawable/icon_red_error" />
+
+        <TextView
+            android:id="@+id/mainMessTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/na"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_16"
+            android:fontFamily="@font/roboto_regular_400"
+            android:layout_marginTop="@dimen/space_16"
+            app:layout_constraintTop_toBottomOf="@id/helpDeskTxt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:drawableStartCompat="@drawable/icon_dot_red" />
+
+
+        <TextView
+            android:id="@+id/subMainMessTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NA"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_16"
+            android:visibility="gone"
+            android:fontFamily="@font/roboto_regular_400"
+            app:layout_constraintStart_toStartOf="@id/mainMessTxt"
+            app:layout_constraintTop_toBottomOf="@id/mainMessTxt"
+            android:layout_marginTop="@dimen/space_4"
+            app:drawableStartCompat="@drawable/icon_dot_red"/>
+
+        <Button
+            android:id="@+id/posBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:layout_marginTop="@dimen/space_12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subMainMessTxt" />
+
+        <Button
+            android:id="@+id/negBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/text_black"
+            android:backgroundTint="@color/green_100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/posBtn" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

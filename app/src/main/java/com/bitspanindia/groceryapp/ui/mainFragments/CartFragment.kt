@@ -127,7 +127,9 @@ class CartFragment : Fragment() {
             btnPay.setOnClickListener {
                 if (checkFields()) {
                     if (Constant.userId == "0") {
-                        navigateToLogin()
+                        AppUtils.showCommonMess(mContext, getString(R.string.click_ok_to_login)) {
+                            navigateToLogin()
+                        }
                     } else doPayment()
                 } else {
                     cartScrollView.post {
@@ -147,7 +149,11 @@ class CartFragment : Fragment() {
                 }
             }
             tvChangeAddress.setOnClickListener {
-                showAddressDialog()
+                if (Constant.userId == "0") {
+                    AppUtils.showCommonMess(mContext, getString(R.string.click_ok_to_login)) {
+                        navigateToLogin()
+                    }
+                } else showAddressDialog()
             }
             deliveryEdTxt.setOnClickListener {
                 AppUtils.showCalendar(mContext, false) {
@@ -186,6 +192,10 @@ class CartFragment : Fragment() {
                     setGrandTotal()
                 }
                 couponSheet.show(childFragmentManager, CouponBottomSheetFragment.TAG)
+            }
+
+            ivBack.setOnClickListener {
+                findNavController().popBackStack()
             }
 
         }

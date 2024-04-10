@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
 import com.bitspanindia.DialogHelper
 import com.bitspanindia.groceryapp.AppUtils
-import com.bitspanindia.groceryapp.DialogHelper.showLogoutDialog
+import com.bitspanindia.groceryapp.AppUtils.showLogoutDialog
 import com.bitspanindia.groceryapp.R
 import com.bitspanindia.groceryapp.data.Constant
 import com.bitspanindia.groceryapp.presentation.adapter.ProfileSettingAdapter
@@ -19,9 +19,11 @@ import com.bitspanindia.groceryapp.data.model.ProfileSettingItemModel
 import com.bitspanindia.groceryapp.databinding.SuggestProductBottomSheetBinding
 import com.bitspanindia.groceryapp.storage.SharedPreferenceUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
     private lateinit var mContext:Context
@@ -57,9 +59,9 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.clProfile.setOnClickListener {
-            if (Constant.userId=="0"){
+            if (Constant.userId=="0") {
                 dialogHelper.showErrorMsgDialog("Please login before seeing profile details"){}
-            }else{
+            } else {
                 val action = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
                 findNavController().navigate(action)
             }

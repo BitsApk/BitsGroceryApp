@@ -16,30 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 
 object DialogHelper {
 
-    fun showLogoutDialog(context: Context, callBack: () -> Unit) {
-        val dialog = Dialog(context)
-        dialog.setContentView(R.layout.dialog_logout)
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val dBinding = DialogLogoutBinding.inflate(LayoutInflater.from(context), null, false)
 
-
-        dBinding.apply {
-            yesBtn.setOnClickListener {
-                callBack()
-            }
-
-            noBtn.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            closeImg.setOnClickListener {
-                dialog.dismiss()
-            }
-        }
-
-        dialog.show()
-    }
 
 
 //

@@ -105,5 +105,7 @@
     <string name="prod_page_error">Some error in fetching product details 😅</string>
     <string name="confirm_order_error_tech">Some technical error in confirming order 😓</string>
     <string name="confirm_order_error">Some error in confirming order 😅</string>
+    <string name="click_ok_to_login">To confirm user must be login, click ok to login now</string>
+    <string name="na">NA</string>
 
 </resources>

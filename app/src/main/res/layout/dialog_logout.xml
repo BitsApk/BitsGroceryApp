@@ -69,7 +69,6 @@
             android:paddingHorizontal="42dp"
             android:backgroundTint="@color/grey_400"
             android:textAllCaps="false"
-            android:layout_marginEnd="@dimen/space_24"
             app:layout_constraintTop_toTopOf="@id/noBtn"
             android:textColor="@color/text_black"
             app:layout_constraintEnd_toEndOf="parent"

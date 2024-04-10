@@ -75,12 +75,12 @@ class MainActivity : AppCompatActivity() {
     private fun bindCartTotal() {
         cartVM.cartTotalItem.observe(this) {
             binding.countTxt.text = getString(R.string.d_items, it)
-            if ((it == 0 ||
+            if (it == 0 ||
                 navController.currentDestination?.id == R.id.cartFragment
-                || navController.currentDestination?.id == R.id.profileFragment) && binding.cartLay.isVisible
+                || navController.currentDestination?.id == R.id.profileFragment
             ) {
                 cartVisibility(View.GONE)
-            } else if (it != 0 && !binding.cartLay.isVisible && !(navController.currentDestination?.id == R.id.cartFragment
+            } else if (!(navController.currentDestination?.id == R.id.cartFragment
                         || navController.currentDestination?.id == R.id.profileFragment)) {
                 cartVisibility(View.VISIBLE)
             }
@@ -90,7 +90,8 @@ class MainActivity : AppCompatActivity() {
     private fun cartLayFragmentManage() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.cartFragment, R.id.profileFragment -> cartVisibility(View.GONE)
+                R.id.cartFragment, R.id.profileFragment, R.id.loginFragment,
+                R.id.registerFragment, R.id.verifyOtpFragment, R.id.forgotPassFragment, R.id.addAddressFragment -> cartVisibility(View.GONE)
                 else -> {
                     if ((cartVM.cartTotalItem.value ?: 0) > 0 && !binding.cartLay.isVisible) {
                         cartVisibility(View.VISIBLE)
@@ -103,28 +104,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun cartVisibility(visible: Int) {
-        if (visible == View.VISIBLE) {
-            val animation: Animation =
-                AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_start)
-            binding.cartLay.startAnimation(animation)
-            binding.cartLay.visibility = visible
-        } else {
-            val animation: Animation =
-                AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_end)
-            animation.setAnimationListener(object : AnimationListener {
-                override fun onAnimationStart(p0: Animation?) {
-                }
+        if (binding.cartLay.visibility != visible) {
+            if (visible == View.VISIBLE) {
+                val animation: Animation =
+                    AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_start)
+                binding.cartLay.startAnimation(animation)
+                binding.cartLay.visibility = visible
+            } else {
+                val animation: Animation =
+                    AnimationUtils.loadAnimation(this, R.anim.anim_cart_bottom_end)
+                animation.setAnimationListener(object : AnimationListener {
+                    override fun onAnimationStart(p0: Animation?) {
+                    }
 
-                override fun onAnimationEnd(p0: Animation?) {
-                    binding.cartLay.visibility = visible
-                    binding.cartLay.layoutAnimationListener = null
-                }
+                    override fun onAnimationEnd(p0: Animation?) {
+                        binding.cartLay.visibility = visible
+                        binding.cartLay.layoutAnimationListener = null
+                    }
 
-                override fun onAnimationRepeat(p0: Animation?) {
-                }
-            })
-            binding.cartLay.startAnimation(animation)
+                    override fun onAnimationRepeat(p0: Animation?) {
+                    }
+                })
+                binding.cartLay.startAnimation(animation)
+            }
         }
+
 
     }
 

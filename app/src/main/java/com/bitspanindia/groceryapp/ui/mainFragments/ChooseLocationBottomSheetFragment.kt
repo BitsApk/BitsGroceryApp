@@ -271,7 +271,7 @@ class ChooseLocationBottomSheetFragment : BottomSheetDialogFragment() {
                                 }
 
                         } else {
-                            showShortToast(mContext, "Address Not Found")
+//                            showShortToast(mContext, "Address Not Found")
                         }
                     }
                 }

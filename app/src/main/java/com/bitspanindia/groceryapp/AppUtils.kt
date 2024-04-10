@@ -13,15 +13,19 @@ import android.location.LocationManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bitspanindia.groceryapp.databinding.DialogCommonMessBinding
 import com.bitspanindia.groceryapp.databinding.DialogErrorBinding
+import com.bitspanindia.groceryapp.databinding.DialogLogoutBinding
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -39,6 +43,7 @@ import java.time.LocalTime
 import java.util.Calendar
 import java.util.Locale
 import java.util.regex.Pattern
+import kotlin.math.roundToInt
 
 object AppUtils {
 
@@ -49,6 +54,7 @@ object AppUtils {
     fun Int.toDp(): Int {
         return (this * Resources.getSystem().displayMetrics.density).toInt()
     }
+
 
     fun isValidEmail(email: String): Boolean {
         val EMAIL_ADDRESS_PATTERN = Pattern.compile(
@@ -112,9 +118,16 @@ object AppUtils {
                 set(Calendar.MINUTE, 0)
             }
 
+            val rangeAfter = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, if (index == 2) rangeEndHours[index] else rangeEndHours[index + 1])
+                set(Calendar.MINUTE, 0)
+            }
+
             if (currentTime.after(rangeStart) && currentTime.before(rangeEnd)) {
                 return timeRanges
             } else timeRanges[index] = false
+
+            if (currentTime.before(rangeAfter)) return timeRanges
         }
 
         return timeRanges
@@ -262,5 +275,74 @@ object AppUtils {
         pDialog.show()
     }
 
+    fun showCommonMess(context: Context, mainMess: String, subMainMess: String = "", negBtnVisib: Int = View.VISIBLE, callBack: () -> Unit) {
+        val dialog = Dialog(context)
+        val binding: DialogCommonMessBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.dialog_common_mess,
+            null,
+            false
+        )
+        dialog.setContentView(binding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            300.toDp(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+
+        binding.negBtn.visibility = negBtnVisib
+
+        if (subMainMess.isNotEmpty()) {
+            binding.subMainMessTxt.visibility = View.VISIBLE
+            binding.subMainMessTxt.text = subMainMess
+        }
+        binding.mainMessTxt.text = mainMess
+        binding.close.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        binding.posBtn.setOnClickListener {
+            callBack()
+            dialog.dismiss()
+        }
+
+        binding.negBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun showLogoutDialog(context: Context, callBack: () -> Unit) {
+        val dialog = Dialog(context)
+        val dBinding = DialogLogoutBinding.inflate(LayoutInflater.from(context), null, false)
+        dialog.setContentView(dBinding.root)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+                300.toDp(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+
+        dBinding.apply {
+            yesBtn.setOnClickListener {
+                callBack()
+                dialog.dismiss()
+            }
+
+            noBtn.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            closeImg.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
+    }
 
 }

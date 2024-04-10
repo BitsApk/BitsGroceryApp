@@ -19,4 +19,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Grocery App"
 include(":app")
-include(":bitsJobKaro")
